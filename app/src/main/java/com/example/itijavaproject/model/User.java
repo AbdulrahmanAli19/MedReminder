@@ -11,17 +11,27 @@ public class User {
     private Long birthday;
     private List<User> family;
     private boolean isMale;
+    private Medicine medicine;
 
     public User() {
     }
 
-    public User(int uid, String fName, String lName, Long birthday, List<User> family, boolean isMale) {
+    public User(int uid, String fName, String lName, Long birthday, List<User> family, boolean isMale,Medicine medicine) {
         this.uid = uid;
         this.fName = fName;
         this.lName = lName;
         this.birthday = birthday;
         this.family = family;
         this.isMale = isMale;
+        this.medicine=medicine;
+    }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 
     public int getUid() {
