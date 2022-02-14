@@ -24,14 +24,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setUpNavigation(){
+    private void setUpNavigation() {
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         appBarConfiguration = new AppBarConfiguration
-                .Builder(navController.getGraph())
+                .Builder(R.id.authFragment, R.id.homeFragment, R.id.splashFragment)
                 .build();
 
-        setupActionBarWithNavController(this, navController);
+        setupActionBarWithNavController(this, navController, appBarConfiguration);
     }
 
     @Override
