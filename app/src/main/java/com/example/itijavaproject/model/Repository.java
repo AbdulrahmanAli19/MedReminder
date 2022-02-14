@@ -2,9 +2,13 @@ package com.example.itijavaproject.model;
 
 import androidx.lifecycle.LiveData;
 
-public class Repository implements RepositoryInterface{
+import com.example.itijavaproject.data.db.LocalSource;
 
+import java.util.List;
+
+public class Repository implements RepositoryInterface{
     private static Repository repository;
+    private LocalSource localSource;
 
     private Repository() {
     }
@@ -17,8 +21,8 @@ public class Repository implements RepositoryInterface{
     }
 
     @Override
-    public LiveData<Medicine> grtAllMedicine() {
-        return null;
+    public LiveData<List<Medicine>> getStoredMedicine() {
+        return localSource.getStoredMedicine();
     }
 
     @Override
@@ -28,16 +32,17 @@ public class Repository implements RepositoryInterface{
 
     @Override
     public void addMedicine(Medicine medicine) {
+        localSource.addMedicine(medicine);
 
     }
 
     @Override
     public void deleteMedicine(Medicine medicine) {
+        localSource.deleteMedicine(medicine);
 
     }
 
     @Override
     public void editMedicine(Medicine medicine) {
-
-    }
+        localSource .editMedicine(medicine);   }
 }
