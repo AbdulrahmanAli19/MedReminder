@@ -10,21 +10,28 @@ public class User {
     private String lName;
     private Long birthday;
     private List<User> family;
-    private List<MedicineProgress> medicineProgresses;
     private boolean isMale;
+    private Medicine medicine;
 
     public User() {
     }
 
-    public User(int uid, String fName, String lName,
-                Long birthday, List<User> family, List<MedicineProgress> medicineProgresses, boolean isMale) {
+    public User(int uid, String fName, String lName, Long birthday, List<User> family, boolean isMale,Medicine medicine) {
         this.uid = uid;
         this.fName = fName;
         this.lName = lName;
         this.birthday = birthday;
         this.family = family;
-        this.medicineProgresses = medicineProgresses;
         this.isMale = isMale;
+        this.medicine=medicine;
+    }
+
+    public Medicine getMedicine() {
+        return medicine;
+    }
+
+    public void setMedicine(Medicine medicine) {
+        this.medicine = medicine;
     }
 
     public int getUid() {
@@ -65,14 +72,6 @@ public class User {
 
     public void setFamily(List<User> family) {
         this.family = family;
-    }
-
-    public List<MedicineProgress> getMedicineProgresses() {
-        return medicineProgresses;
-    }
-
-    public void setMedicineProgresses(List<MedicineProgress> medicineProgresses) {
-        this.medicineProgresses = medicineProgresses;
     }
 
     public boolean isMale() {

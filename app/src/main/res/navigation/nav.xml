@@ -10,7 +10,7 @@
         android:name="com.example.itijavaproject.ui.homescreen.view.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
-        <action
+       <action
             android:id="@+id/action_homeFragment_to_medicationsFragment"
             app:destination="@id/medicationsFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -27,4 +27,9 @@
             android:name="name"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/medicationDisplayFragment"
+        android:name="com.example.itijavaproject.ui.medicationDisplay.MedicationDisplayFragment"
+        android:label="fragment_medication_display"
+        tools:layout="@layout/fragment_medication_display" />
 </navigation>
