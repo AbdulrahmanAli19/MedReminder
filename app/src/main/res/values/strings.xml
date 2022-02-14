@@ -9,4 +9,8 @@
     <string name="prescriptionRefill">Prescription Refill</string>
     <string name="howToUse">How To Use</string>
     <string name="addDose">add dose</string>
+    <string name="login_with_google">Login with google</string>
+    <string name="auth_title">You take your family\nWe take care of you</string>
+    <string name="login_with_phone_number">Login with phone number</string>
+    <string name="skip">Skip</string>
 </resources>
