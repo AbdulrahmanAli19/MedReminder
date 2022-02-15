@@ -25,7 +25,7 @@
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="25dp"
         android:text="@string/login_with_google"
         app:icon="@drawable/googleg_standard_color_18"
         app:layout_constraintBottom_toTopOf="@+id/btnSkip"

@@ -13,4 +13,13 @@
     <string name="auth_title">You take your family\nWe take care of you</string>
     <string name="login_with_phone_number">Login with phone number</string>
     <string name="skip">Skip</string>
+    <string name="full_name">Full name</string>
+    <string name="email">Email</string>
+    <string name="birthday">Birthday</string>
+    <string name="phone_number">Phone number</string>
+    <string name="gender">Gender:</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="i_accept_the_privacy_policy_and_the_terms_of_use">i accept the privacy policy and the terms of use</string>
+    <string name="sign_up">SIGN UP</string>
 </resources>
