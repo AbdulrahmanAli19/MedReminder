@@ -167,7 +167,6 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="#03FFFFFF"
                 android:text="@string/done"
-                android:textColor="@color/purple_700"
                 app:layout_constraintBottom_toBottomOf="@+id/textView8"
                 app:layout_constraintStart_toEndOf="@+id/textView8"
                 app:layout_constraintTop_toTopOf="@+id/textView8"
