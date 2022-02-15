@@ -13,4 +13,23 @@
     <string name="auth_title">You take your family\nWe take care of you</string>
     <string name="login_with_phone_number">Login with phone number</string>
     <string name="skip">Skip</string>
+    <string name="addMedicine">Add Medicine</string>
+    <string name="evening">Eveninig</string>
+    <string name="night">Night</string>
+    <string name="afternoon">Afternoon</string>
+    <string name="morning">Morning</string>
+    <string name="mg">mg</string>
+    <string name="strength">Strength</string>
+    <string name="refillReminder">Refill Reminder</string>
+    <string name="medicineName">Medicine Name</string>
+    <string name="yourName">your name</string>
+    <string name="type">Type</string>
+    <string name="startDate">Start Data</string>
+    <string name="duration">Duration</string>
+    <string name="amount">Amount</string>
+    <string name="frequence">Frequence</string>
+    <string name="save">Save</string>
+    <string name="timeToTake">Time to take a medicine</string>
+    <string name="time">Time</string>
+    <string name="num">0</string>
 </resources>
