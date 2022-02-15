@@ -13,4 +13,13 @@
     <string name="auth_title">You take your family\nWe take care of you</string>
     <string name="login_with_phone_number">Login with phone number</string>
     <string name="skip">Skip</string>
+    <string name="add_dependent">Add Dependent</string>
+    <string name="manage_meds_for_your_family_members">Manage meds for your family members</string>
+    <string name="first_name">first name</string>
+    <string name="info">By clicking the Done button, you confirm that you received the consent of the dependent(when applicable)to the association of the dependent\'s personal information with their health information and confirm you have read and agreed to our Terms and Privacy Policy</string>
+    <string name="done">Done</string>
+    <string name="last_name">last name</string>
+    <string name="gender">gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>
