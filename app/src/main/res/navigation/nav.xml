@@ -17,6 +17,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_addMedicineFragment"
+            app:destination="@id/addMedicineFragment" />
     </fragment>
     <fragment
         android:id="@+id/medicationsFragment"
@@ -29,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/medicationDisplayFragment"
-        android:name="com.example.itijavaproject.ui.medicationDisplay.MedicationDisplayFragment"
+        android:name="com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragment"
         android:label="fragment_medication_display"
         tools:layout="@layout/fragment_medication_display" />
     <fragment
@@ -50,4 +53,14 @@
             android:id="@+id/action_authFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/addHealthTakerFragment"
+        android:name="com.example.itijavaproject.ui.healthTakerScreen.view.AddHealthTakerFragment"
+        android:label="fragment_add_health_taker"
+        tools:layout="@layout/fragment_add_health_taker" />
+    <fragment
+        tools:layout="@layout/fragment_add_medicine"
+        android:id="@+id/addMedicineFragment"
+        android:name="com.example.itijavaproject.ui.addMedicine.view.AddMedicineFragment"
+        android:label="AddMedicineFragment" />
 </navigation>

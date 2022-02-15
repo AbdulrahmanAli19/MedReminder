@@ -1,4 +1,4 @@
-package com.example.itijavaproject.ui.medicationDisplay;
+package com.example.itijavaproject.ui.medicationDisplay.view;
 
 import android.os.Bundle;
 
