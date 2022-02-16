@@ -1,10 +1,5 @@
 package com.example.itijavaproject.model;
 
-import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import java.util.List;
 
 @Entity(tableName = "user")
@@ -13,30 +8,27 @@ public class User {
     @NonNull
     @ColumnInfo(name = "uid")
     private int uid;
-    @ColumnInfo(name="fName")
-    private String fName;
-    @ColumnInfo(name = "lname")
-    private String lName;
-    @ColumnInfo(name = "birthday")
+    private String fullName;
     private Long birthday;
-    //how to add column an a list
     private List<User> family;
-    @ColumnInfo(name = "isMale")
+    private String email;
+    private String phoneNumber;
     private boolean isMale;
-    //how to add object as a column
     private Medicine medicine;
 
     public User() {
     }
 
-    public User(int uid, String fName, String lName, Long birthday, List<User> family, boolean isMale,Medicine medicine) {
+    public User(int uid, String fullName, String email, String phoneNumber, Long birthday,
+                List<User> family, boolean isMale, Medicine medicine) {
         this.uid = uid;
-        this.fName = fName;
-        this.lName = lName;
+        this.fullName = fullName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.family = family;
         this.isMale = isMale;
-        this.medicine=medicine;
+        this.medicine = medicine;
     }
 
     public Medicine getMedicine() {
@@ -93,5 +85,21 @@ public class User {
 
     public void setMale(boolean male) {
         isMale = male;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

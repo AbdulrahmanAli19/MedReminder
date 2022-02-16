@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.itijavaproject.R;
+import com.example.itijavaproject.databinding.FragmentAuthBinding;
 import com.firebase.ui.auth.AuthUI;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class AuthFragment extends Fragment {
 
     private NavController navController;
     private List<AuthUI.IdpConfig> configs;
+    private FragmentAuthBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,17 +34,16 @@ public class AuthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_auth, container, false);
+        binding = FragmentAuthBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        Button btnSkip = view.findViewById(R.id.btnSkip);
-        Button btnGoogle = view.findViewById(R.id.btnGoogle);
-        Button btnPhoneNum = view.findViewById(R.id.btnPhoneNumber);
-        btnSkip.setOnClickListener(v -> {
+        binding.btnPhoneNumber.setOnClickListener(v -> navController.navigate(R.id.action_authFragment_to_registerFragment));
+        binding.btnSkip.setOnClickListener(v -> {
             navController.navigate(R.id.action_authFragment_to_homeFragment);
 
         });

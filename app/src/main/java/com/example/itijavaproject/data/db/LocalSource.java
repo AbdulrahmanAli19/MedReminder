@@ -2,7 +2,8 @@ package com.example.itijavaproject.data.db;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.itijavaproject.model.Medicine;
+
+import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 

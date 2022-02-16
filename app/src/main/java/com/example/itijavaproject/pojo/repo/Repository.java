@@ -1,12 +1,13 @@
-package com.example.itijavaproject.model;
+package com.example.itijavaproject.pojo.repo;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.itijavaproject.data.db.LocalSource;
+import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 
-public class Repository implements RepositoryInterface{
+public class Repository implements RepositoryInterface {
     private static Repository repository;
     private LocalSource localSource;
 
