@@ -88,11 +88,13 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/btnM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/male" />
 
         <RadioButton
+            android:id="@+id/btnF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
@@ -107,6 +109,7 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:id="@+id/btnSignUp"
         android:text="@string/sign_up"
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"

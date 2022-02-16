@@ -6,8 +6,7 @@ import java.util.List;
 public class User {
 
     private int uid;
-    private String fName;
-    private String lName;
+    private String fullName;
     private Long birthday;
     private List<User> family;
     private String email;
@@ -18,11 +17,10 @@ public class User {
     public User() {
     }
 
-    public User(int uid, String fName, String lName, String email, String phoneNumber, Long birthday,
+    public User(int uid, String fullName, String email, String phoneNumber, Long birthday,
                 List<User> family, boolean isMale, Medicine medicine) {
         this.uid = uid;
-        this.fName = fName;
-        this.lName = lName;
+        this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.birthday = birthday;
@@ -47,20 +45,12 @@ public class User {
         this.uid = uid;
     }
 
-    public String getfName() {
-        return fName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setfName(String fName) {
-        this.fName = fName;
-    }
-
-    public String getlName() {
-        return lName;
-    }
-
-    public void setlName(String lName) {
-        this.lName = lName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Long getBirthday() {
