@@ -14,7 +14,7 @@ import java.util.List;
 @TypeConverters(TimeTypeConverters.class)
 public class Medicine {
     @ColumnInfo(name = "medID")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @NonNull
     private int med_id;
     @ColumnInfo(name = "name")
