@@ -61,4 +61,5 @@
     <string name="mad_strength">mad strength</string>
     <string name="mad_refill">mad refill</string>
     <string name="medsicon">medsIcon</string>
+    <string name="send_invite">Send Invite</string>
 </resources>

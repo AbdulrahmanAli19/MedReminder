@@ -6,7 +6,8 @@
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/customrowmeds.xml" value="0.2" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_add_health_taker.xml" value="0.2" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_add_medicine.xml" value="0.20863616930312098" />
-        <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_medications.xml" value="0.536" />
+        <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_medications.xml" value="0.2" />
+        <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_register.xml" value="0.15818725951261223" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_add_health_taker.xml" value="0.23743589743589744" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2265625" />

@@ -57,9 +57,7 @@
         android:layout_height="44dp"
         android:layout_marginTop="236dp"
         android:text="@string/add_a_med"
-        app:circularflow_radiusInDP="270dp"
         app:layout_constraintEnd_toEndOf="@+id/recyclerView2"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/recyclerView2"
         app:layout_constraintTop_toBottomOf="@+id/recyclerView2" />
 </androidx.constraintlayout.widget.ConstraintLayout>
