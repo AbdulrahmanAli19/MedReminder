@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/txtMedName"
+            android:layout_width="93dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="32dp"
+            android:hint="@string/mad_name"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+            app:layout_constraintStart_toEndOf="@+id/imageView2"
+            app:layout_constraintTop_toTopOf="@+id/imageView2"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/txtMedStrength"
+            android:layout_width="97dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="8dp"
+            android:hint="@string/mad_strength"
+            app:layout_constraintBottom_toBottomOf="@+id/txtMedName"
+            app:layout_constraintStart_toEndOf="@+id/txtMedName"
+            app:layout_constraintTop_toTopOf="@+id/txtMedName"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/txtMedRefill"
+            android:layout_width="198dp"
+            android:layout_height="29dp"
+            android:hint="@string/mad_refill"
+            app:layout_constraintEnd_toEndOf="@+id/txtMedStrength"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/txtMedName"
+            app:layout_constraintTop_toBottomOf="@+id/txtMedStrength" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="64dp"
+            android:layout_height="46dp"
+            android:contentDescription="@string/medsicon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_pill" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
