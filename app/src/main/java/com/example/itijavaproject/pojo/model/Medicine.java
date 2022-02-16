@@ -1,4 +1,4 @@
-package com.example.itijavaproject.model;
+package com.example.itijavaproject.pojo.model;
 
 import java.util.List;
 

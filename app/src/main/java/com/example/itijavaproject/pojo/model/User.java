@@ -1,4 +1,4 @@
-package com.example.itijavaproject.model;
+package com.example.itijavaproject.pojo.model;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class User {
     public User() {
     }
 
-    public User(int uid, String fName, String lName, String email, String phoneNumber,Long birthday,
+    public User(int uid, String fName, String lName, String email, String phoneNumber, Long birthday,
                 List<User> family, boolean isMale, Medicine medicine) {
         this.uid = uid;
         this.fName = fName;
