@@ -166,4 +166,12 @@ public class Medicine {
     public void setTimes(List<Long> times) {
         this.times = times;
     }
+
+    public int getMed_id() {
+        return med_id;
+    }
+
+    public void setMed_id(int med_id) {
+        this.med_id = med_id;
+    }
 }
