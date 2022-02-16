@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.itijavaproject.R;
+import com.example.itijavaproject.databinding.FragmentAuthBinding;
 import com.firebase.ui.auth.AuthUI;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class AuthFragment extends Fragment {
 
     private NavController navController;
     private List<AuthUI.IdpConfig> configs;
+    private FragmentAuthBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,8 @@ public class AuthFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_auth, container, false);
+        binding = FragmentAuthBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override

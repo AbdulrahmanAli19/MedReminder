@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.itijavaproject.R;
+import com.example.itijavaproject.databinding.FragmentMedicationsBinding;
 
 
 public class MedicationsFragment extends Fragment {
 
-
+    private FragmentMedicationsBinding binding;
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -32,6 +33,7 @@ public class MedicationsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_medications, container, false);
+        binding = FragmentMedicationsBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 }

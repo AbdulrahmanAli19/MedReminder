@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEFEFEF"
-    tools:context=".ui.medicationDisplay.MedicationDisplayFragment">
+    tools:context="com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragment">
 
 
     <ImageView
@@ -78,7 +78,7 @@
         app:layout_constraintTop_toBottomOf="@+id/drugIcon" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/nightBtn"
         android:layout_width="143dp"
         android:layout_height="47dp"
         android:layout_marginTop="28dp"
@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/drugStrength" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/eveningBtn"
         android:layout_width="143dp"
         android:layout_height="47dp"
         android:layout_marginTop="136dp"
@@ -99,7 +99,7 @@
         android:text="@string/refill"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/nightBtn" />
 
     <TextView
         android:id="@+id/textView7"

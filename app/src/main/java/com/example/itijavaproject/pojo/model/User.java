@@ -1,4 +1,4 @@
-package com.example.itijavaproject.model;
+package com.example.itijavaproject.pojo.model;
 
 import java.util.List;
 
@@ -10,20 +10,25 @@ public class User {
     private String lName;
     private Long birthday;
     private List<User> family;
+    private String email;
+    private String phoneNumber;
     private boolean isMale;
     private Medicine medicine;
 
     public User() {
     }
 
-    public User(int uid, String fName, String lName, Long birthday, List<User> family, boolean isMale,Medicine medicine) {
+    public User(int uid, String fName, String lName, String email, String phoneNumber, Long birthday,
+                List<User> family, boolean isMale, Medicine medicine) {
         this.uid = uid;
         this.fName = fName;
         this.lName = lName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
         this.birthday = birthday;
         this.family = family;
         this.isMale = isMale;
-        this.medicine=medicine;
+        this.medicine = medicine;
     }
 
     public Medicine getMedicine() {
@@ -80,5 +85,21 @@ public class User {
 
     public void setMale(boolean male) {
         isMale = male;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
