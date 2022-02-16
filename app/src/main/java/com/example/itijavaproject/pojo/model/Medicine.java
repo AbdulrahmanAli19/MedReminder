@@ -1,7 +1,10 @@
 package com.example.itijavaproject.pojo.model;
 
+import androidx.room.Entity;
+
 import java.util.List;
 
+@Entity(tableName = "Medicine")
 public class Medicine {
     private int medID;
     private String name;
