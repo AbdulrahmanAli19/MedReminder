@@ -1,19 +1,46 @@
-package com.example.itijavaproject.model;
+package com.example.itijavaproject.pojo.model;
+
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 
 @Entity(tableName = "user")
 public class User {
+
+    /***
+     *   private int uid;
+     *     @ColumnInfo(name="fName")
+     *     private String fName;
+     *     @ColumnInfo(name = "lname")
+     *     private String lName;
+     *     @ColumnInfo(name = "birthday")
+     *     private Long birthday;
+     *     //how to add column an a list
+     *     private List<User> family;
+     *     @ColumnInfo(name = "isMale")
+     *     private boolean isMale;
+     *     //how to add object as a column
+     *     private Medicine medicine;
+     */
+
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "uid")
     private int uid;
+    @ColumnInfo(name = "fullName")
     private String fullName;
+    @ColumnInfo(name = "birthday")
     private Long birthday;
     private List<User> family;
     private String email;
     private String phoneNumber;
     private boolean isMale;
+
     private Medicine medicine;
 
     public User() {
@@ -29,6 +56,14 @@ public class User {
         this.family = family;
         this.isMale = isMale;
         this.medicine = medicine;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public Medicine getMedicine() {
@@ -47,21 +82,6 @@ public class User {
         this.uid = uid;
     }
 
-    public String getfName() {
-        return fName;
-    }
-
-    public void setfName(String fName) {
-        this.fName = fName;
-    }
-
-    public String getlName() {
-        return lName;
-    }
-
-    public void setlName(String lName) {
-        this.lName = lName;
-    }
 
     public Long getBirthday() {
         return birthday;

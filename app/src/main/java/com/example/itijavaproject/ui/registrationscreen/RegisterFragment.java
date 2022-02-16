@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentRegisterBinding;
+
 import com.example.itijavaproject.pojo.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
