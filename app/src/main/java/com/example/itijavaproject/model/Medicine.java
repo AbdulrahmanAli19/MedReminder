@@ -5,32 +5,63 @@ import java.util.List;
 public class Medicine {
     private int medID;
     private String name;
-    private int icon;
+    private int iconType;
     private String strength;
-    private String medType;
     private boolean isActive;
     private String instructions;
     private String reason;
     private int refillReminder;
     private int numOfPills;
     private List<Long> times;
+    private String duration;
+    private int frequencyPerDay;
+    private String periodTime;
+
+
 
     public Medicine() {
     }
 
     public Medicine(int medID, String name, int icon, String strength, String medType,
-                    boolean isActive, String instructions, String reason, int refillReminder, int numOfPills, List<Long> times) {
+                    boolean isActive, String instructions, String reason, int refillReminder,
+                    int numOfPills, List<Long> times, String duration,int frequencyPerDay,String periodTime) {
         this.medID = medID;
         this.name = name;
-        this.icon = icon;
+        this.iconType = icon;
         this.strength = strength;
-        this.medType = medType;
         this.isActive = isActive;
         this.instructions = instructions;
         this.reason = reason;
         this.refillReminder = refillReminder;
         this.numOfPills = numOfPills;
         this.times = times;
+        this.frequencyPerDay=frequencyPerDay;
+        this.duration=duration;
+        this.periodTime=periodTime;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public int getFrequencyPerDay() {
+        return frequencyPerDay;
+    }
+
+    public void setFrequencyPerDay(int frequencyPerDay) {
+        this.frequencyPerDay = frequencyPerDay;
+    }
+
+    public String getPeriodTime() {
+        return periodTime;
+    }
+
+    public void setPeriodTime(String periodTime) {
+        this.periodTime = periodTime;
     }
 
     public int getMedID() {
@@ -49,12 +80,12 @@ public class Medicine {
         this.name = name;
     }
 
-    public int getIcon() {
-        return icon;
+    public int getIconType() {
+        return iconType;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
+    public void setIconType(int iconType) {
+        this.iconType = iconType;
     }
 
     public String getStrength() {
@@ -63,14 +94,6 @@ public class Medicine {
 
     public void setStrength(String strength) {
         this.strength = strength;
-    }
-
-    public String getMedType() {
-        return medType;
-    }
-
-    public void setMedType(String medType) {
-        this.medType = medType;
     }
 
     public boolean isActive() {

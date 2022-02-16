@@ -1,16 +1,29 @@
 package com.example.itijavaproject.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 
-
+@Entity(tableName = "user")
 public class User {
-
+    @PrimaryKey
+    @NonNull
+    @ColumnInfo(name = "uid")
     private int uid;
+    @ColumnInfo(name="fName")
     private String fName;
+    @ColumnInfo(name = "lname")
     private String lName;
+    @ColumnInfo(name = "birthday")
     private Long birthday;
+    //how to add column an a list
     private List<User> family;
+    @ColumnInfo(name = "isMale")
     private boolean isMale;
+    //how to add object as a column
     private Medicine medicine;
 
     public User() {
