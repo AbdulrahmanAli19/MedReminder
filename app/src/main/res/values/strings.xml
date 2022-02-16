@@ -47,4 +47,10 @@
     <string name="female">Female</string>
     <string name="i_accept_the_privacy_policy_and_the_terms_of_use">i accept the privacy policy and the terms of use</string>
     <string name="sign_up">SIGN UP</string>
+    <string name="not_vaild_email">Not a valid email !</string>
+    <string name="empty_email">"Email can\'t be empty"</string>
+    <string name="empty_name">Name can not be empty !</string>
+    <string name="empty_phone">Phone can not be empty !</string>
+    <string name="empty_birthday">Birthday can not be empty !</string>
+    <string name="empty_gender">Select gender !</string>
 </resources>

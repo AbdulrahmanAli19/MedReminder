@@ -42,10 +42,8 @@ public class AuthFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        Button btnSkip = view.findViewById(R.id.btnSkip);
-        Button btnGoogle = view.findViewById(R.id.btnGoogle);
-        Button btnPhoneNum = view.findViewById(R.id.btnPhoneNumber);
-        btnSkip.setOnClickListener(v -> {
+        binding.btnPhoneNumber.setOnClickListener(v -> navController.navigate(R.id.action_authFragment_to_registerFragment));
+        binding.btnSkip.setOnClickListener(v -> {
             navController.navigate(R.id.action_authFragment_to_homeFragment);
 
         });

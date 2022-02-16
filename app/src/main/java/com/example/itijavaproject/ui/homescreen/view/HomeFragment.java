@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
                 //.actionHomeFragmentToMedicationsFragment("Hngeb A+");
         btnTest.setOnClickListener(v -> navController
                 .navigate(directions));
+
     }
 
     @Override
