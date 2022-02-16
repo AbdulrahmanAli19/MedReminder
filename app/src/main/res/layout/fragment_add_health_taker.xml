@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -15,7 +17,7 @@
             android:id="@+id/textView8"
             android:layout_width="217dp"
             android:layout_height="43dp"
-            android:text="@string/add_dependent"
+            android:text="@string/add_health_tacker"
             android:textAlignment="center"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -50,8 +52,8 @@
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="400dp"
+            android:layout_height="503dp"
             android:layout_margin="8dp"
             android:background="#0B35ED"
             app:cardCornerRadius="30dp"
@@ -65,7 +67,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="435dp"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -103,6 +105,21 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/last_name"
+                            android:textColorHint="#757575" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/outlinedTextField"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/email">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/txtEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:textColorHint="#757575" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -148,7 +165,7 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="114dp"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:hint="@string/info"
                     android:textAlignment="viewStart"
@@ -181,6 +198,6 @@
             app:layout_constraintTop_toTopOf="@+id/textView8"
             app:layout_constraintVertical_bias="0.0" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
-

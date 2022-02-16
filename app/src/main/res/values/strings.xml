@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ITIJavaProject</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="db_name">MedApp</string>
     <string name="home">Home</string>
     <string name="reminder">Reminder</string>
     <string name="suspend">Suspend</string>
@@ -53,4 +53,12 @@
     <string name="empty_phone">Phone can not be empty !</string>
     <string name="empty_birthday">Birthday can not be empty !</string>
     <string name="empty_gender">Select gender !</string>
+    <string name="add_health_tacker">Add Health Tacker</string>
+    <string name="active_meds">Active meds</string>
+    <string name="inactive_meds">Inactive meds</string>
+    <string name="add_a_med">Add a med</string>
+    <string name="mad_name">mad name</string>
+    <string name="mad_strength">mad strength</string>
+    <string name="mad_refill">mad refill</string>
+    <string name="medsicon">medsIcon</string>
 </resources>
