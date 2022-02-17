@@ -20,7 +20,7 @@ public abstract class DatabaseAccess extends RoomDatabase {
 
     private static DatabaseAccess db = null;
 
-    private static synchronized DatabaseAccess getInstance(Context context) {
+    public static synchronized DatabaseAccess getInstance(Context context) {
         if (db == null) {
             db = Room.databaseBuilder(context, DatabaseAccess.class, DB_NAME).build();
         }

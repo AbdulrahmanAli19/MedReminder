@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/drawable/ic_add_white_36dp.xml" value="0.162" />
+        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/drawable/ic_remove_white_36dp.xml" value="0.162" />
+        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_add_medicine.xml" value="0.4" />
+        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_home.xml" value="0.38125" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/customrowmeds.xml" value="0.2" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_add_health_taker.xml" value="0.2" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_add_medicine.xml" value="0.20863616930312098" />
