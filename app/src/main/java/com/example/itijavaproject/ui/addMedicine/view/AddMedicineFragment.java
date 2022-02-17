@@ -144,20 +144,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         });
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
 
-
-
-
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
             }
         });
-
-
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
