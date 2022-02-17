@@ -61,4 +61,10 @@
     <string name="mad_strength">mad strength</string>
     <string name="mad_refill">mad refill</string>
     <string name="medsicon">medsIcon</string>
+    <string name="med_title">Medications</string>
+    <string name="meds_title">Medications</string>
+    <string name="login_in">Login</string>
+    <string name="taker_title">Add Health Taker</string>
+    <string name="add_med_title">Add Medicine</string>
+    <string name="reg_title">Register</string>
 </resources>

@@ -4,27 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/browser_actions_bg_grey"
+    android:background="@color/background"
     tools:context=".ui.homescreen.view.HomeFragment">
 
-    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
-        android:id="@+id/calendarView"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:mcv_selectionColor="@color/primary"
-        app:mcv_calendarMode="week"
-        app:mcv_showOtherDates="none" />
+        android:layout_height="match_parent"
+        tools:listitem="@layout/layout_home" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extended_fab"
+    <com.getbase.floatingactionbutton.FloatingActionsMenu
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:icon="@drawable/ic_add"
+        app:fab_labelStyle="@style/homeScreenFabStyle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddMed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/outline_vaccines_20"
+            app:fab_title="@string/add_a_med" />
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabAddHealthTacker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_baseline_medical_services_24"
+            app:fab_title="@string/add_health_tacker" />
+
+    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
