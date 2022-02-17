@@ -9,8 +9,9 @@ import java.util.List;
 public interface RepositoryInterface {
     LiveData<List<Medicine>> getStoredMedicine();
 
-    void getAllMedicines();     //add parameter
-
+    LiveData<List<Medicine>> getAllMedicines();     //add parameter
+    LiveData<List<Medicine>> showActiveMed();
+    LiveData<List<Medicine>> showInactiveMed();
     void addMedicine(Medicine medicine);
 
     void deleteMedicine(Medicine medicine);

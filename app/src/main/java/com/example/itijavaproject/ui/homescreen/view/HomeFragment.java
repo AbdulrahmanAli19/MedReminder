@@ -27,7 +27,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Button btnTest = view.findViewById(R.id.btnTest);
         navController = Navigation.findNavController(view);
-        NavDirections directions = HomeFragmentDirections.actionHomeFragmentToAddMedicineFragment();
+        NavDirections directions = HomeFragmentDirections.actionHomeFragmentToMedicationsFragment("medAdd");
+//                .actionHomeFragmentToAddMedicineFragment();
         btnTest.setOnClickListener(v -> navController
                 .navigate(directions));
 

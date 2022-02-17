@@ -1,5 +1,7 @@
 package com.example.itijavaproject.pojo.repo;
 
+import android.content.Context;
+
 import androidx.lifecycle.LiveData;
 
 import com.example.itijavaproject.data.db.LocalSource;
@@ -10,13 +12,16 @@ import java.util.List;
 public class Repository implements RepositoryInterface {
     private static Repository repository;
     private LocalSource localSource;
+    private Context context;
 
-    private Repository() {
+    public Repository(LocalSource localSource, Context context) {
+        this.localSource = localSource;
+        this.context = context;
     }
 
-    public static Repository getInstance() {
+    public static Repository getInstance(LocalSource localSource, Context context) {
         if (repository == null) {
-            repository = new Repository();
+            repository = new Repository(localSource,context);
         }
         return repository;
     }
@@ -27,8 +32,18 @@ public class Repository implements RepositoryInterface {
     }
 
     @Override
-    public void getAllMedicines() {
+    public LiveData<List<Medicine>> getAllMedicines() {
+        return null;
+    }
 
+    @Override
+    public LiveData<List<Medicine>> showActiveMed() {
+        return localSource.getActive();
+    }
+
+    @Override
+    public LiveData<List<Medicine>> showInactiveMed() {
+        return localSource.getInactive();
     }
 
     @Override
