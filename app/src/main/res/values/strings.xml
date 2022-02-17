@@ -62,4 +62,23 @@
     <string name="mad_refill">mad refill</string>
     <string name="medsicon">medsIcon</string>
     <string name="send_invite">Send Invite</string>
+    <string name="period">Period</string>
+    <string-array name="periodItems">
+        <item>Morning</item>
+        <item>Afternoon</item>
+        <item>Evening</item>
+        <item>Night</item>
+    </string-array>
+    <string-array name="durationMenu">
+        <item>Once a week</item>
+        <item>Every day</item>
+        <item>Every 2 days</item>
+        <item>Every 3 days</item>
+        <item>2 days a week</item>
+        <item>3 days a week</item>
+        <item>Every 28 days</item>
+        <item>5 days a week</item>
+        <item>Only as needed</item>
+        <item>Other</item>
+    </string-array>
 </resources>
