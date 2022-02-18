@@ -32,6 +32,12 @@
             android:layout_height="wrap_content"
             app:fab_icon="@drawable/ic_baseline_medical_services_24"
             app:fab_title="@string/add_health_tacker" />
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:fab_icon="@drawable/ic_medicines_svgrepo_com_1_"
+            app:fab_title="@string/MedScreen" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

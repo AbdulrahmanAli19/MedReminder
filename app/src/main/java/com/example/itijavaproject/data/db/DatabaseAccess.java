@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 
 import com.example.itijavaproject.pojo.model.Medicine;
 
-@Database(entities = Medicine.class, version = 1)
+@Database(entities = {Medicine.class}, version = 1)
 @TypeConverters(TimeTypeConverters.class)
 public abstract class DatabaseAccess extends RoomDatabase {
 

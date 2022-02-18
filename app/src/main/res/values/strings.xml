@@ -70,6 +70,7 @@
     <string name="send_invite">Send Invite</string>
     <string name="period">Period</string>
     <string name="more">More</string>
+    <string name="MedScreen">Medications</string>
     <string-array name="periodItems">
         <item>Morning</item>
         <item>Afternoon</item>
@@ -87,5 +88,19 @@
         <item>5 days a week</item>
         <item>Only as needed</item>
         <item>Other</item>
+    </string-array>
+    <string-array name="strengthMenu">
+        <item>  g  </item>
+        <item>  mg  </item>
+        <item>  IU  </item>
+        <item>  mcg  </item>
+        <item>  mcg/ml  </item>
+        <item>  mEq  </item>
+        <item>  mL  </item>
+        <item>  mg/g  </item>
+        <item>  mg/cm2  </item>
+        <item>  %  </item>
+        <item>  mg/ml  </item>
+        <item>  mcg/hr  </item>
     </string-array>
 </resources>

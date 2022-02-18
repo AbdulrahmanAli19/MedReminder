@@ -29,7 +29,7 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater=LayoutInflater.from(parent.getContext());
-        View v =layoutInflater.inflate(R.layout.customrowmeds,parent,true);
+        View v =layoutInflater.inflate(R.layout.customrowmeds,parent,false);
         ViewHolder viewHolder= new ViewHolder(v);
         return viewHolder;
     }

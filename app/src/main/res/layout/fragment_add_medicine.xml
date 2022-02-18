@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -55,25 +55,38 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/editTextTextPersonName2"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:hint="@string/strength"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:paddingBottom="16dp"
+                        android:layout_margin="18dp"
+                        android:text="@string/strength"
+                        android:textSize="18dp"
                         app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName">
+                        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/strength"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <Spinner
+                        android:id="@+id/strength"
+                        android:layout_width="140dp"
+                        android:layout_height="44dp"
+                        android:layout_margin="16dp"
+                        android:entries="@array/strengthMenu"
+                        android:prompt="@string/strength"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+                    <EditText
+                        android:id="@+id/noOfStrength"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:ems="10"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/strength"
+                        app:layout_constraintStart_toEndOf="@+id/textView12"
+                        app:layout_constraintTop_toTopOf="@+id/textView12" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
@@ -104,50 +117,64 @@
                         android:layout_height="26dp"
                         android:layout_margin="4dp"
                         android:text="@string/type"
+
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageButton
-                        android:id="@+id/pillBtn"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="14dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toStartOf="@+id/textView3"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3"
-                        app:srcCompat="@drawable/ic_pill" />
 
-                    <ImageButton
-                        android:id="@+id/bottleBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="52dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toEndOf="@+id/pillBtn"
-                        app:layout_constraintTop_toTopOf="@+id/pillBtn"
-                        app:srcCompat="@drawable/ic_bottle_pill" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-                    <ImageButton
-                        android:id="@+id/dropBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="60dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toEndOf="@+id/bottleBtn"
-                        app:layout_constraintTop_toTopOf="@+id/bottleBtn"
-                        app:srcCompat="@drawable/ic_medicine" />
+                        <ImageButton
+                            android:id="@+id/pillBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            android:contentDescription="pill"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_pill" />
 
-                    <ImageButton
-                        android:id="@+id/injectionBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="60dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toEndOf="@+id/dropBtn"
-                        app:layout_constraintTop_toTopOf="@+id/dropBtn"
-                        app:srcCompat="@drawable/ic_injection__1_" />
+                        <ImageButton
+                            android:id="@+id/bottleBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:background="#00FFFFFF"
+                            android:contentDescription="bottle"
+                            app:layout_constraintBottom_toBottomOf="@+id/pillBtn"
+                            app:layout_constraintStart_toEndOf="@+id/pillBtn"
+                            app:layout_constraintTop_toTopOf="@+id/pillBtn"
+                            app:srcCompat="@drawable/ic_bottle_pill" />
+
+                        <ImageButton
+                            android:id="@+id/dropBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:background="#00FFFFFF"
+                            android:contentDescription="drop"
+                            app:layout_constraintStart_toEndOf="@+id/bottleBtn"
+                            app:layout_constraintTop_toTopOf="@+id/bottleBtn"
+                            app:srcCompat="@drawable/ic_medicine" />
+
+                        <ImageButton
+                            android:id="@+id/injectionBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:background="#00FFFFFF"
+                            android:contentDescription="injection"
+                            app:layout_constraintStart_toEndOf="@+id/dropBtn"
+                            app:layout_constraintTop_toTopOf="@+id/dropBtn"
+                            app:srcCompat="@drawable/ic_injection__1_" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -337,17 +364,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="4dp"
-                        android:layout_marginStart="4dp"
+                        android:layout_marginStart="8dp"
                         android:layout_marginEnd="4dp"
                         android:gravity="center"
                         android:text="@string/num"
                         android:textAlignment="center"
                         android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/frequenceAddBtn"
                         app:layout_constraintEnd_toStartOf="@+id/frequenceAddBtn"
-                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintHorizontal_bias="0.523"
                         app:layout_constraintStart_toEndOf="@+id/frequenceMinusBtn"
                         app:layout_constraintTop_toTopOf="@+id/frequenceAddBtn"
-                        app:layout_constraintBottom_toBottomOf="@+id/frequenceAddBtn"/>
+                        app:layout_constraintVertical_bias="0.516" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -372,31 +400,12 @@
                     android:layout_height="match_parent"
                     android:layout_margin="16dp">
 
-
-                    <!-- <com.google.android.material.textfield.TextInputLayout
-                         android:id="@+id/menuTime"
-                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                         android:layout_width="151dp"
-                         android:layout_height="55dp"
-                         android:hint="@string/period"
-                         app:layout_constraintStart_toStartOf="parent"
-                         app:layout_constraintTop_toTopOf="parent"
-                         android:layout_margin="4dp"
-                         >
-
-                         <AutoCompleteTextView
-                             android:layout_width="match_parent"
-                             android:layout_height="match_parent"
-                             android:inputType="none"
-                             />
-
-                     </com.google.android.material.textfield.TextInputLayout>-->
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/refillSwitch"
                         android:layout_width="63dp"
                         android:layout_height="24dp"
-                        android:layout_marginStart="100dp"
-                        android:layout_marginEnd="16dp"
+                        android:layout_marginStart="120dp"
+                        android:layout_marginEnd="8dp"
                         app:layout_constraintStart_toEndOf="@+id/textView15"
                         app:layout_constraintTop_toTopOf="@+id/textView15"
                         tools:ignore="TouchTargetSizeCheck" />
@@ -405,7 +414,7 @@
                         android:id="@+id/textView15"
                         android:layout_width="127dp"
                         android:layout_height="25dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="64dp"
                         android:text="@string/refillReminder"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="@+id/textView8"
@@ -416,7 +425,7 @@
                         android:layout_width="80dp"
                         android:layout_height="26dp"
                         android:layout_marginStart="4dp"
-                        android:layout_marginTop="80dp"
+                        android:layout_marginTop="16dp"
                         android:text="@string/time"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
@@ -425,11 +434,14 @@
                     <TextView
                         android:id="@+id/txtTime"
                         android:layout_width="80dp"
-                        android:layout_height="26dp"
-                        android:layout_marginStart="24dp"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginBottom="24dp"
                         android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView15"
                         app:layout_constraintStart_toEndOf="@+id/textView8"
                         app:layout_constraintTop_toTopOf="@+id/textView8"
+                        app:layout_constraintVertical_bias="0.0"
                         tools:text="@string/home" />
 
                     <ImageButton
@@ -471,6 +483,6 @@
 
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
 
 
