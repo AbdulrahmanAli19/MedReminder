@@ -24,7 +24,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "RegisterFragment.DEV";
     public FragmentRegisterBinding binding;
-    private String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +51,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private boolean isDataValid() {
         if (binding.edtEmail.getEditText().getText().toString().isEmpty()) {
             binding.edtEmail.setError(getString(R.string.empty_email));
+            String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
             if (!binding.edtEmail.getEditText().getText().toString().equals(emailRegex)) {
                 binding.edtEmail.setError(getString(R.string.not_vaild_email));
             }

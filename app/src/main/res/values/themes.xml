@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.ITIJavaProject" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.ITIJavaProject" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/primary</item>
+        <item name="colorPrimary">@color/light_blue</item>
+        <item name="colorPrimaryVariant">@color/light_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/secondary</item>
@@ -14,5 +14,9 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="homeScreenFabStyle">
+        <item name="android:background">@drawable/fab_shabe</item>
+        <item name="android:textColor">#fff</item>
+    </style>
 
 </resources>

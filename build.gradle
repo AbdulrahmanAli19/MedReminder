@@ -11,6 +11,7 @@ buildscript {
         classpath 'com.google.gms:google-services:4.3.10'
     }
 }
+
 plugins {
     id 'com.android.application' version '7.1.0' apply false
     id 'com.android.library' version '7.1.0' apply false
@@ -20,4 +21,3 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-

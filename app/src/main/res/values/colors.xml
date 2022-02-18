@@ -6,4 +6,6 @@
     <color name="other">#EC91D8</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="transperent">#00F44336</color>
+    <color name="light_blue">#329BC9</color>
 </resources>

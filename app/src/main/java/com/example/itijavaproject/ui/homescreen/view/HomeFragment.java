@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,31 +12,41 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
-import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentHomeBinding;
 
 
-public class HomeFragment extends Fragment {
-
+public class HomeFragment extends Fragment implements View.OnClickListener {
     private NavController navController;
     private FragmentHomeBinding binding;
+    private MainActivity activity;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button btnTest = view.findViewById(R.id.btnTest);
         navController = Navigation.findNavController(view);
-        NavDirections directions = HomeFragmentDirections.actionHomeFragmentToMedicationsFragment("medAdd");
-//                .actionHomeFragmentToAddMedicineFragment();
-        btnTest.setOnClickListener(v -> navController
-                .navigate(directions));
-
+        binding.fabAddHealthTacker.setOnClickListener(this);
+        binding.fabAddMed.setOnClickListener(this);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        activity = (MainActivity) getActivity();
+        activity.showNavBar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        activity.showNavBar();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        activity.hideNavBar();
     }
 
     @Override
@@ -47,4 +56,20 @@ public class HomeFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onClick(View v) {
+        NavDirections directions;
+        switch (v.getId()) {
+            case R.id.fabAddHealthTacker:
+                directions = HomeFragmentDirections.actionHomeFragmentToAddHealthTakerFragment();
+                navController.navigate(directions);
+                break;
+            case R.id.fabAddMed:
+                directions = HomeFragmentDirections.actionHomeFragmentToAddMedicineFragment();
+                navController.navigate(directions);
+                break;
+            default:
+                break;
+        }
+    }
 }
