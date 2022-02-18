@@ -70,6 +70,11 @@
     <string name="send_invite">Send Invite</string>
     <string name="period">Period</string>
     <string name="MedScreen">Medications</string>
+    <string name="numofstrength">numOfStrength</string>
+    <string name="bottle">bottle</string>
+    <string name="pill">pill</string>
+    <string name="drop">drop</string>
+    <string name="injection">injection</string>
     <string-array name="periodItems">
         <item>Morning</item>
         <item>Afternoon</item>

@@ -20,7 +20,6 @@ import java.util.List;
 public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedicationAdapter.ViewHolder> {
     private List<Medicine> inactiveMedicines;
     private final Context context;
-    ImageView imgIcon;
 
     public InactiveMedicationAdapter(List<Medicine> inactiveMedicines, Context context) {
         this.inactiveMedicines = inactiveMedicines;
@@ -41,8 +40,24 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
 //        Glide.with(context).load(inactiveMedicines.get(position).getIconType()).apply(new RequestOptions()
 //                .override(24, 24)).placeholder(R.drawable.ic_injection__1_)
 //                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
+        if (inactiveMedicines.get(position).getIconType().equals(context.getString(R.string.pill))) {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pill));
+        }
+        else if(inactiveMedicines.get(position).getIconType().equals(context.getString(R.string.bottle)))
+        {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_bottle_pill));
+        }
+        else if(inactiveMedicines.get(position).getIconType().equals(context.getString(R.string.drop)))
+        {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_medicine));
+        }
+        else if(inactiveMedicines.get(position).getIconType().equals(context.getString(R.string.injection)))
+        {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_injection__1_));
+        }
         holder.txtMedName.setText(inactiveMedicines.get(position).getName());
         holder.txtMedStrength.setText(inactiveMedicines.get(position).getStrength());
+        holder.txtNumStrength.setText(""+inactiveMedicines.get(position).getNoOfStrength());
 //        holder.txtMedRefill.setText(inactiveMedicines.get(position).getNumOfPills());
     }
 
@@ -55,6 +70,7 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
         TextView txtMedName;
         TextView txtMedStrength;
         TextView txtMedRefill;
+        TextView txtNumStrength;
         ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
@@ -62,7 +78,9 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
             txtMedName = itemView.findViewById(R.id.txtMedName);
             txtMedStrength = itemView.findViewById(R.id.txtMedStrength);
             txtMedRefill = itemView.findViewById(R.id.txtMedRefill);
+            txtNumStrength=itemView.findViewById(R.id.txtNumStrength);
             imageView=itemView.findViewById(R.id.imgIcon);
+
         }
     }
 }

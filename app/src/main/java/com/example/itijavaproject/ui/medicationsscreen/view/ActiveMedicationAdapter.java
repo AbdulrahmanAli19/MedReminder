@@ -36,12 +36,29 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(ActiveMedicines.get(position).getIconType()).apply(new RequestOptions()
-                .override(24,24)).placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
+//        Glide.with(context).load(ActiveMedicines.get(position).getIconType()).apply(new RequestOptions()
+//                .override(24,24)).placeholder(R.drawable.ic_launcher_background)
+//                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
+
+        if (ActiveMedicines.get(position).getIconType().equals(context.getString(R.string.pill))) {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_pill));
+        }
+        else if(ActiveMedicines.get(position).getIconType().equals(context.getString(R.string.bottle)))
+        {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_bottle_pill));
+        }
+        else if(ActiveMedicines.get(position).getIconType().equals(context.getString(R.string.drop)))
+        {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_medicine));
+        }
+        else if(ActiveMedicines.get(position).getIconType().equals(context.getString(R.string.injection)))
+        {
+            holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_injection__1_));
+        }
         holder.txtMedName.setText(ActiveMedicines.get(position).getName());
         holder.txtMedStrength.setText(ActiveMedicines.get(position).getStrength());
-        holder.txtMedRefill.setText(ActiveMedicines.get(position).getNumOfPills());
+        holder.txtNumStrength.setText(""+ActiveMedicines.get(position).getNoOfStrength());
+//        holder.txtMedRefill.setText(ActiveMedicines.get(position).getNumOfPills());
 
 
     }
@@ -54,11 +71,15 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
         TextView txtMedName;
         TextView txtMedStrength;
         TextView txtMedRefill;
+        TextView txtNumStrength;
+        ImageView imageView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtMedName=itemView.findViewById(R.id.txtMedName);
             txtMedStrength=itemView.findViewById(R.id.txtMedStrength);
             txtMedRefill=itemView.findViewById(R.id.txtMedRefill);
+            txtNumStrength=itemView.findViewById(R.id.txtNumStrength);
+            imageView=itemView.findViewById(R.id.imgIcon);
         }
     }
 
