@@ -17,6 +17,7 @@ import androidx.navigation.Navigation;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
@@ -39,16 +41,19 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener,
-    AddMedicineInterface{
+public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener, AddMedicineInterface, View.OnClickListener {
 
     private FragmentAddMedicineBinding binding;
     int countAmount;
     int countFrequency;
     Calendar myCalender;
-    Calendar myCalenderTime;
+    Calendar myCalenderTime = Calendar.getInstance();
     AddMedicinePresenterInterface presenterInterface;
     NavController navController;
+    Medicine medicine = new Medicine();
+    List<Long> listTime = new ArrayList<>();
+    String s;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,8 +72,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 if (view.isShown()) {
                     myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     myCalenderTime.set(Calendar.MINUTE, minute);
-                    binding.txtTime.setText(hourOfDay + ":" + minute);
-                    binding.txtTime.setText(hourOfDay+":"+minute);
+
+                   listTime.add(myCalenderTime.getTimeInMillis());
 
                 }
             }
@@ -105,20 +110,19 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
-
+   String TAG="TAg";
     private Medicine createMedicine() {
-        Medicine medicine = new Medicine();
+         medicine = new Medicine();
         medicine.setName(binding.medName.getEditableText().toString());
         medicine.setStrength(binding.strength.getSelectedItem().toString());
-        //medicine.setIconType(binding);
+        medicine.setIconType(s);
         medicine.setStartDate(myCalender.getTimeInMillis());
         medicine.setDuration(binding.durationMenu.getSelectedItem().toString());
         medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
         medicine.setIsRefillReminder(binding.refillSwitch.isActivated());
-
-
-        //medicine.setTimes(binding.txtTime.toString()));
+        medicine.setTimes(listTime);
+        Log.i(TAG, "createMedicine: "+listTime);
 
         return medicine;
     }
@@ -152,15 +156,16 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             if(countFrequency>0){binding.txtFrequence.setText(String.valueOf(countFrequency--));
             }
         });
+        binding.pillBtn.setOnClickListener(this);
+        binding.bottleBtn.setOnClickListener(this);
+        binding.dropBtn.setOnClickListener(this);
+        binding.injectionBtn.setOnClickListener(this);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
         navController = Navigation.findNavController(view);
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
-                //getActivity(). getFragmentManager(). popBackStack();
-
-                //navController.navigate(R.id.action_addMedicineFragment_to_medicationsFragment);
             }
         });
     }
@@ -186,5 +191,29 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     public void addMedicine(Medicine medicine) {
         presenterInterface.addMedicine(medicine);
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.pillBtn:
+                s = binding.pillBtn.getContentDescription().toString();
+                binding.pillBtn.setBackgroundResource(R.color.background);
+                break;
+            case R.id.injectionBtn:
+                s = binding.injectionBtn.getContentDescription().toString();
+                binding.injectionBtn.setBackgroundResource(R.color.background);
+                break;
+            case R.id.dropBtn:
+                s = binding.dropBtn.getContentDescription().toString();
+                binding.dropBtn.setBackgroundResource(R.color.background);
+                break;
+            case R.id.bottleBtn:
+                s = binding.bottleBtn.getContentDescription().toString();
+                binding.bottleBtn.setBackgroundResource(R.color.background);
+                break;
+
+        }
     }
 }

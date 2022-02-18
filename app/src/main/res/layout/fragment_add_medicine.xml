@@ -108,50 +108,64 @@
                         android:layout_height="26dp"
                         android:layout_margin="4dp"
                         android:text="@string/type"
+
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageButton
-                        android:id="@+id/pillBtn"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="14dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toStartOf="@+id/textView3"
-                        app:layout_constraintTop_toBottomOf="@+id/textView3"
-                        app:srcCompat="@drawable/ic_pill" />
 
-                    <ImageButton
-                        android:id="@+id/bottleBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="52dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toEndOf="@+id/pillBtn"
-                        app:layout_constraintTop_toTopOf="@+id/pillBtn"
-                        app:srcCompat="@drawable/ic_bottle_pill" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-                    <ImageButton
-                        android:id="@+id/dropBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="60dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toEndOf="@+id/bottleBtn"
-                        app:layout_constraintTop_toTopOf="@+id/bottleBtn"
-                        app:srcCompat="@drawable/ic_medicine" />
+                        <ImageButton
+                            android:id="@+id/pillBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="#00FFFFFF"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_pill"
+                            android:contentDescription="pill" />
 
-                    <ImageButton
-                        android:id="@+id/injectionBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="60dp"
-                        android:background="#00FFFFFF"
-                        app:layout_constraintStart_toEndOf="@+id/dropBtn"
-                        app:layout_constraintTop_toTopOf="@+id/dropBtn"
-                        app:srcCompat="@drawable/ic_injection__1_" />
+                        <ImageButton
+                            android:id="@+id/bottleBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:background="#00FFFFFF"
+                            app:layout_constraintBottom_toBottomOf="@+id/pillBtn"
+                            app:layout_constraintStart_toEndOf="@+id/pillBtn"
+                            app:layout_constraintTop_toTopOf="@+id/pillBtn"
+                            app:srcCompat="@drawable/ic_bottle_pill"
+                            android:contentDescription="bottle"/>
+
+                        <ImageButton
+                            android:id="@+id/dropBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:background="#00FFFFFF"
+                            app:layout_constraintStart_toEndOf="@+id/bottleBtn"
+                            app:layout_constraintTop_toTopOf="@+id/bottleBtn"
+                            app:srcCompat="@drawable/ic_medicine"
+                            android:contentDescription="drop"/>
+
+                        <ImageButton
+                            android:id="@+id/injectionBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="24dp"
+                            android:background="#00FFFFFF"
+                            app:layout_constraintStart_toEndOf="@+id/dropBtn"
+                            app:layout_constraintTop_toTopOf="@+id/dropBtn"
+                            app:srcCompat="@drawable/ic_injection__1_"
+                            android:contentDescription="injection"/>
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

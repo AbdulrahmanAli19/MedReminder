@@ -20,7 +20,7 @@ public class Medicine {
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "iconType")
-    private int iconType;
+    private String iconType;
     @ColumnInfo(name = "strength")
     private String strength;
     @ColumnInfo(name = "isActive")
@@ -41,11 +41,10 @@ public class Medicine {
     @ColumnInfo(name = "startDate")
     private Long startDate;
 
-
     public Medicine() {
     }
 
-    public Medicine(String name, int iconType, String strength, boolean isActive, String instructions,
+    public Medicine(String name, String iconType, String strength, boolean isActive, String instructions,
                     String reason, boolean isRefillReminder, int numOfPills, List<Long> times,
                     int frequencyPerDay, String duration,Long startDate) {
         this.name = name;
@@ -102,11 +101,11 @@ public class Medicine {
         this.name = name;
     }
 
-    public int getIconType() {
+    public String getIconType() {
         return iconType;
     }
 
-    public void setIconType(int iconType) {
+    public void setIconType(String iconType) {
         this.iconType = iconType;
     }
 
