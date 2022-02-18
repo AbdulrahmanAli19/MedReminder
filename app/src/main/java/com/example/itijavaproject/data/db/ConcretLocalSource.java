@@ -48,11 +48,23 @@ public class ConcretLocalSource implements LocalSource{
 
     @Override
     public void addMedicine(Medicine medicine) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                medicineDao.insertMedicine(medicine);
+//            }
+//        }).start();
 
     }
 
     @Override
     public void deleteMedicine(Medicine medicine) {
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                medicineDao.deleteMedicine(medicine);
+//            }
+//        }).start();
 
     }
 

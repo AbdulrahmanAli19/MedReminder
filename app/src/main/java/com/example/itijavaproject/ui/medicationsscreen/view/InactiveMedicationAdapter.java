@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+//import com.bumptech.glide.Glide;
+//import com.bumptech.glide.request.RequestOptions;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.pojo.model.Medicine;
 
@@ -38,9 +38,9 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(inactiveMedicines.get(position).getIconType()).apply(new RequestOptions()
-                .override(24, 24)).placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
+//        Glide.with(context).load(inactiveMedicines.get(position).getIconType()).apply(new RequestOptions()
+//                .override(24, 24)).placeholder(R.drawable.ic_launcher_background)
+//                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
         holder.txtMedName.setText(inactiveMedicines.get(position).getName());
         holder.txtMedStrength.setText(inactiveMedicines.get(position).getStrength());
         holder.txtMedRefill.setText(inactiveMedicines.get(position).getNumOfPills());
