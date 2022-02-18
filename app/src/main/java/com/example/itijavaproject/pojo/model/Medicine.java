@@ -8,11 +8,12 @@ import androidx.room.TypeConverters;
 
 import com.example.itijavaproject.data.db.TimeTypeConverters;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity(tableName = "Medicine")
 @TypeConverters(TimeTypeConverters.class)
-public class Medicine {
+public class Medicine implements Serializable {
     @ColumnInfo(name = "med_id")
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -20,9 +21,11 @@ public class Medicine {
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "iconType")
-    private int iconType;
+    private String iconType;
     @ColumnInfo(name = "strength")
     private String strength;
+    @ColumnInfo (name = "noOfStrength")
+    private int noOfStrength;
     @ColumnInfo(name = "isActive")
     private boolean isActive;
     @ColumnInfo(name = "instructions")
@@ -45,9 +48,9 @@ public class Medicine {
     public Medicine() {
     }
 
-    public Medicine(String name, int iconType, String strength, boolean isActive, String instructions,
+    public Medicine(String name, String iconType, String strength, boolean isActive, String instructions,
                     String reason, boolean isRefillReminder, int numOfPills, List<Long> times,
-                    int frequencyPerDay, String duration,Long startDate) {
+                    int frequencyPerDay, String duration,Long startDate,int noOfStrength) {
         this.name = name;
         this.iconType = iconType;
         this.strength = strength;
@@ -60,6 +63,15 @@ public class Medicine {
         this.frequencyPerDay = frequencyPerDay;
         this.duration = duration;
         this.startDate=startDate;
+        this.noOfStrength=noOfStrength;
+    }
+
+    public int getNoOfStrength() {
+        return noOfStrength;
+    }
+
+    public void setNoOfStrength(int noOfStrength) {
+        this.noOfStrength = noOfStrength;
     }
 
     public long getStartDate() {
@@ -102,11 +114,11 @@ public class Medicine {
         this.name = name;
     }
 
-    public int getIconType() {
+    public String getIconType() {
         return iconType;
     }
 
-    public void setIconType(int iconType) {
+    public void setIconType(String iconType) {
         this.iconType = iconType;
     }
 

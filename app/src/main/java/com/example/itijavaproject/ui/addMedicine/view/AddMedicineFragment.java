@@ -10,10 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +25,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
@@ -28,19 +33,29 @@ import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentAddMedicineBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
+import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
+import com.example.itijavaproject.ui.homescreen.view.HomeFragmentDirections;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 
-public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
+public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener, AddMedicineInterface, View.OnClickListener {
 
     private FragmentAddMedicineBinding binding;
     int countAmount;
-    int countFrequency ;
+    int countFrequency;
     Calendar myCalender;
-    Calendar myCalenderTime;
+    Calendar myCalenderTime = Calendar.getInstance();
+    AddMedicinePresenterInterface presenterInterface;
+    NavController navController;
+    NavDirections directions;
+    Medicine medicine = new Medicine();
+    List<Long> listTime = new ArrayList<>();
+    String s;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,7 +74,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 if (view.isShown()) {
                     myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     myCalenderTime.set(Calendar.MINUTE, minute);
-                    binding.txtTime.setText(hourOfDay + ":" + minute);
+
+                   listTime.add(myCalenderTime.getTimeInMillis());
 
                 }
             }
@@ -96,23 +112,21 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
-
+   String TAG="TAg";
     private Medicine createMedicine() {
-        Medicine medicine = new Medicine();
+         medicine = new Medicine();
         medicine.setName(binding.medName.getEditableText().toString());
-        medicine.setStrength(binding.strength.getEditableText().toString());
-        //medicine.setIconType(binding);
+        medicine.setStrength(binding.strength.getSelectedItem().toString());
+        medicine.setIconType(s);
         medicine.setStartDate(myCalender.getTimeInMillis());
         medicine.setDuration(binding.durationMenu.getSelectedItem().toString());
         medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
-        medicine.setIsRefillReminder(binding.refillSwitch.isClickable());
-
-        //medicine.setTimes(binding.txtTime.toString()));
-
-
+        medicine.setIsRefillReminder(binding.refillSwitch.isActivated());
+        medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
+        medicine.setTimes(listTime);
+        Log.i(TAG, "createMedicine: "+listTime);
         return medicine;
-
     }
 
     @Override
@@ -134,20 +148,28 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.txtAmount.setText(String.valueOf(countAmount++));
         });
         binding.amountMinusBtn.setOnClickListener(v -> {
-            binding.txtAmount.setText(String.valueOf(countAmount--));
+            if(countAmount>0){ binding.txtAmount.setText(String.valueOf(countAmount--));}
+
         });
         binding.frequenceAddBtn.setOnClickListener(v -> {
             binding.txtFrequence.setText(String.valueOf(countFrequency++));
         });
         binding.frequenceMinusBtn.setOnClickListener(v -> {
-            binding.txtFrequence.setText(String.valueOf(countFrequency--));
+            if(countFrequency>0){binding.txtFrequence.setText(String.valueOf(countFrequency--));
+            }
         });
+        binding.pillBtn.setOnClickListener(this);
+        binding.bottleBtn.setOnClickListener(this);
+        binding.dropBtn.setOnClickListener(this);
+        binding.injectionBtn.setOnClickListener(this);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
-
+        navController = Navigation.findNavController(view);
         binding.saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                directions=AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2("");
+                navController.navigate(directions);
             }
         });
     }
@@ -167,5 +189,35 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     @Override
     public void onTimeSet(TimePicker timePicker, int i, int i1) {
 
+    }
+
+    @Override
+    public void addMedicine(Medicine medicine) {
+        presenterInterface.addMedicine(medicine);
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId())
+        {
+            case R.id.pillBtn:
+                s = binding.pillBtn.getContentDescription().toString();
+                binding.pillBtn.setBackgroundResource(R.color.background);
+                break;
+            case R.id.injectionBtn:
+                s = binding.injectionBtn.getContentDescription().toString();
+                binding.injectionBtn.setBackgroundResource(R.color.background);
+                break;
+            case R.id.dropBtn:
+                s = binding.dropBtn.getContentDescription().toString();
+                binding.dropBtn.setBackgroundResource(R.color.background);
+                break;
+            case R.id.bottleBtn:
+                s = binding.bottleBtn.getContentDescription().toString();
+                binding.bottleBtn.setBackgroundResource(R.color.background);
+                break;
+
+        }
     }
 }
