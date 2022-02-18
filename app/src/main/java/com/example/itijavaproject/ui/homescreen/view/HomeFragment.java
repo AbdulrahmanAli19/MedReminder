@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
             case R.id.fabMed:
-                directions= HomeFragmentDirections.actionHomeFragmentToMedicationsFragment("");
+                directions= HomeFragmentDirections.actionHomeFragmentToMedicationsFragment();
                 navController.navigate(directions);
         }
     }

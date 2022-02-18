@@ -1,6 +1,8 @@
 package com.example.itijavaproject;
 
 
+import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,11 +51,12 @@ public class MainActivity extends AppCompatActivity implements
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         appBarConfiguration = new AppBarConfiguration
-                .Builder(R.id.authFragment, R.id.homeFragment, R.id.splashFragment)
+                .Builder(R.id.homeFragment, R.id.moreFragment, R.id.authFragment, R.id.splashFragment, R.id.medicationsFragment)
                 .build();
 
         binding.calendarView.setSelectedDate(CalendarDay.today());
 
+        setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.collapsingLayout, binding.toolBar,
                 navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);

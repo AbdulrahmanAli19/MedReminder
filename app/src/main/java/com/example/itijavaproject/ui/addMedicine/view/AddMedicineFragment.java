@@ -168,7 +168,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             @Override
             public void onClick(View view) {
                 new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
-                directions=AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2("");
+                directions=AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
                 navController.navigate(directions);
             }
         });
