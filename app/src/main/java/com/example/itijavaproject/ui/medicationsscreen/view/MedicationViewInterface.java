@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface MedicationViewInterface {
 //    void displayActiveMeds(List<Medicine> activeMeds);
-void displayActiveMeds(LiveData<List<Medicine>> med);
-
+    void displayActiveMeds(LiveData<List<Medicine>> med);
     void displayInactiveMeds(LiveData<List<Medicine>> med);
 }
