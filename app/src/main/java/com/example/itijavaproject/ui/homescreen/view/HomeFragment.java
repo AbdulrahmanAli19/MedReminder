@@ -15,6 +15,7 @@ import androidx.navigation.Navigation;
 import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentHomeBinding;
+import com.example.itijavaproject.ui.medicationsscreen.view.MedicationsFragment;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -28,6 +29,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         navController = Navigation.findNavController(view);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
+        binding.fabMed.setOnClickListener(this);
     }
 
     @Override
@@ -70,6 +72,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             default:
                 break;
+            case R.id.fabMed:
+                directions= HomeFragmentDirections.actionHomeFragmentToMedicationsFragment("");
+                navController.navigate(directions);
         }
     }
 }

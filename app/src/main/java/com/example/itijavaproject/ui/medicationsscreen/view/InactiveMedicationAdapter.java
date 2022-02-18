@@ -31,19 +31,19 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View v = layoutInflater.inflate(R.layout.customrowmeds, parent, true);
+        View v = layoutInflater.inflate(R.layout.customrowmeds, parent, false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(inactiveMedicines.get(position).getIconType()).apply(new RequestOptions()
-                .override(24, 24)).placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
+//        Glide.with(context).load(inactiveMedicines.get(position).getIconType()).apply(new RequestOptions()
+//                .override(24, 24)).placeholder(R.drawable.ic_injection__1_)
+//                .error(R.drawable.ic_launcher_foreground).into(imgIcon);
         holder.txtMedName.setText(inactiveMedicines.get(position).getName());
         holder.txtMedStrength.setText(inactiveMedicines.get(position).getStrength());
-        holder.txtMedRefill.setText(inactiveMedicines.get(position).getNumOfPills());
+//        holder.txtMedRefill.setText(inactiveMedicines.get(position).getNumOfPills());
     }
 
     @Override
@@ -55,12 +55,14 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
         TextView txtMedName;
         TextView txtMedStrength;
         TextView txtMedRefill;
+        ImageView imageView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtMedName = itemView.findViewById(R.id.txtMedName);
             txtMedStrength = itemView.findViewById(R.id.txtMedStrength);
             txtMedRefill = itemView.findViewById(R.id.txtMedRefill);
+            imageView=itemView.findViewById(R.id.imgIcon);
         }
     }
 }
