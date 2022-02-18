@@ -46,12 +46,10 @@ public class MedicationsFragment extends Fragment implements MedicationViewInter
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         AddMeds = view.findViewById(R.id.AddMeds);
-        String msg = MedicationsFragmentArgs.fromBundle(getArguments()).getName();
         navController = Navigation.findNavController(view);
         NavDirections directions = MedicationsFragmentDirections.actionMedicationsFragmentToAddMedicineFragment();
         AddMeds.setOnClickListener(v -> navController
                 .navigate(directions));
-        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
         RecActive = view.findViewById(R.id.RecActive);
         RecInactive = view.findViewById(R.id.RecInactive);
         RecActive.setLayoutManager(new LinearLayoutManager(getContext()));

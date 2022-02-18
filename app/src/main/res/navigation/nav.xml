@@ -38,9 +38,6 @@
         android:name="com.example.itijavaproject.ui.medicationsscreen.view.MedicationsFragment"
         android:label="@string/med_title"
         tools:layout="@layout/fragment_medications">
-        <argument
-            android:name="name"
-            app:argType="string" />
         <action
             android:id="@+id/action_medicationsFragment_to_addMedicineFragment"
             app:destination="@id/addMedicineFragment" />
@@ -96,4 +93,9 @@
         android:name="com.example.itijavaproject.ui.registrationscreen.RegisterFragment"
         android:label="@string/reg_title"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.example.itijavaproject.ui.morescreen.MoreFragment"
+        android:label="fragment_more"
+        tools:layout="@layout/fragment_more" />
 </navigation>
