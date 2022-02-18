@@ -51,7 +51,7 @@ public class MedicationsFragment extends Fragment implements MedicationViewInter
         AddMeds = view.findViewById(R.id.AddMeds);
         String msg = MedicationsFragmentArgs.fromBundle(getArguments()).getName();
         navController = Navigation.findNavController(view);
-       /* NavDirections directions = MedicationsFragmentDirections.actionMedicationsFragmentToAddMedicineFragment();
+       /* NavDirections directions = MedicationsFragmentDirections.actionMedicationsFragmentToMedicationDisplayFragment();
         AddMeds.setOnClickListener(v -> navController
                 .navigate(directions));*/
         Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();

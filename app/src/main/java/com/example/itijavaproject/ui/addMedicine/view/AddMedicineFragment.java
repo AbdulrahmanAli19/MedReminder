@@ -112,7 +112,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
-   String TAG="TAg";
+
     private Medicine createMedicine() {
          medicine = new Medicine();
         medicine.setName(binding.medName.getEditableText().toString());
@@ -125,7 +125,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setIsRefillReminder(binding.refillSwitch.isActivated());
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
-        Log.i(TAG, "createMedicine: "+listTime);
+
         return medicine;
     }
 
