@@ -54,20 +54,21 @@
                             android:layout_height="wrap_content" />
 
                     </com.google.android.material.textfield.TextInputLayout>
+
                     <TextView
+                        android:id="@+id/textView12"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="18dp"
                         android:text="@string/strength"
                         android:textSize="18dp"
                         app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-                        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
-                        />
+                        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
 
                     <Spinner
                         android:id="@+id/strength"
-                        android:layout_width="160dp"
+                        android:layout_width="140dp"
                         android:layout_height="44dp"
                         android:layout_margin="16dp"
                         android:entries="@array/strengthMenu"
@@ -76,7 +77,15 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
-
+                    <EditText
+                        android:id="@+id/noOfStrength"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:ems="10"
+                        android:inputType="phone"
+                        app:layout_constraintEnd_toStartOf="@+id/strength"
+                        app:layout_constraintStart_toEndOf="@+id/textView12"
+                        app:layout_constraintTop_toTopOf="@+id/textView12" />
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -391,25 +400,6 @@
                     android:layout_height="match_parent"
                     android:layout_margin="16dp">
 
-
-                    <!-- <com.google.android.material.textfield.TextInputLayout
-                         android:id="@+id/menuTime"
-                         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
-                         android:layout_width="151dp"
-                         android:layout_height="55dp"
-                         android:hint="@string/period"
-                         app:layout_constraintStart_toStartOf="parent"
-                         app:layout_constraintTop_toTopOf="parent"
-                         android:layout_margin="4dp"
-                         >
-
-                         <AutoCompleteTextView
-                             android:layout_width="match_parent"
-                             android:layout_height="match_parent"
-                             android:inputType="none"
-                             />
-
-                     </com.google.android.material.textfield.TextInputLayout>-->
                     <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/refillSwitch"
                         android:layout_width="63dp"

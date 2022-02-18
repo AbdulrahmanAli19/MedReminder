@@ -36,6 +36,7 @@ import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
 import com.example.itijavaproject.ui.homescreen.view.HomeFragmentDirections;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -51,6 +52,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     Calendar myCalenderTime = Calendar.getInstance();
     AddMedicinePresenterInterface presenterInterface;
     NavController navController;
+    NavDirections directions;
     Medicine medicine = new Medicine();
     List<Long> listTime = new ArrayList<>();
     String s;
@@ -121,9 +123,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
         medicine.setIsRefillReminder(binding.refillSwitch.isActivated());
+        medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
         Log.i(TAG, "createMedicine: "+listTime);
-
         return medicine;
     }
 
@@ -166,6 +168,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             @Override
             public void onClick(View view) {
                 new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                directions=AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2("");
+                navController.navigate(directions);
             }
         });
     }
