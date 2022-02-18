@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/actionHome"
+        android:enabled="true"
+        android:icon="@drawable/ic_round_home_24"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/actionMed"
+        android:enabled="true"
+        android:icon="@drawable/outline_vaccines_20"
+        android:title="@string/med_title" />
+    <item
+        android:id="@+id/actionMore"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_more_horiz_24"
+        android:title="@string/more" />
+</menu>

@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/home_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/layout_home.xml" value="0.25" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.24114583333333334" />
       </map>
     </option>
   </component>

@@ -7,12 +7,14 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.example.itijavaproject.data.db.TimeTypeConverters;
+import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity(tableName = "Medicine")
 @TypeConverters(TimeTypeConverters.class)
-public class Medicine {
+public class Medicine implements Serializable {
     @ColumnInfo(name = "med_id")
     @PrimaryKey(autoGenerate = true)
     @NonNull

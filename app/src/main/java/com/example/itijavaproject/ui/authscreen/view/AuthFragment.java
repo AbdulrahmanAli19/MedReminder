@@ -45,7 +45,6 @@ public class AuthFragment extends Fragment {
         binding.btnPhoneNumber.setOnClickListener(v -> navController.navigate(R.id.action_authFragment_to_registerFragment));
         binding.btnSkip.setOnClickListener(v -> {
             navController.navigate(R.id.action_authFragment_to_homeFragment);
-
         });
     }
 }
