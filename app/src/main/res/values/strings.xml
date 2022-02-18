@@ -69,6 +69,7 @@
     <string name="reg_title">Register</string>
     <string name="send_invite">Send Invite</string>
     <string name="period">Period</string>
+    <string name="more">More</string>
     <string name="MedScreen">Medications</string>
     <string-array name="periodItems">
         <item>Morning</item>
@@ -102,4 +103,6 @@
         <item>  mg/ml  </item>
         <item>  mcg/hr  </item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

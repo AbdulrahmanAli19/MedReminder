@@ -12,16 +12,13 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.ui.medicationsscreen.view.MedicationsFragment;
 
-
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private NavController navController;
     private FragmentHomeBinding binding;
-    private MainActivity activity;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -30,25 +27,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         binding.fabMed.setOnClickListener(this);
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activity = (MainActivity) getActivity();
-        activity.showNavBar();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        activity.showNavBar();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        activity.hideNavBar();
     }
 
     @Override
@@ -73,7 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
             case R.id.fabMed:
-                directions= HomeFragmentDirections.actionHomeFragmentToMedicationsFragment("");
+                directions= HomeFragmentDirections.actionHomeFragmentToMedicationsFragment();
                 navController.navigate(directions);
         }
     }
