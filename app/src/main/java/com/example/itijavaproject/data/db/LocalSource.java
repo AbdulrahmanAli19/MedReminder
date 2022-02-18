@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface LocalSource {
     LiveData<List<Medicine>> getStoredMedicine();
-    LiveData<Medicine> grtAllMedicine();
+    LiveData<List<Medicine>>getActive();
+    LiveData<List<Medicine>>getInactive();
+    //firebase
+    LiveData<Medicine> getAllMedicine();
     void addMedicine(Medicine medicine);
     void deleteMedicine(Medicine medicine);
     void editMedicine(Medicine medicine);

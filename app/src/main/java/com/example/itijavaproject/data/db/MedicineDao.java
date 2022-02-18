@@ -24,4 +24,12 @@ public interface MedicineDao {
 
     @Query("SELECT * FROM Medicine")
     LiveData<List<Medicine>> getAllMedicines();
+
+    @Query("SELECT * FROM Medicine WHERE isActive =true")
+    LiveData<List<Medicine>> getActiveMeds();
+
+
+    @Query("SELECT * FROM Medicine WHERE isActive =false")
+    LiveData<List<Medicine>> getInActiveMeds();
+
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Entity(tableName = "Medicine")
 @TypeConverters(TimeTypeConverters.class)
 public class Medicine {
-    @ColumnInfo(name = "medID")
+    @ColumnInfo(name = "med_id")
     @PrimaryKey(autoGenerate = true)
     @NonNull
     private int med_id;
@@ -30,45 +30,44 @@ public class Medicine {
     @ColumnInfo(name = "reason")
     private String reason;
     @ColumnInfo(name = "refillReminder")
-    private int refillReminder;
+    private boolean isRefillReminder;
     @ColumnInfo(name = "numOfPills")
     private int numOfPills;
     private List<Long> times;
-    @ColumnInfo(name = "duration")
-    private String duration;
     @ColumnInfo(name = "frequencyPerDay")
     private int frequencyPerDay;
-    @ColumnInfo(name = "periodTime")
-    private String periodTime;
+    @ColumnInfo(name = "duration")
+    private String duration;
+    @ColumnInfo(name = "startDate")
+    private Long startDate;
 
 
     public Medicine() {
     }
 
-    public Medicine(int med_id, String name, int icon, String strength, String medType,
-                    boolean isActive, String instructions, String reason, int refillReminder,
-                    int numOfPills, List<Long> times, String duration, int frequencyPerDay, String periodTime) {
-        this.med_id = med_id;
+    public Medicine(String name, int iconType, String strength, boolean isActive, String instructions,
+                    String reason, boolean isRefillReminder, int numOfPills, List<Long> times,
+                    int frequencyPerDay, String duration,Long startDate) {
         this.name = name;
-        this.iconType = icon;
+        this.iconType = iconType;
         this.strength = strength;
         this.isActive = isActive;
         this.instructions = instructions;
         this.reason = reason;
-        this.refillReminder = refillReminder;
+        this.isRefillReminder = isRefillReminder;
         this.numOfPills = numOfPills;
         this.times = times;
         this.frequencyPerDay = frequencyPerDay;
         this.duration = duration;
-        this.periodTime = periodTime;
+        this.startDate=startDate;
     }
 
-    public String getDuration() {
-        return duration;
+    public long getStartDate() {
+        return startDate;
     }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
+    public void setStartDate(Long startDate) {
+        this.startDate = startDate;
     }
 
     public int getFrequencyPerDay() {
@@ -79,12 +78,12 @@ public class Medicine {
         this.frequencyPerDay = frequencyPerDay;
     }
 
-    public String getPeriodTime() {
-        return periodTime;
+    public String getDuration() {
+        return duration;
     }
 
-    public void setPeriodTime(String periodTime) {
-        this.periodTime = periodTime;
+    public void setDuration(String periodTime) {
+        this.duration = duration;
     }
 
     public int getMedID() {
@@ -143,12 +142,12 @@ public class Medicine {
         this.reason = reason;
     }
 
-    public int getRefillReminder() {
-        return refillReminder;
+    public boolean getIsRefillReminder() {
+        return isRefillReminder;
     }
 
-    public void setRefillReminder(int refillReminder) {
-        this.refillReminder = refillReminder;
+    public void setIsRefillReminder(boolean isRefillReminder) {
+        this.isRefillReminder = isRefillReminder;
     }
 
     public int getNumOfPills() {
