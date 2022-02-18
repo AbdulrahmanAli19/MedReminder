@@ -10,14 +10,14 @@ import java.util.List;
 
 public class ConcretLocalSource implements LocalSource{
     MedicineDao medicineDao;
-    private LiveData<List<Medicine>> stroeActiveMeds;
-    private LiveData<List<Medicine>> stroeInactiveMeds;
+    private LiveData<List<Medicine>> stroeInactiveMeds,stroeActiveMeds ,storeAllData;
     private static ConcretLocalSource conc = null;
     private ConcretLocalSource(Context context) {
         DatabaseAccess databaseAccess=DatabaseAccess.getInstance(context.getApplicationContext());
         medicineDao =databaseAccess.medicineDao();
         stroeActiveMeds=medicineDao.getActiveMeds();
         stroeInactiveMeds=medicineDao.getInActiveMeds();
+        storeAllData=medicineDao.getAllMedicines();
     }
     public static ConcretLocalSource getInstance(Context context){
         if (conc==null)
@@ -28,7 +28,7 @@ public class ConcretLocalSource implements LocalSource{
     }
     @Override
     public LiveData<List<Medicine>> getStoredMedicine() {
-        return null;
+        return storeAllData;
     }
 
     @Override

@@ -69,6 +69,7 @@
     <string name="reg_title">Register</string>
     <string name="send_invite">Send Invite</string>
     <string name="period">Period</string>
+    <string name="MedScreen">Medications</string>
     <string-array name="periodItems">
         <item>Morning</item>
         <item>Afternoon</item>
