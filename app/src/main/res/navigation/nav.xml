@@ -41,13 +41,20 @@
         <action
             android:id="@+id/action_medicationsFragment_to_addMedicineFragment"
             app:destination="@id/addMedicineFragment" />
+        <action
+            android:id="@+id/action_medicationsFragment_to_medicationDisplayFragment"
+            app:destination="@id/medicationDisplayFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/medicationDisplayFragment"
         android:name="com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragment"
         android:label="@string/meds_title"
-        tools:layout="@layout/fragment_medication_display" />
+        tools:layout="@layout/fragment_medication_display" >
+        <argument
+            android:name="ObjOfMeds"
+            app:argType="com.example.itijavaproject.pojo.model.Medicine" />
+    </fragment>
 
     <fragment
         android:id="@+id/splashFragment"
