@@ -63,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAuth.addAuthStateListener(listener);
+        if (firebaseAuth != null && listener != null)
+            firebaseAuth.addAuthStateListener(listener);
     }
 
     @Override
