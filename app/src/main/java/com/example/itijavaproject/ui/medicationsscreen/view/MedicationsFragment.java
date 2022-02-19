@@ -78,7 +78,7 @@ public class MedicationsFragment extends Fragment implements MedicationViewInter
         med.observe(getViewLifecycleOwner(), new Observer<List<Medicine>>() {
             @Override
             public void onChanged(List<Medicine> medicines) {
-                activeMedicationAdapter = new ActiveMedicationAdapter(medicines, getContext());
+                activeMedicationAdapter = new ActiveMedicationAdapter(medicines, navController,getContext());
                 RecActive.setAdapter(activeMedicationAdapter);
             }
         });
@@ -89,7 +89,7 @@ public class MedicationsFragment extends Fragment implements MedicationViewInter
         med.observe(getViewLifecycleOwner(), new Observer<List<Medicine>>() {
             @Override
             public void onChanged(List<Medicine> medicines) {
-                inactiveMedicationAdapter = new InactiveMedicationAdapter(medicines, getContext());
+                inactiveMedicationAdapter = new InactiveMedicationAdapter(medicines, navController,getContext());
                 RecInactive.setAdapter(inactiveMedicationAdapter);
             }
         });
