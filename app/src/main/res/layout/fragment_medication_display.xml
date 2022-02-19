@@ -170,8 +170,8 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="439dp"
-        android:layout_height="244dp"
+        android:layout_width="410dp"
+        android:layout_height="245dp"
         android:layout_marginBottom="516dp"
         android:src="@drawable/pexels_artem_podrez_4492103"
         app:layout_constraintBottom_toBottomOf="parent"
