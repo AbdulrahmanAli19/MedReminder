@@ -32,6 +32,11 @@ public class Repository implements RepositoryInterface {
     }
 
     @Override
+    public void getSelectedMedicine(Medicine medicine) {
+
+    }
+
+    @Override
     public LiveData<List<Medicine>> getAllMedicines() {
         return null;
     }
