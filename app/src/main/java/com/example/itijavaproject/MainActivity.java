@@ -3,12 +3,19 @@ package com.example.itijavaproject;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.ActivityResultRegistry;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -20,8 +27,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.itijavaproject.databinding.ActivityMainBinding;
+import com.firebase.ui.auth.AuthMethodPickerLayout;
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -29,9 +42,13 @@ public class MainActivity extends AppCompatActivity implements
         AppBarLayout.OnOffsetChangedListener {
 
     private static final String TAG = "MainActivity.DEV";
+    private static final int LOGIN_REQUEST_CODE = 0101;
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
     private ActivityMainBinding binding;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener listener;
+
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -43,6 +60,19 @@ public class MainActivity extends AppCompatActivity implements
         setUpNavigation();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(listener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (firebaseAuth != null && listener != null)
+            firebaseAuth.removeAuthStateListener(listener);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void setUpNavigation() {
         binding.collapsingLayout.setExpandedTitleColor(getResources().getColor(R.color.transperent));
@@ -50,9 +80,9 @@ public class MainActivity extends AppCompatActivity implements
 
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
-        appBarConfiguration = new AppBarConfiguration
-                .Builder(R.id.homeFragment, R.id.moreFragment, R.id.authFragment, R.id.splashFragment, R.id.medicationsFragment)
-                .build();
+        appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,
+                R.id.moreFragment, R.id.authFragment, R.id.splashFragment,
+                R.id.medicationsFragment).build();
 
         binding.calendarView.setSelectedDate(CalendarDay.today());
 
@@ -61,6 +91,31 @@ public class MainActivity extends AppCompatActivity implements
                 navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
         navController.addOnDestinationChangedListener(this);
+    }
+
+    private void setUpFirebaseAuth() {
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        listener = myListener -> {
+            if (myListener.getCurrentUser() != null) {
+
+            } else {
+
+            }
+        };
+    }
+
+    private void showLoginScreen() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
+
+        AuthMethodPickerLayout pickerLayout = new AuthMethodPickerLayout
+                .Builder(R.layout.fragment_auth)
+                .setGoogleButtonId(R.id.btnGoogle)
+                .setPhoneButtonId(R.id.btnPhoneNumber)
+                .build();
+
     }
 
     @Override
