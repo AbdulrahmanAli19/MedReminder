@@ -74,7 +74,7 @@
         android:layout_width="149dp"
         android:layout_height="36dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginTop="400dp"
         android:text="@string/howToUse"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -86,7 +86,7 @@
         android:layout_width="217dp"
         android:layout_height="37dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="224dp"
         android:text="@string/prescriptionRefill"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -109,7 +109,7 @@
         android:id="@+id/refillBtn"
         android:layout_width="143dp"
         android:layout_height="47dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="148dp"
         android:layout_marginEnd="4dp"
         android:background="#0B35ED"
         android:text="@string/refill"
@@ -121,9 +121,8 @@
         android:id="@+id/txtGetDuration"
         android:layout_width="230dp"
         android:layout_height="34dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         tools:text="@tools:sample/first_names" />
 
@@ -132,7 +131,7 @@
         android:layout_width="269dp"
         android:layout_height="81dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtGetDuration"
@@ -140,36 +139,33 @@
 
     <TextView
         android:id="@+id/no.pills"
-        android:layout_width="158dp"
+        android:layout_width="190dp"
         android:layout_height="37dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:text="@tools:sample/last_names" />
 
     <TextView
         android:id="@+id/refillReminder"
         android:layout_width="276dp"
         android:layout_height="34dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/no.pills" />
+        app:layout_constraintStart_toStartOf="@+id/no.pills"
+        app:layout_constraintTop_toBottomOf="@+id/no.pills"
+        tools:text="@tools:sample/us_phones" />
 
     <TextView
         android:id="@+id/howUse"
         android:layout_width="175dp"
         android:layout_height="35dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
-        android:text="TextView"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:text="@tools:sample/first_names" />
 
     <Button
         android:id="@+id/addDoseBtn"
