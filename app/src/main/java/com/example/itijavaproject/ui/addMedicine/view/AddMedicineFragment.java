@@ -108,9 +108,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setDuration(binding.durationMenu.getSelectedItem().toString());
         medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
-        medicine.setIsRefillReminder(binding.refillSwitch.isActivated());
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
+        medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
 
         return medicine;
     }
