@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFEFEFEF"
@@ -13,6 +17,7 @@
         android:layout_width="53dp"
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
+        android:layout_marginStart="4dp"
         android:src="@android:drawable/ic_delete"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
@@ -31,15 +36,26 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
     <TextView
-        android:id="@+id/drugStrength"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/noDrugStrength"
+        android:layout_width="30dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="TextView"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/drugName"
         app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+
+    <TextView
+        android:id="@+id/drugStrength"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:text="TextView"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/noDrugStrength"
+        app:layout_constraintTop_toBottomOf="@+id/editBtn" />
 
     <TextView
         android:id="@+id/textView4"
@@ -58,7 +74,7 @@
         android:layout_width="149dp"
         android:layout_height="36dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="356dp"
+        android:layout_marginTop="400dp"
         android:text="@string/howToUse"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -70,7 +86,7 @@
         android:layout_width="217dp"
         android:layout_height="37dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="212dp"
+        android:layout_marginTop="224dp"
         android:text="@string/prescriptionRefill"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -93,7 +109,7 @@
         android:id="@+id/refillBtn"
         android:layout_width="143dp"
         android:layout_height="47dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="148dp"
         android:layout_marginEnd="4dp"
         android:background="#0B35ED"
         android:text="@string/refill"
@@ -105,55 +121,51 @@
         android:id="@+id/txtGetDuration"
         android:layout_width="230dp"
         android:layout_height="34dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:text="@tools:sample/first_names" />
 
     <TextView
         android:id="@+id/txtTimes"
         android:layout_width="269dp"
         android:layout_height="81dp"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtGetDuration" />
+        app:layout_constraintTop_toBottomOf="@+id/txtGetDuration"
+        tools:text="@tools:sample/full_names" />
 
     <TextView
         android:id="@+id/no.pills"
-        android:layout_width="158dp"
+        android:layout_width="190dp"
         android:layout_height="37dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:layout_marginTop="16dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/textView6"
+        tools:text="@tools:sample/last_names" />
 
     <TextView
         android:id="@+id/refillReminder"
         android:layout_width="276dp"
         android:layout_height="34dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        android:text="TextView"
+        android:layout_marginTop="8dp"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/no.pills" />
+        app:layout_constraintStart_toStartOf="@+id/no.pills"
+        app:layout_constraintTop_toBottomOf="@+id/no.pills"
+        tools:text="@tools:sample/us_phones" />
 
     <TextView
         android:id="@+id/howUse"
         android:layout_width="175dp"
         android:layout_height="35dp"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="12dp"
-        android:text="TextView"
         android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintStart_toStartOf="@+id/textView5"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:text="@tools:sample/first_names" />
 
     <Button
         android:id="@+id/addDoseBtn"
@@ -170,7 +182,7 @@
 
     <ImageView
         android:id="@+id/imageView7"
-        android:layout_width="410dp"
+        android:layout_width="420dp"
         android:layout_height="245dp"
         android:layout_marginBottom="516dp"
         android:src="@drawable/pexels_artem_podrez_4492103"
@@ -199,3 +211,5 @@
         app:layout_constraintEnd_toStartOf="@+id/deleteBtn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+

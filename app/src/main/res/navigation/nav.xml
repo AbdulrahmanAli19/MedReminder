@@ -54,6 +54,9 @@
         <argument
             android:name="ObjOfMeds"
             app:argType="com.example.itijavaproject.pojo.model.Medicine" />
+        <action
+            android:id="@+id/action_medicationDisplayFragment_to_medicationsFragment3"
+            app:destination="@id/medicationsFragment" />
     </fragment>
 
     <fragment

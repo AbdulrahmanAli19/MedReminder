@@ -48,7 +48,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         super.onCreate(savedInstanceState);
 
     }
-
     public void showHourPicker() {
         myCalenderTime = Calendar.getInstance();
         int hour = myCalenderTime.get(Calendar.HOUR_OF_DAY);
@@ -61,7 +60,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 if (view.isShown()) {
                     myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     myCalenderTime.set(Calendar.MINUTE, minute);
-                    listTime.add(myCalenderTime.getTimeInMillis());
+
+                   listTime.add(myCalenderTime.getTimeInMillis());
 
                 }
             }
@@ -99,10 +99,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         datePickerDialog.show();
     }
 
-    String TAG = "TAg";
-
     private Medicine createMedicine() {
-        medicine = new Medicine();
+         medicine = new Medicine();
         medicine.setName(binding.medName.getEditableText().toString());
         medicine.setStrength(binding.strength.getSelectedItem().toString());
         medicine.setIconType(s);
@@ -110,10 +108,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setDuration(binding.durationMenu.getSelectedItem().toString());
         medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
-        medicine.setIsRefillReminder(binding.refillSwitch.isActivated());
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
-        Log.i(TAG, "createMedicine: " + listTime);
+        medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
+
         return medicine;
     }
 
@@ -136,17 +134,14 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.txtAmount.setText(String.valueOf(countAmount++));
         });
         binding.amountMinusBtn.setOnClickListener(v -> {
-            if (countAmount > 0) {
-                binding.txtAmount.setText(String.valueOf(countAmount--));
-            }
+            if(countAmount>0){ binding.txtAmount.setText(String.valueOf(countAmount--));}
 
         });
         binding.frequenceAddBtn.setOnClickListener(v -> {
             binding.txtFrequence.setText(String.valueOf(countFrequency++));
         });
         binding.frequenceMinusBtn.setOnClickListener(v -> {
-            if (countFrequency > 0) {
-                binding.txtFrequence.setText(String.valueOf(countFrequency--));
+            if(countFrequency>0){binding.txtFrequence.setText(String.valueOf(countFrequency--));
             }
         });
         binding.pillBtn.setOnClickListener(this);
@@ -159,12 +154,11 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             @Override
             public void onClick(View view) {
                 new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
-                directions = AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
+                directions=AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
                 navController.navigate(directions);
             }
         });
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -191,7 +185,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        switch (view.getId())
+        {
             case R.id.pillBtn:
                 s = binding.pillBtn.getContentDescription().toString();
                 binding.pillBtn.setBackgroundResource(R.color.background);
