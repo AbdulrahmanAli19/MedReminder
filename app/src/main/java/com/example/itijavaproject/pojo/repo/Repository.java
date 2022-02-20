@@ -1,6 +1,9 @@
 package com.example.itijavaproject.pojo.repo;
 
 import android.content.Context;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 
 import androidx.lifecycle.LiveData;
 
@@ -8,6 +11,10 @@ import com.example.itijavaproject.data.db.LocalSource;
 import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
+
+import io.reactivex.Maybe;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
 public class Repository implements RepositoryInterface {
     private static Repository repository;
@@ -52,8 +59,8 @@ public class Repository implements RepositoryInterface {
     }
 
     @Override
-    public LiveData<List<Medicine>> getSelectedDateMedicines(Long date) {
-        return repository.getSelectedDateMedicines(date);
+    public Maybe<List<Medicine>> getSelectedDateMedicines(Long date) {
+        return localSource.getSelectedDayMedicines(date).subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -72,4 +79,5 @@ public class Repository implements RepositoryInterface {
     public void editMedicine(Medicine medicine) {
         localSource.editMedicine(medicine);
     }
+
 }

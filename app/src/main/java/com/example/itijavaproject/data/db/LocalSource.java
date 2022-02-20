@@ -7,14 +7,23 @@ import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 public interface LocalSource {
     LiveData<List<Medicine>> getStoredMedicine();
-    LiveData<List<Medicine>>getActive();
-    LiveData<List<Medicine>>getInactive();
+
+    LiveData<List<Medicine>> getActive();
+
+    LiveData<List<Medicine>> getInactive();
+
     //firebase
     LiveData<Medicine> getAllMedicine();
+
     void addMedicine(Medicine medicine);
+
     void deleteMedicine(Medicine medicine);
+
     void editMedicine(Medicine medicine);
-    LiveData<List<Medicine>> getSelectedDayMedicines(long selectedDate);
+
+    Maybe<List<Medicine>> getSelectedDayMedicines(long selectedDate);
 }

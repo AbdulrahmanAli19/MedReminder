@@ -1,6 +1,10 @@
 package com.example.itijavaproject.ui.homescreen.view;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +31,17 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+import io.reactivex.MaybeObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 public class HomeFragment extends Fragment implements View.OnClickListener,
         HomeCommunicator, HomeFragInterface {
     private static final String TAG = "HomeFragment.DEV";
     private NavController navController;
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -73,18 +81,35 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onDateChange(@NonNull MaterialCalendarView widget,
                              @NonNull CalendarDay date, boolean selected) {
-        Log.d(TAG, "onDateChange: clicked");
         presenter.getSelectedDateMedicines(date.getDate().toEpochDay());
     }
 
     @Override
-    public void getSelectedDateMedicines(LiveData<List<Medicine>> medicineList) {
-        medicineList.observe(getViewLifecycleOwner(), medicines -> {
-            for (Medicine med :
-                    medicines) {
-                Log.d(TAG, "onChanged: " + med.getName());
-            }
-        });
+    public void getSelectedDateMedicines(Maybe<List<Medicine>> medicines) {
+        medicines.observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MaybeObserver<List<Medicine>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: ");
+                    }
+
+                    @Override
+                    public void onSuccess(List<Medicine> medicines) {
+                        for (Medicine med : medicines) {
+                            Log.d(TAG, "onSuccess: " + med);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: ");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
     }
 
 }

@@ -6,6 +6,8 @@ import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 public interface HomeFragInterface {
-    void getSelectedDateMedicines(LiveData<List<Medicine>> medicineList);
+    void getSelectedDateMedicines(Maybe<List<Medicine>> medicines);
 }

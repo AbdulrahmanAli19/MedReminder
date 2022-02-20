@@ -11,6 +11,8 @@ import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 @Dao
 public interface MedicineDao {
     @Insert
@@ -31,7 +33,7 @@ public interface MedicineDao {
     @Query("SELECT * FROM Medicine WHERE isActive = 1")
     LiveData<List<Medicine>> getInActiveMeds();
 
-    @Query("SELECT * FROM MEDICINE WHERE :currentDate BETWEEN startDate AND endDate")
-    LiveData<List<Medicine>> getCurrentDayMedicines(long currentDate);
+    @Query("SELECT * FROM MEDICINE WHERE :selectedDate BETWEEN startDate AND endDate")
+    Maybe<List<Medicine>> getCurrentDayMedicines(long selectedDate);
 
 }

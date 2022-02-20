@@ -8,6 +8,8 @@ import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
 
+import io.reactivex.Maybe;
+
 public class ConcreteLocalSource implements LocalSource {
 
     private final MedicineDao medicineDao;
@@ -46,7 +48,7 @@ public class ConcreteLocalSource implements LocalSource {
     }
 
     @Override
-    public LiveData<List<Medicine>> getSelectedDayMedicines(long selectedDate) {
+    public Maybe<List<Medicine>> getSelectedDayMedicines(long selectedDate) {
         return medicineDao.getCurrentDayMedicines(selectedDate);
     }
 

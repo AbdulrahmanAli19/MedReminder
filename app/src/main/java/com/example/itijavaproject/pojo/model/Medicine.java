@@ -185,4 +185,24 @@ public class Medicine implements Serializable {
         this.endDate = endDate;
     }
 
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "medID=" + medID +
+                ", name='" + name + '\'' +
+                ", iconType='" + iconType + '\'' +
+                ", strength='" + strength + '\'' +
+                ", noOfStrength=" + noOfStrength +
+                ", isActive=" + isActive +
+                ", instructions='" + instructions + '\'' +
+                ", reason='" + reason + '\'' +
+                ", isRefillReminder=" + isRefillReminder +
+                ", numOfPills=" + numOfPills +
+                ", times=" + times +
+                ", frequencyPerDay=" + frequencyPerDay +
+                ", duration='" + duration + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
+    }
 }
