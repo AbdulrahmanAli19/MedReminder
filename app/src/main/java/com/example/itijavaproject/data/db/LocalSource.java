@@ -16,4 +16,5 @@ public interface LocalSource {
     void addMedicine(Medicine medicine);
     void deleteMedicine(Medicine medicine);
     void editMedicine(Medicine medicine);
+    LiveData<List<Medicine>> getSelectedDayMedicines(long selectedDate);
 }

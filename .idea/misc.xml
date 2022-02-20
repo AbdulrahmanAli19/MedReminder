@@ -21,6 +21,7 @@
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_register.xml" value="0.15818725951261223" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/fragment_add_health_taker.xml" value="0.23743589743589744" />
+        <entry key="app/src/main/res/layout/fragment_add_medicine.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/layout/fragment_medication_display.xml" value="0.25" />

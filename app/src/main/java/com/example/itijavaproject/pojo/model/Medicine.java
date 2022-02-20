@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
 import com.example.itijavaproject.data.db.TimeTypeConverters;
-import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,56 +14,55 @@ import java.util.List;
 @Entity(tableName = "Medicine")
 @TypeConverters(TimeTypeConverters.class)
 public class Medicine implements Serializable {
+
     @ColumnInfo(name = "med_id")
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    private int med_id;
+    private int medID;
+
     @ColumnInfo(name = "name")
     private String name;
+
     @ColumnInfo(name = "iconType")
     private String iconType;
+
     @ColumnInfo(name = "strength")
     private String strength;
-    @ColumnInfo (name = "noOfStrength")
+
+    @ColumnInfo(name = "noOfStrength")
     private int noOfStrength;
+
     @ColumnInfo(name = "isActive")
     private boolean isActive;
+
     @ColumnInfo(name = "instructions")
     private String instructions;
+
     @ColumnInfo(name = "reason")
     private String reason;
+
     @ColumnInfo(name = "refillReminder")
     private boolean isRefillReminder;
+
     @ColumnInfo(name = "numOfPills")
     private int numOfPills;
+
     private List<Long> times;
+
     @ColumnInfo(name = "frequencyPerDay")
     private int frequencyPerDay;
+
     @ColumnInfo(name = "duration")
     private String duration;
+
     @ColumnInfo(name = "startDate")
     private Long startDate;
 
+    @ColumnInfo(name = "endDate")
+    private Long endDate;
+
 
     public Medicine() {
-    }
-
-    public Medicine(String name, String iconType, String strength, boolean isActive, String instructions,
-                    String reason, boolean isRefillReminder, int numOfPills, List<Long> times,
-                    int frequencyPerDay, String duration,Long startDate,int noOfStrength) {
-        this.name = name;
-        this.iconType = iconType;
-        this.strength = strength;
-        this.isActive = isActive;
-        this.instructions = instructions;
-        this.reason = reason;
-        this.isRefillReminder = isRefillReminder;
-        this.numOfPills = numOfPills;
-        this.times = times;
-        this.frequencyPerDay = frequencyPerDay;
-        this.duration = duration;
-        this.startDate=startDate;
-        this.noOfStrength=noOfStrength;
     }
 
     public int getNoOfStrength() {
@@ -100,11 +98,11 @@ public class Medicine implements Serializable {
     }
 
     public int getMedID() {
-        return med_id;
+        return medID;
     }
 
     public void setMedID(int medID) {
-        this.med_id = medID;
+        this.medID = medID;
     }
 
     public String getName() {
@@ -179,11 +177,12 @@ public class Medicine implements Serializable {
         this.times = times;
     }
 
-    public int getMed_id() {
-        return med_id;
+    public Long getEndDate() {
+        return endDate;
     }
 
-    public void setMed_id(int med_id) {
-        this.med_id = med_id;
+    public void setEndDate(Long endDate) {
+        this.endDate = endDate;
     }
+
 }

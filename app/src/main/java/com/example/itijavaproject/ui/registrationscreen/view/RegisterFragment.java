@@ -1,4 +1,4 @@
-package com.example.itijavaproject.ui.registrationscreen;
+package com.example.itijavaproject.ui.registrationscreen.view;
 
 import android.os.Bundle;
 

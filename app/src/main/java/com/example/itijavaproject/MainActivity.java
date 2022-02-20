@@ -3,19 +3,12 @@ package com.example.itijavaproject;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.ActivityResultRegistry;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -27,11 +20,14 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.itijavaproject.databinding.ActivityMainBinding;
+import com.example.itijavaproject.ui.homescreen.view.HomeCommunicator;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,16 +35,17 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements
         NavController.OnDestinationChangedListener,
-        AppBarLayout.OnOffsetChangedListener {
+        AppBarLayout.OnOffsetChangedListener,
+        OnDateSelectedListener {
 
     private static final String TAG = "MainActivity.DEV";
-    private static final int LOGIN_REQUEST_CODE = 0101;
+    private static final int LOGIN_REQUEST_CODE = 101;
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
     private ActivityMainBinding binding;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener listener;
-
+    private HomeCommunicator homeCommunicator;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -92,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements
                 navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
         navController.addOnDestinationChangedListener(this);
+        binding.calendarView.setOnDateChangedListener(this);
     }
 
     private void setUpFirebaseAuth() {
@@ -173,4 +171,16 @@ public class MainActivity extends AppCompatActivity implements
             Log.d(TAG, "onOffsetChanged: opened");
         }
     }
+
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget,
+                               @NonNull CalendarDay date, boolean selected) {
+        if (homeCommunicator != null)
+            homeCommunicator.onDateChange(widget, date, selected);
+    }
+
+    public void setHomeCommunicator(HomeCommunicator homeCommunicator) {
+        this.homeCommunicator = homeCommunicator;
+    }
+
 }

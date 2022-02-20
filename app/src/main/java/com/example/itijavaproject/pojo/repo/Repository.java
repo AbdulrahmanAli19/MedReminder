@@ -21,7 +21,7 @@ public class Repository implements RepositoryInterface {
 
     public static Repository getInstance(LocalSource localSource, Context context) {
         if (repository == null) {
-            repository = new Repository(localSource,context);
+            repository = new Repository(localSource, context);
         }
         return repository;
     }
@@ -47,6 +47,11 @@ public class Repository implements RepositoryInterface {
     }
 
     @Override
+    public LiveData<List<Medicine>> getSelectedDateMedicines(Long date) {
+        return repository.getSelectedDateMedicines(date);
+    }
+
+    @Override
     public void addMedicine(Medicine medicine) {
         localSource.addMedicine(medicine);
 
@@ -60,5 +65,6 @@ public class Repository implements RepositoryInterface {
 
     @Override
     public void editMedicine(Medicine medicine) {
-        localSource .editMedicine(medicine);   }
+        localSource.editMedicine(medicine);
+    }
 }

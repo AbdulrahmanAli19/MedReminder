@@ -10,8 +10,13 @@ public interface RepositoryInterface {
     LiveData<List<Medicine>> getStoredMedicine();
 
     LiveData<List<Medicine>> getAllMedicines();     //add parameter
+
     LiveData<List<Medicine>> showActiveMed();
+
     LiveData<List<Medicine>> showInactiveMed();
+
+    LiveData<List<Medicine>> getSelectedDateMedicines(Long date);
+
     void addMedicine(Medicine medicine);
 
     void deleteMedicine(Medicine medicine);

@@ -7,7 +7,7 @@
     android:background="@color/background"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".ui.registrationscreen.RegisterFragment">
+    tools:context=".ui.registrationscreen.view.RegisterFragment">
 
 
     <com.google.android.material.textfield.TextInputLayout
