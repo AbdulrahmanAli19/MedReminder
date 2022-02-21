@@ -11,8 +11,7 @@ public interface LocalSource {
     LiveData<List<Medicine>> getStoredMedicine();
     LiveData<List<Medicine>>getActive();
     LiveData<List<Medicine>>getInactive();
-    //firebase
-    LiveData<Medicine> getAllMedicine();
+
     void addMedicine(Medicine medicine);
     void deleteMedicine(Medicine medicine);
     void editMedicine(Medicine medicine);

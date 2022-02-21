@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+    app:cardCornerRadius="30dp"
+    >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp">
+
+                    <TextView
+                        android:id="@+id/txtmsg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/msgTacker"
+                        android:textSize="15dp"
+                        app:layout_constraintEnd_toEndOf="@+id/txtEmailReq"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/txtEmailReq"
+                        app:layout_constraintTop_toBottomOf="@+id/txtEmailReq" />
+
+                    <TextView
+                        android:id="@+id/txtEmailReq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/emailHint"
+                        android:textSize="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.105"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.079" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnIgnore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:text="@string/ignore"
+                        app:layout_constraintBottom_toBottomOf="@+id/btnAccept"
+                        app:layout_constraintStart_toEndOf="@+id/btnAccept"
+                        app:layout_constraintTop_toTopOf="@+id/btnAccept"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAccept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/accept"
+                        app:layout_constraintEnd_toEndOf="@+id/txtmsg"
+                        app:layout_constraintHorizontal_bias="0.503"
+                        app:layout_constraintStart_toStartOf="@+id/txtmsg"
+                        app:layout_constraintTop_toBottomOf="@+id/txtmsg" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>

@@ -42,11 +42,6 @@ public class ConcretLocalSource implements LocalSource{
     }
 
     @Override
-    public LiveData<Medicine> getAllMedicine() {
-        return null;
-    }
-
-    @Override
     public void addMedicine(Medicine medicine) {
 //        new Thread(new Runnable() {
 //            @Override

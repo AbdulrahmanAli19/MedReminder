@@ -3,7 +3,6 @@ package com.example.itijavaproject.ui.addMedicine.view;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +109,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
-        medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
+        medicine.setIsRefillReminder(
+                binding.refillSwitch.isChecked()
+        );
 
         return medicine;
     }
