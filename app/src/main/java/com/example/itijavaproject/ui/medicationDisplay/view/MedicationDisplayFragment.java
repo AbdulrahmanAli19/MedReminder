@@ -70,6 +70,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.noDrugStrength.setText(String.valueOf(medicine.getNoOfStrength()));
         binding.drugStrength.setText(medicine.getStrength());
         binding.txtGetDuration.setText(String.valueOf(medicine.getDuration()));
+        binding.howUse.setText(medicine.getInstructions());
         Log.i(TAG, "onViewCreated: " + medicine.getDuration());
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
@@ -92,7 +93,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
               }
             );
 
-
         } else {
             binding.suspendBtn.setText("ACTIVE");
             binding.suspendBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,8 +103,16 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 }
             });
 
-
         }
+        binding.addDoseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                navController = Navigation.findNavController(view);
+                directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToAddMedicineFragment2(medicine);
+                navController.navigate(directions);
+
+            }
+        });
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
         binding.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override

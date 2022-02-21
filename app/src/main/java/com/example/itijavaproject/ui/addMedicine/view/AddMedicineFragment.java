@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -27,6 +28,8 @@ import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
 import com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragmentArgs;
 
+import org.threeten.bp.LocalDate;
+
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -42,29 +45,25 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         DatePickerDialog.OnDateSetListener, AddMedicineInterface, View.OnClickListener {
     private static final String TAG = "AddMedicineFragment";
     private FragmentAddMedicineBinding binding;
-    int countAmount;
-    int countFrequency;
-    Calendar myCalender;
     Calendar myCalenderTime = Calendar.getInstance();
     AddMedicinePresenterInterface presenterInterface;
     NavController navController;
     NavDirections directions;
+    Calendar startCalender,endCalender;
+
     Medicine medicine=new Medicine();
     List<Long> listTime = new ArrayList<>();
     String s;
-    String date;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     public void showHourPicker() {
         myCalenderTime = Calendar.getInstance();
         int hour = myCalenderTime.get(Calendar.HOUR_OF_DAY);
         int minute = myCalenderTime.get(Calendar.MINUTE);
-        //int t=myCalender.get(Calendar.AM_PM);
 
         TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -87,11 +86,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     }
 
     public void showStartDatePicker() {
-        myCalender = Calendar.getInstance();
-        int year = myCalender.get(Calendar.YEAR);
-        int month = myCalender.get(Calendar.MONTH);
-        int day = myCalender.get(Calendar.DAY_OF_MONTH);
-
+        startCalender = Calendar.getInstance();
+        int year = startCalender.get(Calendar.YEAR);
+        int month = startCalender.get(Calendar.MONTH);
+        int day = startCalender.get(Calendar.DAY_OF_MONTH);
 
         DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -100,7 +98,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     month = month + 1;
                    String date = day + "/" + month + "/" + year;
                     binding.startDateTxt.setText(date);
-
                 }
             }
         };
@@ -112,10 +109,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         datePickerDialog.show();
     }
     public void showEndDatePicker() {
-        myCalender = Calendar.getInstance();
-        int year = myCalender.get(Calendar.YEAR);
-        int month = myCalender.get(Calendar.MONTH);
-        int day = myCalender.get(Calendar.DAY_OF_MONTH);
+        endCalender = Calendar.getInstance();
+        int year = endCalender.get(Calendar.YEAR);
+        int month = endCalender.get(Calendar.MONTH);
+        int day = endCalender.get(Calendar.DAY_OF_MONTH);
 
 
         DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
@@ -143,13 +140,15 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setName(binding.medName.getEditableText().toString());
         medicine.setStrength(binding.strength.getSelectedItem().toString());
         medicine.setIconType(s);
-        medicine.setStartDate(myCalender.getTimeInMillis());
+        medicine.setStartDate(startCalender.getTimeInMillis());
+        medicine.setEndDate(endCalender.getTimeInMillis());
         medicine.setDuration(binding.durationMenu.getSelectedItem().toString());
         medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
         medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
         medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
+        medicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
         medicine.setActive(true);
         binding.saveBtn.setText("SAVE");
 
@@ -157,6 +156,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -179,23 +179,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 showHourPicker();
             }
         });
-        binding.amountAddBtn.setOnClickListener(v -> {
-            binding.txtAmount.setText(String.valueOf(countAmount++));
-        });
-        binding.amountMinusBtn.setOnClickListener(v -> {
-            if (countAmount > 0) {
-                binding.txtAmount.setText(String.valueOf(countAmount--));
-            }
 
-        });
-        binding.frequenceAddBtn.setOnClickListener(v -> {
-            binding.txtFrequence.setText(String.valueOf(countFrequency++));
-        });
-        binding.frequenceMinusBtn.setOnClickListener(v -> {
-            if (countFrequency > 0) {
-                binding.txtFrequence.setText(String.valueOf(countFrequency--));
-            }
-        });
         binding.pillBtn.setOnClickListener(this);
         binding.bottleBtn.setOnClickListener(this);
         binding.dropBtn.setOnClickListener(this);
@@ -203,46 +187,55 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
         navController=Navigation.findNavController(view);
         Medicine editMedicine;
+
         if (AddMedicineFragmentArgs.fromBundle(getArguments()).getMedicine().getName() != null)
         {
             editMedicine = AddMedicineFragmentArgs.fromBundle(getArguments()).getMedicine();binding.medName.setText(editMedicine.getName());
             binding.noOfStrength.setText(String.valueOf(editMedicine.getNoOfStrength()));
             String startDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getStartDate())).toString();
             binding.startDateTxt.setText(startDateString);
-           /* String endDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getEndDate())).toString();
-            binding.endDateTxt.setText(endDateString);*/
+//            LocalDate date = LocalDate.ofEpochDay(new Long(editMedicine.getEndDate()));
+//            binding.endDateTxt.setText(date.getDayOfMonth()+"/"+date.getMonth()+"/"+date.getYear());
+            String endDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getEndDate())).toString();
+            binding.endDateTxt.setText(endDateString);
             binding.txtAmount.setText(String.valueOf(editMedicine.getNumOfPills()));
-            binding.txtFrequence.setText(String.valueOf(medicine.getFrequencyPerDay()));
+            binding.txtFrequence.setText(String.valueOf(editMedicine.getFrequencyPerDay()));
+            for (int i = 0; i < editMedicine.getTimes().size(); i++) {
+                long millisecondsSinceEpoch = editMedicine.getTimes().get(i);
+                Instant instant = Instant.ofEpochMilli(millisecondsSinceEpoch);
+                ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneOffset.UTC);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
+                String output = formatter.format(zdt);
+                binding.txtTime.append(output + "\n");
+                Log.i(TAG, "onClick: "+output);
+            }
+            binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
+                    .getPosition(editMedicine.getDuration()));
             binding.saveBtn.setText("UPDATE");
             binding.saveBtn.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onClick(View view) {
+                    editMedicine.setName(binding.medName.getEditableText().toString());
+                    editMedicine.setStrength(binding.strength.getSelectedItem().toString());
+                    editMedicine.setIconType(s);
+                    editMedicine.setStartDate(startCalender.getTimeInMillis());
+                    editMedicine.setEndDate(endCalender.getTimeInMillis());
+                    editMedicine.setDuration(binding.durationMenu.getSelectedItem().toString());
+                    editMedicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
+                    editMedicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
+                    editMedicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
+                    editMedicine.setTimes(listTime);
+                    editMedicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
+                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
+                    editMedicine.setActive(true);
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             databaseAccess.medicineDao().updateMedicine(editMedicine);
                         }
                     }).start();
-                    editMedicine.setName(binding.medName.getEditableText().toString());
-                    editMedicine.setStrength(binding.strength.getSelectedItem().toString());
-                    editMedicine.setIconType(s);
-                    editMedicine.setStartDate(myCalender.getTimeInMillis());
-                    editMedicine.setDuration(binding.durationMenu.getSelectedItem().toString());
-                    editMedicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
-                    editMedicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
-                    editMedicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
-                    editMedicine.setTimes(listTime);
-                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
-                    editMedicine.setActive(true);
-                    for (int i = 0; i < editMedicine.getTimes().size(); i++) {
-                        long millisecondsSinceEpoch = editMedicine.getTimes().get(i);
-                        Instant instant = Instant.ofEpochMilli(millisecondsSinceEpoch);
-                        ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneOffset.UTC);
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-                        String output = formatter.format(zdt);
-                        binding.txtTime.append(output + "\n");
-                    }
+
                     directions = AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
                     navController.navigate(directions);
                 }
@@ -256,15 +249,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     navController.navigate(directions);
                 }
             });
-
-
         }
-
-
-
-
-
-
     }
 
     @Override
