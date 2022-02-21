@@ -209,8 +209,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.noOfStrength.setText(String.valueOf(editMedicine.getNoOfStrength()));
             String startDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getStartDate())).toString();
             binding.startDateTxt.setText(startDateString);
-            String endDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getEndDate())).toString();
-            binding.startDateTxt.setText(endDateString);
+           /* String endDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getEndDate())).toString();
+            binding.endDateTxt.setText(endDateString);*/
             binding.txtAmount.setText(String.valueOf(editMedicine.getNumOfPills()));
             binding.txtFrequence.setText(String.valueOf(medicine.getFrequencyPerDay()));
             binding.saveBtn.setText("UPDATE");

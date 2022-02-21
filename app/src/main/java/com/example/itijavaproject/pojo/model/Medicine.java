@@ -44,7 +44,7 @@ public class Medicine implements Serializable {
     private String duration;
     @ColumnInfo(name = "startDate")
     private Long startDate;
-    @ColumnInfo(name="edtDate")
+    @ColumnInfo(name="endDate")
     private Long endDate;
 
 
@@ -67,7 +67,16 @@ public class Medicine implements Serializable {
         this.duration = duration;
         this.startDate=startDate;
         this.endDate=endDate;
+        this.noOfStrength=noOfStrength;
 
+    }
+
+    public int getMed_id() {
+        return med_id;
+    }
+
+    public void setMed_id(int med_id) {
+        this.med_id = med_id;
     }
 
     public Long getEndDate() {
@@ -110,13 +119,6 @@ public class Medicine implements Serializable {
         this.duration = duration;
     }
 
-    public int getMedID() {
-        return med_id;
-    }
-
-    public void setMedID(int medID) {
-        this.med_id = medID;
-    }
 
     public String getName() {
         return name;
