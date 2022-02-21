@@ -1,10 +1,7 @@
 package com.example.itijavaproject.ui.homescreen.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +10,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
@@ -37,21 +33,27 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
-        HomeCommunicator, HomeFragInterface {
+        HomeCommunicator, HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface {
+
     private static final String TAG = "HomeFragment.DEV";
     private NavController navController;
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
+    private CurrentDayAdapter adapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ((MainActivity) getActivity()).setHomeCommunicator(this);
         navController = Navigation.findNavController(view);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository.getInstance(ConcreteLocalSource
                 .getInstance(this.getContext()), getContext()));
-        ((MainActivity) getActivity()).setHomeCommunicator(this);
+        adapter = new CurrentDayAdapter(getContext(), this);
+        binding.homeRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.homeRecycler.setAdapter(adapter);
+        presenter.getSelectedDateMedicines(CalendarDay.today().getDate().toEpochDay());
     }
 
     @Override
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         return binding.getRoot();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         NavDirections directions;
@@ -95,9 +98,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
                     @Override
                     public void onSuccess(List<Medicine> medicines) {
-                        for (Medicine med : medicines) {
-                            Log.d(TAG, "onSuccess: " + med);
-                        }
+                        Log.d(TAG, "onSuccess: " + medicines.isEmpty());
+                        adapter.setMedicines(medicines);
                     }
 
                     @Override
@@ -112,4 +114,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                 });
     }
 
+    @Override
+    public void onClickItemClickListener(int pos) {
+        Log.d(TAG, "onClickItemClickListener: " + adapter.getMedicines().get(pos));
+    }
 }
