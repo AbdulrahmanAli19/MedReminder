@@ -1,4 +1,4 @@
-package com.example.itijavaproject.ui.morescreen;
+package com.example.itijavaproject.ui.morescreen.view;
 
 import android.os.Bundle;
 

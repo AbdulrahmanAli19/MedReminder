@@ -1,5 +1,11 @@
-package com.example.itijavaproject.ui.registrationscreen;
+package com.example.itijavaproject.ui.registrationscreen.view;
 
+import static java.util.Calendar.DAY_OF_MONTH;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
+
+import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,13 +23,18 @@ import com.example.itijavaproject.databinding.FragmentRegisterBinding;
 import com.example.itijavaproject.pojo.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Locale;
 
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     private static final String TAG = "RegisterFragment.DEV";
-    public FragmentRegisterBinding binding;
+    private FragmentRegisterBinding binding;
+    private final Calendar myCalendar = Calendar.getInstance();
+    private final String myFormat = "dd/MM/yyyy";
+    private final SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +46,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.btnSignUp.setOnClickListener(this);
+        binding.edtBirthday.setOnClickListener(this);
 
     }
 
@@ -62,7 +74,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         } else if (binding.edtPhoneNumber.getEditText().getText().toString().isEmpty()) {
             binding.edtPhoneNumber.setError(getString(R.string.empty_phone));
 
-        } else if (binding.edtBirthday.getEditText().getText().toString().isEmpty()) {
+        } else if (binding.edtBirthdayLayout.getEditText().getText().toString().isEmpty()) {
             binding.edtPhoneNumber.setError(getString(R.string.empty_birthday));
 
         } else if (binding.genderGroup.getCheckedRadioButtonId() == -1) {
@@ -83,6 +95,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         return binding.getRoot();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -92,6 +105,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     ///TODO: send data to firebase
                     User user = createUser();
                 }
+                break;
+            case R.id.edtBirthday:
+                DatePickerDialog.OnDateSetListener date = (view, year, month, dayOfMonth) -> {
+                    myCalendar.set(YEAR, year);
+                    myCalendar.set(MONTH, month);
+                    myCalendar.set(DAY_OF_MONTH, dayOfMonth);
+                    binding.edtBirthdayLayout.getEditText().setText(sdf.format(myCalendar.getTime()));
+                };
+                new DatePickerDialog(getContext(), date, myCalendar.get(YEAR), myCalendar.get(MONTH),
+                        myCalendar.get(DAY_OF_MONTH)).show();
+                Log.d(TAG, "onClick: "+v.getId());
                 break;
             default:
                 break;

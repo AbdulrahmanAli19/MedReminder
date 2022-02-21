@@ -19,4 +19,8 @@
         <item name="android:textColor">#fff</item>
     </style>
 
+    <style name="LoginScreen">
+
+    </style>
+
 </resources>

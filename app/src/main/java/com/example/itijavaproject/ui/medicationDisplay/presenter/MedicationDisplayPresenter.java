@@ -13,10 +13,6 @@ public class MedicationDisplayPresenter implements MedicineDisplayPresenterInter
         this.medicineDisplayInterface = medicineDisplayInterface;
     }
 
-    @Override
-    public void getMedicine(Medicine medicine) {
-        repo.getSelectedMedicine(medicine);
-    }
 
     @Override
     public void deleteMedicine(Medicine medicine) {
