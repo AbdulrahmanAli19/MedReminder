@@ -44,7 +44,8 @@ public class AuthFragment extends Fragment {
         navController = Navigation.findNavController(view);
         binding.btnPhoneNumber.setOnClickListener(v -> navController.navigate(R.id.action_authFragment_to_registerFragment));
         binding.btnSkip.setOnClickListener(v -> {
-            navController.navigate(R.id.action_authFragment_to_homeFragment);
+            AuthDialogFrag dialog = new AuthDialogFrag(navController);
+            dialog.show(getActivity().getSupportFragmentManager(), "test");
         });
     }
 }

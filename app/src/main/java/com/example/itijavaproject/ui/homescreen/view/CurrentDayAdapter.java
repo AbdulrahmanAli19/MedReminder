@@ -44,7 +44,7 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
         holder.binding.txtMedName.setText(currentMed.getName());
         LocalDateTime time = LocalDateTime.ofEpochSecond(currentMed.getTimes().get(0), 0, ZoneOffset.UTC);
         holder.binding.txtTime.setText(time.getHour() + " : " + time.getMinute());
-        String details = currentMed.getStrength() + currentMed.getStrength() + " take " + currentMed.getTimes().size() + "(s)";
+        String details = currentMed.getStrength() + currentMed.getStrength() + ", take " + currentMed.getTimes().size() + "(s)";
         holder.binding.txtMedDetails.setText(details);
     }
 
