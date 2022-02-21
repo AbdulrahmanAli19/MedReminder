@@ -16,16 +16,17 @@ public abstract class DatabaseAccess extends RoomDatabase {
 
     private final static String DB_NAME = "MED_APP";
 
-
+    public abstract MedicineDao medicineDao();
 
     private static DatabaseAccess db = null;
 
     public static synchronized DatabaseAccess getInstance(Context context) {
         if (db == null) {
-            db = Room.databaseBuilder(context, DatabaseAccess.class, DB_NAME).build();
+            db = Room.databaseBuilder(context, DatabaseAccess.class, DB_NAME)
+                    .allowMainThreadQueries()
+                    .build();
         }
         return db;
     }
-    public abstract MedicineDao medicineDao();
 
 }

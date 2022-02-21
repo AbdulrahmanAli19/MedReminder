@@ -190,11 +190,26 @@ public class Medicine implements Serializable {
         this.times = times;
     }
 
-    public int getMed_id() {
-        return med_id;
-    }
 
-    public void setMed_id(int med_id) {
-        this.med_id = med_id;
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "medID=" + med_id +
+                ", name='" + name + '\'' +
+                ", iconType='" + iconType + '\'' +
+                ", strength='" + strength + '\'' +
+                ", noOfStrength=" + noOfStrength +
+                ", isActive=" + isActive +
+                ", instructions='" + instructions + '\'' +
+                ", reason='" + reason + '\'' +
+                ", isRefillReminder=" + isRefillReminder +
+                ", numOfPills=" + numOfPills +
+                ", times=" + times +
+                ", frequencyPerDay=" + frequencyPerDay +
+                ", duration='" + duration + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }
