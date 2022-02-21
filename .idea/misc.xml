@@ -27,6 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_medication_display.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_medications.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_siginin.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/layout_home.xml" value="0.33" />
         <entry key="app/src/main/res/menu/home_menu.xml" value="0.24114583333333334" />
