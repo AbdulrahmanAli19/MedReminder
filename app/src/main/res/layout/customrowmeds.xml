@@ -29,8 +29,9 @@
 
         <TextView
             android:id="@+id/txtMedStrength"
-            android:layout_width="30dp"
+            android:layout_width="80dp"
             android:layout_height="28dp"
+            android:layout_marginStart="4dp"
             android:hint="@string/mad_strength"
             app:layout_constraintBottom_toBottomOf="@+id/txtNumStrength"
             app:layout_constraintStart_toEndOf="@+id/txtNumStrength"

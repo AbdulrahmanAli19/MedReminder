@@ -28,7 +28,7 @@ public class Medicine implements Serializable {
     @ColumnInfo (name = "noOfStrength")
     private int noOfStrength;
     @ColumnInfo(name = "isActive")
-    private boolean isActive;
+    private boolean isActive=true;
     @ColumnInfo(name = "instructions")
     private String instructions;
     @ColumnInfo(name = "reason")
@@ -44,6 +44,8 @@ public class Medicine implements Serializable {
     private String duration;
     @ColumnInfo(name = "startDate")
     private Long startDate;
+    @ColumnInfo(name="edtDate")
+    private Long endDate;
 
 
     public Medicine() {
@@ -51,7 +53,7 @@ public class Medicine implements Serializable {
 
     public Medicine(String name, String iconType, String strength, boolean isActive, String instructions,
                     String reason, boolean isRefillReminder, int numOfPills, List<Long> times,
-                    int frequencyPerDay, String duration,Long startDate,int noOfStrength) {
+                    int frequencyPerDay, String duration,Long startDate,int noOfStrength,Long endDate) {
         this.name = name;
         this.iconType = iconType;
         this.strength = strength;
@@ -64,7 +66,16 @@ public class Medicine implements Serializable {
         this.frequencyPerDay = frequencyPerDay;
         this.duration = duration;
         this.startDate=startDate;
-        this.noOfStrength=noOfStrength;
+        this.endDate=endDate;
+
+    }
+
+    public Long getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Long endDate) {
+        this.endDate = endDate;
     }
 
     public int getNoOfStrength() {

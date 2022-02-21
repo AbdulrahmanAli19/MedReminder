@@ -51,12 +51,17 @@
         android:name="com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragment"
         android:label="@string/meds_title"
         tools:layout="@layout/fragment_medication_display" >
-        <argument
-            android:name="ObjOfMeds"
-            app:argType="com.example.itijavaproject.pojo.model.Medicine" />
+
         <action
             android:id="@+id/action_medicationDisplayFragment_to_medicationsFragment3"
             app:destination="@id/medicationsFragment" />
+
+        <action
+            android:id="@+id/action_medicationDisplayFragment_to_addMedicineFragment2"
+            app:destination="@id/addMedicineFragment" />
+        <argument
+            android:name="objOfMeds"
+            app:argType="com.example.itijavaproject.pojo.model.Medicine" />
     </fragment>
 
     <fragment
@@ -96,6 +101,11 @@
         <action
             android:id="@+id/action_addMedicineFragment_to_medicationsFragment2"
             app:destination="@id/medicationsFragment" />
+        <argument
+            android:name="medicine"
+            app:argType="com.example.itijavaproject.pojo.model.Medicine" />
+
+
     </fragment>
 
     <fragment

@@ -14,6 +14,7 @@ import androidx.navigation.Navigation;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentHomeBinding;
+import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.ui.medicationsscreen.view.MedicationsFragment;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -44,7 +45,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 navController.navigate(directions);
                 break;
             case R.id.fabAddMed:
-                directions = HomeFragmentDirections.actionHomeFragmentToAddMedicineFragment();
+                directions = HomeFragmentDirections.actionHomeFragmentToAddMedicineFragment(new Medicine());
                 navController.navigate(directions);
                 break;
             default:

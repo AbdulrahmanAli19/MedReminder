@@ -37,7 +37,6 @@ public class MedicationsFragment extends Fragment implements MedicationViewInter
     MedicationsPresenter medicationsPresenter;
     ActiveMedicationAdapter activeMedicationAdapter;
     InactiveMedicationAdapter inactiveMedicationAdapter;
-
     private NavController navController;
     private MedicationsFragment bind;
     Button AddMeds;
@@ -47,7 +46,7 @@ public class MedicationsFragment extends Fragment implements MedicationViewInter
         super.onViewCreated(view, savedInstanceState);
         AddMeds = view.findViewById(R.id.AddMeds);
         navController = Navigation.findNavController(view);
-        NavDirections directions = MedicationsFragmentDirections.actionMedicationsFragmentToAddMedicineFragment();
+        NavDirections directions = MedicationsFragmentDirections.actionMedicationsFragmentToAddMedicineFragment(new Medicine());
         AddMeds.setOnClickListener(v -> navController
                 .navigate(directions));
         RecActive = view.findViewById(R.id.RecActive);
