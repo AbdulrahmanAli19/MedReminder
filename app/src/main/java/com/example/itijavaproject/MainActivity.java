@@ -21,17 +21,10 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.itijavaproject.databinding.ActivityMainBinding;
 import com.example.itijavaproject.ui.homescreen.view.HomeCommunicator;
-import com.firebase.ui.auth.AuthMethodPickerLayout;
-import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.appbar.AppBarLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
-
-import java.util.Arrays;
-import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity implements
         NavController.OnDestinationChangedListener,
@@ -39,12 +32,9 @@ public class MainActivity extends AppCompatActivity implements
         OnDateSelectedListener {
 
     private static final String TAG = "MainActivity.DEV";
-    private static final int LOGIN_REQUEST_CODE = 101;
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
     private ActivityMainBinding binding;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener listener;
     private HomeCommunicator homeCommunicator;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -60,15 +50,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        if (firebaseAuth != null && listener != null)
-            firebaseAuth.addAuthStateListener(listener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (firebaseAuth != null && listener != null)
-            firebaseAuth.removeAuthStateListener(listener);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.P)
@@ -79,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,
-                R.id.moreFragment, R.id.authFragment, R.id.splashFragment,
-                R.id.medicationsFragment).build();
+                R.id.moreFragment, R.id.signinFragment, R.id.splashFragment,
+                R.id.medicationsFragment, R.id.authFragment).build();
 
         binding.calendarView.setSelectedDate(CalendarDay.today());
 
@@ -92,29 +78,8 @@ public class MainActivity extends AppCompatActivity implements
         binding.calendarView.setOnDateChangedListener(this);
     }
 
-    private void setUpFirebaseAuth() {
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        listener = myListener -> {
-            if (myListener.getCurrentUser() != null) {
-
-            } else {
-
-            }
-        };
-    }
-
-    private void showLoginScreen() {
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
-
-        AuthMethodPickerLayout pickerLayout = new AuthMethodPickerLayout
-                .Builder(R.layout.fragment_auth)
-                .setGoogleButtonId(R.id.btnGoogle)
-                .setPhoneButtonId(R.id.btnPhoneNumber)
-                .build();
-
+    public NavController getNavController(){
+        return navController;
     }
 
     @Override
@@ -138,12 +103,12 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.medicationDisplayFragment:
             case R.id.addMedicineFragment:
             case R.id.addHealthTakerFragment:
-                binding.calendarView.setVisibility(View.GONE);
+                binding.appBarLayout.setExpanded(false);
                 binding.appBarLayout.setVisibility(View.VISIBLE);
                 binding.bottomNavigation.setVisibility(View.GONE);
                 break;
             case R.id.splashFragment:
-            case R.id.authFragment:
+            case R.id.signinFragment:
                 binding.calendarView.setVisibility(View.GONE);
                 binding.bottomNavigation.setVisibility(View.GONE);
                 break;

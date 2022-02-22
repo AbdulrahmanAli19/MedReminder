@@ -48,8 +48,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         navController = Navigation.findNavController(view);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
-        presenter = new HomePresenter(this, Repository.getInstance(ConcreteLocalSource
-                .getInstance(this.getContext()), getContext()));
+        presenter = new HomePresenter(this, Repository
+                .getInstance(ConcreteLocalSource.getInstance(this.getContext()), getContext()));
         adapter = new CurrentDayAdapter(getContext(), this);
         binding.homeRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecycler.setAdapter(adapter);
