@@ -57,7 +57,7 @@ public class AuthFragment extends Fragment implements View.OnClickListener {
         ref = FirebaseDatabase.getInstance().getReference("users");
         if (aut.getCurrentUser() != null)
             ref.child(aut.getCurrentUser().getUid())
-                    .addValueEventListener(new ValueEventListener() {
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             Log.d(TAG, "onDataChange: ");
