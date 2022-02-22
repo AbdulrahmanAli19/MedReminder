@@ -1,5 +1,4 @@
 package com.example.itijavaproject.data.db;
-
 import android.content.Context;
 import android.os.Build;
 
@@ -26,14 +25,14 @@ public class UploadWorker extends Worker {
         return null;
     }
 
-
-    Constraints myConstraints = new Constraints.Builder()
-            .setRequiresDeviceIdle(true)
-            .setRequiresCharging(true)
-            .build();
-
-    PeriodicWorkRequest periodicWork = new PeriodicWorkRequest.Builder(UploadWorker.class, 12, TimeUnit.HOURS)
-            .build();
-    WorkManager workManager= (WorkManager) WorkManager.getInstance().enqueue(periodicWork);
+//
+//    Constraints myConstraints = new Constraints.Builder()
+//            .setRequiresDeviceIdle(true)
+//            .setRequiresCharging(true)
+//            .build();
+//
+//    PeriodicWorkRequest periodicWork = new PeriodicWorkRequest.Builder(UploadWorker.class, 12, TimeUnit.HOURS)
+//            .build();
+//    WorkManager workManager= (WorkManager) WorkManager.getInstance().enqueue(periodicWork);
 
 }

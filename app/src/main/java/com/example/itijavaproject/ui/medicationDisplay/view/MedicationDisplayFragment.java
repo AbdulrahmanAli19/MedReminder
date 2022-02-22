@@ -12,6 +12,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,9 +27,11 @@ import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
 public class MedicationDisplayFragment extends Fragment implements MedicineDisplayInterface {
@@ -37,6 +40,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     private MedicineDisplayPresenterInterface presenter;
     NavController navController;
     NavDirections directions;
+    DatabaseAccess databaseAccess;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,11 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.drugName.setText(medicine.getName());
         binding.noDrugStrength.setText(String.valueOf(medicine.getNoOfStrength()));
         binding.drugStrength.setText(medicine.getStrength());
-        binding.txtGetDuration.setText(String.valueOf(medicine.getDuration()));
+        binding.txtGetDuration.setText(medicine.getDuration());
         binding.howUse.setText(medicine.getInstructions());
+//        LocalDate date = LocalDate.ofEpochDay(new Long(medicine.getEndDate()));
+//        binding.txtGetDuration.setText(date.getDayOfMonth()+"/"+date.getMonth()+"/"+date.getYear());
+
         Log.i(TAG, "onViewCreated: " + medicine.getDuration());
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
@@ -89,6 +96,13 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                   public void onClick(View view) {
                       binding.suspendBtn.setText("ACTIVE");
                       medicine.setActive(false);
+                      new Thread(new Runnable() {
+                          @Override
+                          public void run() {
+                              databaseAccess.medicineDao().updateMedicine(medicine);
+
+                          }
+                      }).start();
                   }
               }
             );
@@ -100,6 +114,13 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 public void onClick(View view) {
                     binding.suspendBtn.setText("SUSPEND");
                     medicine.setActive(true);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            databaseAccess.medicineDao().updateMedicine(medicine);
+
+                        }
+                    }).start();
                 }
             });
 
@@ -113,7 +134,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
 
             }
         });
-        DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
+        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
         binding.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

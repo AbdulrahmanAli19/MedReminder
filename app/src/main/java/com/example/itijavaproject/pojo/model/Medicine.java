@@ -28,7 +28,7 @@ public class Medicine implements Serializable {
     @ColumnInfo (name = "noOfStrength")
     private int noOfStrength;
     @ColumnInfo(name = "isActive")
-    private boolean isActive=true;
+    private boolean isActive;
     @ColumnInfo(name = "instructions")
     private String instructions;
     @ColumnInfo(name = "reason")

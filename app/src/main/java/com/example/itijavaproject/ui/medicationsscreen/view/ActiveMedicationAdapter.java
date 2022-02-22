@@ -49,6 +49,7 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
         } else if (ActiveMedicines.get(position).getIconType().equals(context.getString(R.string.injection))) {
             holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_injection__1_));
         }
+
         holder.txtMedName.setText(ActiveMedicines.get(position).getName());
         holder.txtMedStrength.setText(ActiveMedicines.get(position).getStrength());
         holder.txtNumStrength.setText("" + ActiveMedicines.get(position).getNoOfStrength());
