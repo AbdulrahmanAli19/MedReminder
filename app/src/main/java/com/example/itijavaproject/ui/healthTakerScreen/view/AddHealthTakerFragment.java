@@ -20,8 +20,6 @@ TextView txtEmail;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    txtEmail= txtEmail.findViewById(R.id.txtEmail);
-    btnInvite= btnInvite.findViewById(R.id.btnInvite);
     }
 
     @Override
