@@ -59,10 +59,6 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
         notifyDataSetChanged();
     }
 
-    public List<Medicine> getMedicines() {
-        return getMedicines();
-    }
-
     @SuppressLint("UseCompatLoadingForDrawables")
     private Drawable getImage(String img) {
         if (img.equals(context.getString(R.string.pill))) {

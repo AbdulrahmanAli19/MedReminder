@@ -27,13 +27,13 @@ public interface MedicineDao {
     @Query("SELECT * FROM Medicine")
     LiveData<List<Medicine>> getAllMedicines();
 
-    @Query("SELECT * FROM Medicine WHERE isActive =1")
+    @Query("SELECT * FROM Medicine WHERE isActive = 1")
     LiveData<List<Medicine>> getActiveMeds();
 
     @Query("SELECT * FROM Medicine WHERE isActive = 0")
     LiveData<List<Medicine>> getInActiveMeds();
 
     @Query("SELECT * FROM MEDICINE WHERE :selectedDate BETWEEN startDate AND endDate")
-    Maybe<List<Medicine>> getCurrentDayMedicines(long selectedDate);
+    Maybe<List<Medicine>> getCurrentDayMedicines(Long selectedDate);
 
 }

@@ -25,5 +25,5 @@ public interface LocalSource {
 
     void editMedicine(Medicine medicine);
 
-    Maybe<List<Medicine>> getSelectedDayMedicines(long selectedDate);
+    Maybe<List<Medicine>> getSelectedDayMedicines(Long selectedDate);
 }

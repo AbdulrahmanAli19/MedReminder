@@ -15,7 +15,7 @@ public class User {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "uid")
-    private int uid;
+    private String uid;
 
     @ColumnInfo(name = "fullName")
     private String fullName;
@@ -52,11 +52,11 @@ public class User {
         this.medicine = medicine;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
