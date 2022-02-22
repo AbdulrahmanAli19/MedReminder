@@ -21,4 +21,10 @@ public class AddMedicinePresenter implements AddMedicinePresenterInterface {
         repo.addMedicine(medicine);
 
     }
+
+    @Override
+    public void editMedicine(Medicine medicine) {
+        repo.editMedicine(medicine);
+
+    }
 }
