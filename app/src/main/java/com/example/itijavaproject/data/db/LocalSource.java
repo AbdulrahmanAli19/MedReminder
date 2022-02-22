@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData;
 import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
-
 import io.reactivex.Maybe;
+
 
 public interface LocalSource {
     LiveData<List<Medicine>> getStoredMedicine();

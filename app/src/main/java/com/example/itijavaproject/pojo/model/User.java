@@ -32,6 +32,8 @@ public class User {
     private boolean isMale;
 
     private Medicine medicine;
+    private List<Request>requestList;
+    private List<Request>respondList;
 
     public User() {
     }
@@ -99,5 +101,21 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Request> getRequestList() {
+        return requestList;
+    }
+
+    public void setRequestList(List<Request> requestList) {
+        this.requestList = requestList;
+    }
+
+    public List<Request> getRespondList() {
+        return respondList;
+    }
+
+    public void setRespondList(List<Request> respondList) {
+        this.respondList = respondList;
     }
 }
