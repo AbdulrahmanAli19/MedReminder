@@ -120,4 +120,6 @@
     <string name="requests">Requests</string>
     <string name="endDate">End Date</string>
     <string name="instruction">Instruction</string>
+    <string name="requsets">requsets</string>
+    <string name="sign_in">Sign-in</string>
 </resources>

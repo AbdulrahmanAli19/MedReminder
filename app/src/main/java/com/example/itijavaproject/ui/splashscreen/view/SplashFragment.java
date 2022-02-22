@@ -29,7 +29,6 @@ public class SplashFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -43,16 +42,16 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        Handler handler = new Handler(Looper.myLooper()){
+        Handler handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                navController.navigate(R.id.action_splashFragment_to_authFragment);
+                navController.navigate(SplashFragmentDirections.actionSplashFragmentToAuthFragment2());
             }
         };
         new Thread(() -> {
             try {
-                sleep(5000);
+                sleep(2000);
                 handler.sendMessage(new Message());
             } catch (InterruptedException e) {
                 e.printStackTrace();
