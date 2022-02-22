@@ -50,6 +50,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     NavController navController;
     NavDirections directions;
     Calendar startCalender,endCalender;
+    String startDate;
+    String endDate;
 
     Medicine medicine=new Medicine();
     List<Long> listTime = new ArrayList<>();
@@ -71,7 +73,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 if (view.isShown()) {
                     myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     myCalenderTime.set(Calendar.MINUTE, minute);
-
                     listTime.add(myCalenderTime.getTimeInMillis());
 
                 }
@@ -96,8 +97,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 if (view.isShown()) {
                     month = month + 1;
-                   String date = day + "/" + month + "/" + year;
-                    binding.startDateTxt.setText(date);
+                   startDate = day + "/" + month + "/" + year;
+                    binding.startDateTxt.setText(startDate);
                 }
             }
         };
@@ -114,14 +115,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         int month = endCalender.get(Calendar.MONTH);
         int day = endCalender.get(Calendar.DAY_OF_MONTH);
 
-
         DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 if (view.isShown()) {
                     month = month + 1;
-                    String date = day + "/" + month + "/" + year;
-                    binding.endDateTxt.setText(date);
+                    endDate = day + "/" + month + "/" + year;
+                    binding.endDateTxt.setText(endDate);
 
                 }
             }
@@ -194,8 +194,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.noOfStrength.setText(String.valueOf(editMedicine.getNoOfStrength()));
             String startDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getStartDate())).toString();
             binding.startDateTxt.setText(startDateString);
-//            LocalDate date = LocalDate.ofEpochDay(new Long(editMedicine.getEndDate()));
-//            binding.endDateTxt.setText(date.getDayOfMonth()+"/"+date.getMonth()+"/"+date.getYear());
             String endDateString = DateFormat.format("MM/dd/yyyy", new Date(editMedicine.getEndDate())).toString();
             binding.endDateTxt.setText(endDateString);
             binding.txtAmount.setText(String.valueOf(editMedicine.getNumOfPills()));
@@ -209,8 +207,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 binding.txtTime.append(output + "\n");
                 Log.i(TAG, "onClick: "+output);
             }
-            binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
-                    .getPosition(editMedicine.getDuration()));
+//            binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
+//                    .getPosition(editMedicine.getDuration()));
             binding.saveBtn.setText("UPDATE");
             binding.saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -218,8 +216,16 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setName(binding.medName.getEditableText().toString());
                     editMedicine.setStrength(binding.strength.getSelectedItem().toString());
                     editMedicine.setIconType(s);
-                    editMedicine.setStartDate(startCalender.getTimeInMillis());
-                    editMedicine.setEndDate(endCalender.getTimeInMillis());
+                    if(startDate==null)
+                    {
+                        editMedicine.setStartDate(editMedicine.getStartDate());
+                    }else{editMedicine.setStartDate(startCalender.getTimeInMillis());}
+                    if(endDate==null)
+                    {
+                        editMedicine.setEndDate(editMedicine.getStartDate());
+                    }
+                    else{editMedicine.setEndDate(endCalender.getTimeInMillis());}
+
                     editMedicine.setDuration(binding.durationMenu.getSelectedItem().toString());
                     editMedicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
                     editMedicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
@@ -245,6 +251,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 @Override
                 public void onClick(View view) {
                     new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                    Log.i(TAG, "onClick: ");
                     directions = AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
                     navController.navigate(directions);
                 }
