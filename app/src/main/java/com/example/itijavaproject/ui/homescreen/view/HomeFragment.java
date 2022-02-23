@@ -39,7 +39,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
-        HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface, OnDateSelectedListener {
+        HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface,
+        OnDateSelectedListener {
 
     private static final String TAG = "HomeFragment.DEV";
     private NavController navController;
