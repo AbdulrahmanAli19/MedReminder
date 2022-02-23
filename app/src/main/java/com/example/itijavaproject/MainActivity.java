@@ -3,6 +3,7 @@ package com.example.itijavaproject;
 
 import static androidx.navigation.ui.NavigationUI.setupActionBarWithNavController;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,13 +23,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.itijavaproject.databinding.ActivityMainBinding;
 import com.example.itijavaproject.ui.homescreen.view.HomeCommunicator;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 public class MainActivity extends AppCompatActivity implements
         NavController.OnDestinationChangedListener,
-        AppBarLayout.OnOffsetChangedListener,
         OnDateSelectedListener {
 
     private static final String TAG = "MainActivity.DEV";
@@ -59,23 +60,18 @@ public class MainActivity extends AppCompatActivity implements
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     private void setUpNavigation() {
-        binding.collapsingLayout.setExpandedTitleColor(getResources().getColor(R.color.transperent));
-        binding.collapsingLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
-
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,
                 R.id.moreFragment, R.id.signinFragment, R.id.splashFragment,
-                R.id.medicationsFragment, R.id.authFragment).build();
+                R.id.medicationsFragment, R.id.registerFragment).build();
 
-        binding.calendarView.setSelectedDate(CalendarDay.today());
 
         setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.collapsingLayout, binding.toolBar,
+        NavigationUI.setupWithNavController(binding.toolBar,
                 navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController);
         navController.addOnDestinationChangedListener(this);
-        binding.calendarView.setOnDateChangedListener(this);
     }
 
     public NavController getNavController(){
@@ -94,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements
                 || super.onOptionsItemSelected(item);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onDestinationChanged(@NonNull NavController navController,
                                      @NonNull NavDestination navDestination,
@@ -103,22 +100,24 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.medicationDisplayFragment:
             case R.id.addMedicineFragment:
             case R.id.addHealthTakerFragment:
-                binding.appBarLayout.setExpanded(false);
+                binding.toolBar.setVisibility(View.VISIBLE);
                 binding.appBarLayout.setVisibility(View.VISIBLE);
                 binding.bottomNavigation.setVisibility(View.GONE);
                 break;
             case R.id.splashFragment:
             case R.id.signinFragment:
-                binding.calendarView.setVisibility(View.GONE);
+                binding.toolBar.setVisibility(View.VISIBLE);
                 binding.bottomNavigation.setVisibility(View.GONE);
                 break;
             case R.id.homeFragment:
-                binding.calendarView.setVisibility(View.VISIBLE);
+                binding.toolBar.setVisibility(View.GONE);
+                binding.appBarLayout.setVisibility(View.GONE);
                 binding.bottomNavigation.setVisibility(View.VISIBLE);
                 binding.appBarLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.medicationsFragment:
-                binding.calendarView.setVisibility(View.GONE);
+            case R.id.moreFragment:
+                binding.toolBar.setVisibility(View.VISIBLE);
                 binding.bottomNavigation.setVisibility(View.VISIBLE);
                 binding.appBarLayout.setVisibility(View.VISIBLE);
                 break;
@@ -128,14 +127,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-        if (verticalOffset == -binding.collapsingLayout.getHeight() + binding.toolBar.getHeight()) {
-            Log.d(TAG, "onOffsetChanged: collapsed");
-        } else {
-            Log.d(TAG, "onOffsetChanged: opened");
-        }
-    }
 
     @Override
     public void onDateSelected(@NonNull MaterialCalendarView widget,
@@ -144,8 +135,10 @@ public class MainActivity extends AppCompatActivity implements
             homeCommunicator.onDateChange(widget, date, selected);
     }
 
-    public void setHomeCommunicator(HomeCommunicator homeCommunicator) {
-        this.homeCommunicator = homeCommunicator;
-    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseAuth.getInstance().signOut();
+    }
 }

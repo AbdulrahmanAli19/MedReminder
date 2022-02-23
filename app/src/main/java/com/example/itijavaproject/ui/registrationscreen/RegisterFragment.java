@@ -35,8 +35,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class RegisterFragment extends Fragment implements
-        View.OnClickListener
-        {
+        View.OnClickListener {
 
     private static final String TAG = "RegisterFragment.DEV";
     private FragmentRegisterBinding binding;
@@ -67,6 +66,8 @@ public class RegisterFragment extends Fragment implements
         user.setFullName(binding.edtName.getEditText().getEditableText().toString().toLowerCase(Locale.ROOT));
         user.setPhoneNumber(binding.edtPhoneNumber.getEditText().getText().toString());
         user.setEmail(binding.edtEmail.getEditText().getEditableText().toString());
+        user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        user.setBirthday(myCalendar.getTimeInMillis());
         int id = binding.genderGroup.getCheckedRadioButtonId();
         user.setMale(id == binding.btnM.getId());
         return user;
@@ -114,7 +115,6 @@ public class RegisterFragment extends Fragment implements
                 Log.d(TAG, "onClick: Clicked.");
                 if (isDataValid()) {
                     User user = createUser();
-                    user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnSuccessListener(unused -> {
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest
