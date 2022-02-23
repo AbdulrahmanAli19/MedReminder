@@ -1,34 +1,43 @@
 package com.example.itijavaproject.pojo.model;
 
 public class Request {
-    private String id_patient;
-    private String mail_tacker;
-    private boolean state;
-    private boolean respond;
+    private String senderMail;
+    private String receiverMail;
+    private boolean isShared;
+    private boolean state=false;
+
     public Request() {
     }
 
-    public Request(String id_patient, String mail_tacker, boolean state, boolean respond) {
-        this.id_patient = id_patient;
-        this.mail_tacker = mail_tacker;
+    public Request(String senderMail, String receiverMail, boolean isShared, boolean state) {
+        this.senderMail = senderMail;
+        this.receiverMail = receiverMail;
+        this.isShared = isShared;
         this.state = state;
-        this.respond = respond;
     }
 
-    public String getId_patient() {
-        return id_patient;
+    public String getSenderMail() {
+        return senderMail;
     }
 
-    public void setId_patient(String id_patient) {
-        this.id_patient = id_patient;
+    public void setSenderMail(String senderMail) {
+        this.senderMail = senderMail;
     }
 
-    public String getMail_tacker() {
-        return mail_tacker;
+    public String getReceiverMail() {
+        return receiverMail;
     }
 
-    public void setMail_tacker(String mail_tacker) {
-        this.mail_tacker = mail_tacker;
+    public void setReceiverMail(String receiverMail) {
+        this.receiverMail = receiverMail;
+    }
+
+    public boolean isShared() {
+        return isShared;
+    }
+
+    public void setShared(boolean shared) {
+        isShared = shared;
     }
 
     public boolean isState() {
@@ -37,13 +46,5 @@ public class Request {
 
     public void setState(boolean state) {
         this.state = state;
-    }
-
-    public boolean isRespond() {
-        return respond;
-    }
-
-    public void setRespond(boolean respond) {
-        this.respond = respond;
     }
 }
