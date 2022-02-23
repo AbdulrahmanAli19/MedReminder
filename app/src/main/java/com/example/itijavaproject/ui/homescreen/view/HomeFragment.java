@@ -26,6 +26,7 @@ import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
@@ -38,7 +39,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
-        HomeCommunicator, HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface {
+        HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface, OnDateSelectedListener {
 
     private static final String TAG = "HomeFragment.DEV";
     private NavController navController;
@@ -49,8 +50,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((MainActivity) getActivity()).setHomeCommunicator(this);
         navController = Navigation.findNavController(view);
+        binding.collapsingLayout.setExpandedTitleColor(getResources().getColor(R.color.transperent));
+        binding.collapsingLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
+        binding.calendarView.setSelectedDate(CalendarDay.today());
+        binding.calendarView.setOnDateChangedListener(this);
+        binding.collapsingLayout.setTitle("Home");
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
@@ -87,15 +92,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onDateChange(@NonNull MaterialCalendarView widget,
-                             @NonNull CalendarDay date, boolean selected) {
-        LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
-        long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
-        presenter.getSelectedDateMedicines(mili);
-    }
-
     @Override
     public void getSelectedDateMedicines(Maybe<List<Medicine>> medicines) {
         medicines.observeOn(AndroidSchedulers.mainThread())
@@ -128,4 +124,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         Log.d(TAG, "onClickItemClickListener: " + pos);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+        LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
+        long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+        presenter.getSelectedDateMedicines(mili);
+    }
 }

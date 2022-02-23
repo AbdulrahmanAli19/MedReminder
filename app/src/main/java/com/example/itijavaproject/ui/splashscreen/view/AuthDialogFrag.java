@@ -1,4 +1,4 @@
-package com.example.itijavaproject.ui.authscreen;
+package com.example.itijavaproject.ui.splashscreen.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,12 +22,14 @@ public class AuthDialogFrag extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Are you sure you want to continue as a guest?")
-                .setMessage("you won't be able to use all of the future's it's recommended to sigin in")
+        builder.setTitle("It's recommended to sign-in")
+                .setMessage("You'll be get all of the app benefits by sign-in")
                 .setPositiveButton("Sign-in", (dialog, which) -> {
+                    navController.navigate(SplashFragmentDirections.actionSplashFragmentToSigninFragment());
+
                 })
                 .setNegativeButton("Continue", (dialog, which) -> {
-                    navController.navigate(AuthFragmentDirections.actionAuthFragment2ToHomeFragment());
+                    navController.navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment());
                 });
         return builder.create();
     }
