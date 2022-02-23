@@ -1,6 +1,7 @@
 package com.example.itijavaproject.ui.homescreen.view;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -25,6 +27,9 @@ import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Maybe;
@@ -53,7 +58,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         adapter = new CurrentDayAdapter(getContext(), this);
         binding.homeRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecycler.setAdapter(adapter);
-        presenter.getSelectedDateMedicines(CalendarDay.today().getDate().toEpochDay());
+        presenter.getSelectedDateMedicines(System.currentTimeMillis());
+
     }
 
     @Override
@@ -81,10 +87,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onDateChange(@NonNull MaterialCalendarView widget,
                              @NonNull CalendarDay date, boolean selected) {
-        presenter.getSelectedDateMedicines(date.getDate().toEpochDay());
+        LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
+        long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+        presenter.getSelectedDateMedicines(mili);
     }
 
     @Override
@@ -116,6 +125,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClickItemClickListener(int pos) {
-        Log.d(TAG, "onClickItemClickListener: " + adapter.getMedicines().get(pos));
+        Log.d(TAG, "onClickItemClickListener: " + pos);
     }
+
 }
