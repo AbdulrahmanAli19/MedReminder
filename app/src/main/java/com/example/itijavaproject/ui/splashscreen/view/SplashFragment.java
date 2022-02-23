@@ -32,13 +32,14 @@ public class SplashFragment extends Fragment {
     private FragmentSplashBinding binding;
     private DatabaseReference dbRef;
     private FirebaseAuth auth;
-    private String lastLiveCaller = "";
+    private String lastLifeCaller = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbRef = FirebaseDatabase.getInstance().getReference("users");
         auth = auth.getInstance();
+
     }
 
     @Override
@@ -52,7 +53,7 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        lastLiveCaller = "onViewCreated";
+        lastLifeCaller = "onViewCreated";
         new Thread(() -> {
             try {
                 sleep(2000);
@@ -66,26 +67,26 @@ public class SplashFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        lastLiveCaller = "onStart";
+        lastLifeCaller = "onStart";
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (lastLiveCaller.equals("onPause") || lastLiveCaller.equals("onStop"))
+        if (lastLifeCaller.equals("onPause") || lastLifeCaller.equals("onStop"))
             checkIfUserAuthenticated();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        lastLiveCaller = "onPause";
+        lastLifeCaller = "onPause";
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        lastLiveCaller = "onStop";
+        lastLifeCaller = "onStop";
     }
 
     Handler handler = new Handler(Looper.myLooper()) {
