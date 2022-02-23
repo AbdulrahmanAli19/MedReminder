@@ -3,6 +3,13 @@ package com.example.itijavaproject.ui.splashscreen.view;
 import static java.lang.Thread.sleep;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,25 +17,28 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentSplashBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class SplashFragment extends Fragment {
-
+    private static final String TAG = "SplashFragment";
     private NavController navController;
     private FragmentSplashBinding binding;
+    private DatabaseReference dbRef;
+    private FirebaseAuth auth;
+    private String lastLiveCaller = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbRef = FirebaseDatabase.getInstance().getReference("users");
+        auth = auth.getInstance();
     }
 
     @Override
@@ -42,13 +52,7 @@ public class SplashFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
-        Handler handler = new Handler(Looper.myLooper()) {
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                super.handleMessage(msg);
-                navController.navigate(SplashFragmentDirections.actionSplashFragmentToAuthFragment2());
-            }
-        };
+        lastLiveCaller = "onViewCreated";
         new Thread(() -> {
             try {
                 sleep(2000);
@@ -59,5 +63,61 @@ public class SplashFragment extends Fragment {
         }).start();
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        lastLiveCaller = "onStart";
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (lastLiveCaller.equals("onPause") || lastLiveCaller.equals("onStop"))
+            checkIfUserAuthenticated();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        lastLiveCaller = "onPause";
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        lastLiveCaller = "onStop";
+    }
+
+    Handler handler = new Handler(Looper.myLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            checkIfUserAuthenticated();
+        }
+    };
+
+    private void checkIfUserAuthenticated() {
+        if (auth.getCurrentUser() == null) {
+            new AuthDialogFrag(navController).show(getActivity().getSupportFragmentManager(), "SIGIN");
+        } else {
+            dbRef.child(auth.getCurrentUser().getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                navController.navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment());
+                            } else {
+                                navController.navigate(SplashFragmentDirections.actionSplashFragmentToRegisterFragment());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.d(TAG, "onCancelled: ");
+
+                        }
+                    });
+        }
+    }
 
 }
