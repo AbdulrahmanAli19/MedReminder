@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,11 @@ import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentAddMedicineBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -47,6 +53,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     Calendar startCalender, endCalender;
     String startDate;
     String endDate;
+    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("users");
 
     Medicine medicine = new Medicine();
     List<Long> listTime = new ArrayList<>();
@@ -254,7 +261,23 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 @Override
                 public void onClick(View view) {
                     new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
-                    Log.i(TAG, "onClick: ");
+                    String userId = databaseReference.push().getKey();
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            databaseReference.child(userId).setValue(createMedicine());
+                            Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+
+
+
                     directions = AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
                     navController.navigate(directions);
                 }
