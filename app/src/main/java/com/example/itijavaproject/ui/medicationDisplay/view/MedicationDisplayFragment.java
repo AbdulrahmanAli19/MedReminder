@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 import com.example.itijavaproject.R;
@@ -24,10 +25,18 @@ import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentMedicationDisplayBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 
+import com.example.itijavaproject.pojo.model.User;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.threeten.bp.LocalDate;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -43,6 +52,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     NavController navController;
     NavDirections directions;
     DatabaseAccess databaseAccess;
+    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("medicine");
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,14 +87,11 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.drugStrength.setText(medicine.getStrength());
         binding.txtGetDuration.setText(medicine.getDuration());
         binding.howUse.setText(medicine.getInstructions());
-//        LocalDate date=LocalDate.ofEpochDay(medicine.getEndDate());
-//        binding.txtGetDuration.setText(date.getDayOfMonth()+"/"+date.getMonth()+"/"+date.getYear());
-        String startDateString = DateFormat.format("dd", new Date(medicine.getStartDate())).toString();
-        String endDateString =DateFormat.format("dd",new Date(medicine.getEndDate())).toString();
-        int period=Integer.parseInt(startDateString)-Integer.parseInt(endDateString);
-        //binding.txtGetDuration.setText(String.valueOf(period));
-        binding.txtGetDuration.setText(medicine.getDuration());
-        Log.i(TAG, "onViewCreated: "+medicine.getDuration());
+        Date startDate=new Date(medicine.getStartDate());
+        Date endDate=new Date(medicine.getEndDate());
+        Long duration=endDate.getTime()-startDate.getTime();
+        LocalDate localDate =LocalDate.ofEpochDay(duration);
+        binding.txtGetDuration.setText(medicine.getDuration()+" ,take for "+localDate.getDayOfMonth()+" days");
 
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
@@ -107,9 +114,25 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                           @Override
                           public void run() {
                               databaseAccess.medicineDao().updateMedicine(medicine);
-
                           }
                       }).start();
+
+                      databaseReference.child(FirebaseAuth.getInstance().getUid())
+                              .addListenerForSingleValueEvent(new ValueEventListener() {
+                                  @Override
+                                  public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                      //User user=snapshot.getValue(null);
+                                      String mID=snapshot.getKey();
+                                      databaseReference.child(mID).removeValue();
+                                      Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
+                                  }
+
+                                  @Override
+                                  public void onCancelled(@NonNull DatabaseError error) {
+                                      Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+
+                                  }
+                              });
                   }
               }
             );

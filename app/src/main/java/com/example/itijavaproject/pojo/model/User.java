@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 
 import com.example.itijavaproject.pojo.model.Medicine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(tableName = "user")
@@ -31,7 +32,7 @@ public class User {
 
     private boolean isMale;
 
-    private Medicine medicine;
+    private List<Medicine> medicine=new ArrayList<>();
     private List<Request>requestList;
     private List<Request>respondList;
 
@@ -46,11 +47,12 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Medicine getMedicine() {
+
+    public List<Medicine> getMedicine() {
         return medicine;
     }
 
-    public void setMedicine(Medicine medicine) {
+    public void setMedicine(List<Medicine> medicine) {
         this.medicine = medicine;
     }
 
