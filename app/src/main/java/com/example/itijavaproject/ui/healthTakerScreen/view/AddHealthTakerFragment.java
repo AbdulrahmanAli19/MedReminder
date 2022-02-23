@@ -40,7 +40,6 @@ public class AddHealthTakerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
@@ -53,47 +52,46 @@ public class AddHealthTakerFragment extends Fragment {
             @Override
             public void onClick(View view) {
 //                if (isValid()) {
-                    auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                    boolean dol = task.getResult().getSignInMethods().isEmpty();
-                                    if (!dol) {
-                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                Log.d(TAG, "onDataChange: no data");
-                                                for (DataSnapshot mySnap : snapshot.getChildren()) {
-                                                    User user = mySnap.getValue(User.class);
-                                                    if (user.getEmail().toLowerCase(Locale.ROOT)
-                                                            .equals(binding.txtEmail.getText().toString()
-                                                                    .toLowerCase(Locale.ROOT)))
-                                                    {
-                                                        List<Request>requestList=new ArrayList<>();
-                                                        Request request = new Request();
-                                                        request.setId_patient(auth.getCurrentUser().getUid());
-                                                        request.setMail_tacker(binding.txtEmail.getText().toString());
-                                                        requestList.add(request);
-                                                        user.setRequestList(requestList);
-                                                        sendRequest(user);
-                                                    }
+                auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                boolean dol = task.getResult().getSignInMethods().isEmpty();
+                                if (!dol) {
+                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            Log.d(TAG, "onDataChange: no data");
+                                            for (DataSnapshot mySnap : snapshot.getChildren()) {
+                                                User user = mySnap.getValue(User.class);
+                                                if (user.getEmail().toLowerCase(Locale.ROOT)
+                                                        .equals(binding.txtEmail.getText().toString()
+                                                                .toLowerCase(Locale.ROOT))) {
+                                                    List<Request> requestList = new ArrayList<>();
+                                                    Request request = new Request();
+                                                    request.setId_patient(auth.getCurrentUser().getUid());
+                                                    request.setMail_tacker(binding.txtEmail.getText().toString());
+                                                    requestList.add(request);
+                                                    user.setRequestList(requestList);
+                                                    sendRequest(user);
                                                 }
                                             }
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Log.d(TAG, "onCancelled: ");
-                                            }
-                                        });
-                                    } else {
-                                        Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
-                                    }
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Log.d(TAG, "onCancelled: ");
+                                        }
+                                    });
+                                } else {
+                                    Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
                                 }
-                            });
-                }
-
+                            }
+                        });
+            }
         });
     }
-    private void sendRequest(User user){
+
+    private void sendRequest(User user) {
         databaseReference.setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
@@ -101,6 +99,7 @@ public class AddHealthTakerFragment extends Fragment {
             }
         });
     }
+
 //    private boolean isValid(){
 //        if (binding.txtEmail.getText().toString().isEmpty()) {
 //            binding.txtEmail.setError(getString(R.string.empty_email));
