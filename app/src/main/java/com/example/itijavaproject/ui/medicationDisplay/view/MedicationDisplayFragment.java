@@ -28,9 +28,11 @@ import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplay
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -75,10 +77,15 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.drugStrength.setText(medicine.getStrength());
         binding.txtGetDuration.setText(medicine.getDuration());
         binding.howUse.setText(medicine.getInstructions());
-//        LocalDate date = LocalDate.ofEpochDay(new Long(medicine.getEndDate()));
+//        LocalDate date=LocalDate.ofEpochDay(medicine.getEndDate());
 //        binding.txtGetDuration.setText(date.getDayOfMonth()+"/"+date.getMonth()+"/"+date.getYear());
+        String startDateString = DateFormat.format("dd", new Date(medicine.getStartDate())).toString();
+        String endDateString =DateFormat.format("dd",new Date(medicine.getEndDate())).toString();
+        int period=Integer.parseInt(startDateString)-Integer.parseInt(endDateString);
+        //binding.txtGetDuration.setText(String.valueOf(period));
+        binding.txtGetDuration.setText(medicine.getDuration());
+        Log.i(TAG, "onViewCreated: "+medicine.getDuration());
 
-        Log.i(TAG, "onViewCreated: " + medicine.getDuration());
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
             long millisecondsSinceEpoch = medicine.getTimes().get(i);
