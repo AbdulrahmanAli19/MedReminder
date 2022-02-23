@@ -15,7 +15,7 @@ public class User {
     @PrimaryKey
     @NonNull
     @ColumnInfo(name = "uid")
-    private int uid;
+    private String uid;
 
     @ColumnInfo(name = "fullName")
     private String fullName;
@@ -32,6 +32,8 @@ public class User {
     private boolean isMale;
 
     private Medicine medicine;
+    private List<Request>requestList;
+    private List<Request>respondList;
 
     public User() {
     }
@@ -52,11 +54,11 @@ public class User {
         this.medicine = medicine;
     }
 
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -99,5 +101,21 @@ public class User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public List<Request> getRequestList() {
+        return requestList;
+    }
+
+    public void setRequestList(List<Request> requestList) {
+        this.requestList = requestList;
+    }
+
+    public List<Request> getRespondList() {
+        return respondList;
+    }
+
+    public void setRespondList(List<Request> respondList) {
+        this.respondList = respondList;
     }
 }

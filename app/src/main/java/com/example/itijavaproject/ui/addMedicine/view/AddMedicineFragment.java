@@ -2,7 +2,6 @@ package com.example.itijavaproject.ui.addMedicine.view;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -10,10 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,14 +25,7 @@ import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentAddMedicineBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
-import com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragmentArgs;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
-import org.threeten.bp.LocalDate;
-
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -57,7 +47,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     Calendar startCalender, endCalender;
     String startDate;
     String endDate;
-    DatabaseReference databaseReference;
+
     Medicine medicine = new Medicine();
     List<Long> listTime = new ArrayList<>();
     String s;
@@ -90,11 +80,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         timePickerDialog.show();
     }
-    public void createMedicineRemotly(){
-        //databaseReference.child("users")
-
-
-    }
 
     public void showStartDatePicker() {
         startCalender = Calendar.getInstance();
@@ -106,13 +91,17 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 if (view.isShown()) {
+                    startCalender.set(Calendar.YEAR, year);
+                    startCalender.set(Calendar.MONTH, month);
+                    startCalender.set(Calendar.DAY_OF_MONTH, day);
                     month = month + 1;
                     startDate = day + "/" + month + "/" + year;
                     binding.startDateTxt.setText(startDate);
                 }
             }
         };
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 myDateListener, year, month, day);
         datePickerDialog.setTitle("Choose start date:");
 
@@ -122,23 +111,23 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
     public void showEndDatePicker() {
         endCalender = Calendar.getInstance();
-        int year = endCalender.get(Calendar.YEAR);
-        int month = endCalender.get(Calendar.MONTH);
-        int day = endCalender.get(Calendar.DAY_OF_MONTH);
+        int selectedYear = endCalender.get(Calendar.YEAR);
+        int selectedMonth = endCalender.get(Calendar.MONTH);
+        int selectedDay = endCalender.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int day) {
-                if (view.isShown()) {
-                    month = month + 1;
-                    endDate = day + "/" + month + "/" + year;
-                    binding.endDateTxt.setText(endDate);
-
-                }
+        DatePickerDialog.OnDateSetListener myDateListener = (view, year, month, day) -> {
+            if (view.isShown()) {
+                endCalender.set(Calendar.YEAR, year);
+                endCalender.set(Calendar.MONTH, month);
+                endCalender.set(Calendar.DAY_OF_MONTH, day);
+                month = month + 1;
+                endDate = day + "/" + month + "/" + year;
+                binding.endDateTxt.setText(endDate);
             }
         };
-        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                myDateListener, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                myDateListener, selectedYear, selectedMonth, selectedDay);
         datePickerDialog.setTitle("Choose start date:");
 
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -171,7 +160,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        databaseReference= FirebaseDatabase.getInstance().getReference();
         binding.calenderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -227,12 +215,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 public void onClick(View view) {
                     editMedicine.setName(binding.medName.getEditableText().toString());
                     editMedicine.setStrength(binding.strength.getSelectedItem().toString());
-                    if (s == null) {
-                        editMedicine.setIconType(editMedicine.getIconType());
-                    } else {
-                        editMedicine.setIconType(s);
-                    }
-
+                    editMedicine.setIconType(s);
                     if (startDate == null) {
                         editMedicine.setStartDate(editMedicine.getStartDate());
                     } else {
@@ -250,7 +233,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
                     editMedicine.setTimes(listTime);
                     editMedicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
-                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
+                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked(
+
+                    ));
                     editMedicine.setActive(true);
 
                     new Thread(new Runnable() {

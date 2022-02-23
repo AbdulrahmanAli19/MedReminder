@@ -48,7 +48,7 @@ public class ConcreteLocalSource implements LocalSource {
     }
 
     @Override
-    public Maybe<List<Medicine>> getSelectedDayMedicines(long selectedDate) {
+    public Maybe<List<Medicine>> getSelectedDayMedicines(Long selectedDate) {
         return medicineDao.getCurrentDayMedicines(selectedDate);
     }
 

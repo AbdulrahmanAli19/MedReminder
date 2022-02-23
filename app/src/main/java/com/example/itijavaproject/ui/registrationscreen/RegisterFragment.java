@@ -34,8 +34,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-
-public class RegisterFragment extends Fragment implements View.OnClickListener {
+public class RegisterFragment extends Fragment implements
+        View.OnClickListener
+        {
 
     private static final String TAG = "RegisterFragment.DEV";
     private FragmentRegisterBinding binding;
@@ -112,8 +113,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             case R.id.btnSignUp:
                 Log.d(TAG, "onClick: Clicked.");
                 if (isDataValid()) {
-                    ///TODO: send data to firebase
                     User user = createUser();
+                    user.setUid(FirebaseAuth.getInstance().getCurrentUser().getUid());
                     reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnSuccessListener(unused -> {
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest

@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData;
 import com.example.itijavaproject.pojo.model.Medicine;
 
 import java.util.List;
-
 import io.reactivex.Maybe;
+
 
 public interface LocalSource {
     LiveData<List<Medicine>> getStoredMedicine();
@@ -25,5 +25,5 @@ public interface LocalSource {
 
     void editMedicine(Medicine medicine);
 
-    Maybe<List<Medicine>> getSelectedDayMedicines(long selectedDate);
+    Maybe<List<Medicine>> getSelectedDayMedicines(Long selectedDate);
 }
