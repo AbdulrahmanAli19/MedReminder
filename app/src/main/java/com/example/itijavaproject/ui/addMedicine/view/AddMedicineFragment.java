@@ -233,9 +233,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
                     editMedicine.setTimes(listTime);
                     editMedicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
-                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked(
-
-                    ));
+                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked( ));
                     editMedicine.setActive(true);
 
                     new Thread(new Runnable() {
@@ -259,6 +257,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     navController.navigate(directions);
                 }
             });
+        }
+    }
+    public void setRefill()
+    {
+        if(medicine.getNumOfPills()<=2)
+        {
+
         }
     }
 

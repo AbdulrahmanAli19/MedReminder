@@ -1,5 +1,7 @@
 package com.example.itijavaproject.ui.medicationDisplay.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,6 +19,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.example.itijavaproject.R;
@@ -25,6 +30,10 @@ import com.example.itijavaproject.databinding.FragmentMedicationDisplayBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+
+import org.w3c.dom.Text;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -128,8 +137,40 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                LayoutInflater inflater = LayoutInflater.from(getContext());
+                View dialogLayout = inflater.inflate(R.layout.custom_row_dialog, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setView(dialogLayout);
+                TextView Refill =dialogLayout.findViewById(R.id.txtmsgRefill);
+                TextView addText=dialogLayout.findViewById(R.id.txtadd);
+                TextView numpill=dialogLayout.findViewById(R.id.numPills);
+                TextView txtmsg=dialogLayout.findViewById(R.id.txtmsg);
+                final EditText AddEdit = (EditText) dialogLayout.findViewById(R.id.editRefill);
+                numpill.append("you have "+medicine.getNumOfPills());
+                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        if (AddEdit.getText().toString().isEmpty()) {
+                                            Snackbar.make(getContext(),getView(),"please enter number of pills",Snackbar.LENGTH_LONG).show();
+                                        } else {
+                                            medicine.setNumOfPills(Integer.parseInt(AddEdit.getText().toString()));
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    databaseAccess.medicineDao().updateMedicine(medicine);
+                                                }
+                                            }).start();
+                                        }
+                                    }
+                                });
+                builder.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+                        AlertDialog customAlertDialog = builder.create();
+                customAlertDialog.show();
             }
         });
         binding.addDoseBtn.setOnClickListener(new View.OnClickListener() {

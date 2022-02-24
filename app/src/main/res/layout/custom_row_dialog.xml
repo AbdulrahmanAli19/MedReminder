@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,19 +28,18 @@
                     android:id="@+id/txtadd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/msgTacker"
+                    android:text="@string/add"
                     android:textSize="15dp"
                     app:layout_constraintEnd_toEndOf="@+id/txtmsgRefill"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/txtmsgRefill"
-                    app:layout_constraintTop_toBottomOf="@+id/txtmsgRefill" />
+                    app:layout_constraintTop_toBottomOf="@+id/txtmsg" />
 
                 <TextView
                     android:id="@+id/txtmsgRefill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:hint="@string/emailHint"
+                    android:hint="@string/refill_your_prescription"
                     android:textSize="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -50,28 +48,43 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.079" />
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnIcancel"
+                <EditText
+                    android:id="@+id/editRefill"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="@string/ignore"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnok"
-                    app:layout_constraintStart_toEndOf="@+id/btnok"
-                    app:layout_constraintTop_toTopOf="@+id/btnok"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnok"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/accept"
+                    android:hint="@string/add_number_of_pills"
+                    android:inputType="phone"
                     app:layout_constraintEnd_toEndOf="@+id/txtadd"
-                    app:layout_constraintHorizontal_bias="0.503"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/txtadd"
                     app:layout_constraintTop_toBottomOf="@+id/txtadd" />
+
+                <TextView
+                    android:id="@+id/numPills"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginTop="4dp"
+                    android:hint="@string/num"
+                    app:layout_constraintEnd_toEndOf="@+id/txtmsgRefill"
+                    app:layout_constraintHorizontal_bias="0.077"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtmsgRefill" />
+
+                <TextView
+                    android:id="@+id/txtmsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="6dp"
+                    android:text="@string/meds_remaining"
+                    app:layout_constraintBottom_toBottomOf="@+id/numPills"
+                    app:layout_constraintStart_toEndOf="@+id/numPills"
+                    app:layout_constraintTop_toTopOf="@+id/numPills"
+                    app:layout_constraintVertical_bias="0.166" />
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </LinearLayout>
 
