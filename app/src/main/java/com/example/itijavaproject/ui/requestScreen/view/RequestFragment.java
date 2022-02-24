@@ -53,11 +53,13 @@ public class RequestFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ListOfRequest listOfRequest = snapshot.getValue(ListOfRequest.class);
                 ListOfRequest list = new ListOfRequest();
-                Log.d(TAG, "onDataChange: " + listOfRequest.getRequestList().size());
-                if(!snapshot.exists())
+                if(snapshot.exists())
                 {
+
                     for (Request request : listOfRequest.getRequestList()) {
-                        if (request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().toLowerCase(Locale.ROOT))) {
+                        if (request.getReceiverMail().toLowerCase(Locale.ROOT)
+                                .equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()
+                                        .toLowerCase(Locale.ROOT))) {
                             list.getRequestList().add(request);
                         }
                     }
