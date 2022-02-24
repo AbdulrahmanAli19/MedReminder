@@ -98,13 +98,16 @@ public class SplashFragment extends Fragment {
 
     private void checkIfUserAuthenticated() {
         if (auth.getCurrentUser() == null) {
+            Log.d(TAG, "checkIfUserAuthenticated: null");
             new AuthDialogFrag(navController).show(getActivity().getSupportFragmentManager(), "SIGIN");
         } else {
             dbRef.child(auth.getCurrentUser().getUid())
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                             if (snapshot.exists()) {
+                                Log.d(TAG, "onDataChange: ");
                                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToHomeFragment());
                             } else {
                                 navController.navigate(SplashFragmentDirections.actionSplashFragmentToRegisterFragment());
@@ -113,7 +116,7 @@ public class SplashFragment extends Fragment {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            Log.d(TAG, "onCancelled: ");
+                            Log.d(TAG, "onCancelled: "+error.getMessage());
 
                         }
                     });
