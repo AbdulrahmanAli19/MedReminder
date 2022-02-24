@@ -49,22 +49,7 @@ public class WorkerUtil {
 
 
 
-//    public void createNotificationDialogue(){
-//        LayoutInflater inflater = LayoutInflater.from();
-//        View dialogue = inflater.inflate(R.layout.custom_dialogue, null);
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//        builder.setView(dialogue);
-//        TextView header = dialogue.findViewById(R.id.txtHeader);
-//        TextView medName = dialogue.findViewById(R.id.medName);
-//        TextView details = dialogue.findViewById(R.id.txtMedDetails);
-//        ImageButton iconType = dialogue.findViewById(R.id.Icon);
-//        //FloatingActionButton skip=dialogue.findViewById(R.id.cancelBtn);
-//        //FloatingActionButton take=dialogue.findViewById(R.id.doneBtn);
-//        //FloatingActionButton snooze=dialogue.findViewById(R.id.snoozeBtn);
-//        AlertDialog customDialog = builder.create();
-//        customDialog.show();
-//
-//    }
+
 
 
 

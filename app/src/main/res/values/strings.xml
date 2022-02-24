@@ -133,6 +133,4 @@
     <string name="meds_remaining">meds remaining</string>
     <string name="profiles">Profiles</string>
     <string name="account_name">account name</string>
-    <string name="snooze">Snooze</string>
-    <string name="take">Take</string>
 </resources>
