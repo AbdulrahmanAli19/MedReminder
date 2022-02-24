@@ -276,24 +276,30 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+
                     String userId = FirebaseAuth.getInstance().getUid();
-                    databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            User user=snapshot.getValue(User.class);
-                            user.getMedicine().add(createMedicine());
-                            databaseReference.child(userId).setValue(user);
-                            Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
-                        }
+                    if(userId==null){
+                        new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                    }else{
+                        new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                .addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        User user=snapshot.getValue(User.class);
+                                        user.getMedicine().add(createMedicine());
+                                        databaseReference.child(userId).setValue(user);
+                                        Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
+                                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
 
-                        }
-                    });
+                                    }
+                                });
+                    }
+
                     directions = AddMedicineFragmentDirections.actionAddMedicineFragmentToMedicationsFragment2();
                     navController.navigate(directions);
                 }
