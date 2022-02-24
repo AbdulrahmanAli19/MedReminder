@@ -16,11 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentRegisterBinding;
 import com.example.itijavaproject.pojo.model.ListOfRequest;
+import com.example.itijavaproject.pojo.model.Request;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Locale;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
     private ListOfRequest listOfRequest;
@@ -47,6 +51,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                databaseReference = FirebaseDatabase.getInstance().getReference("users").child("medicine");
 
 
             }
@@ -54,34 +59,56 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.btnIgnore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseReference= FirebaseDatabase.getInstance().getReference("Requests")
-                        .child("requestList");
-               databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot ds : snapshot.getChildren())
-                                {
-                                    ds.getRef().removeValue();
-                                    int newPosition = holder.getAdapterPosition();
-                                    listOfRequest.getRequestList().remove(position);
-                                    notifyItemRemoved(newPosition);
-                                    notifyItemRangeChanged(newPosition, listOfRequest.getRequestList().size());
-                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                                }
+                databaseReference = FirebaseDatabase.getInstance().getReference("Requests");
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        listOfRequest = snapshot.getValue(ListOfRequest.class);
+                        for (int i = 0; i < listOfRequest.getRequestList().size(); i++) {
+                            if (listOfRequest.getRequestList().get(i)
+                                    .getSenderMail().toLowerCase(Locale.ROOT)
+                                    .equals(FirebaseAuth.getInstance()
+                                            .getCurrentUser().getEmail()))
+                            {
+                                listOfRequest.getRequestList().remove(i);
+                                int newPosition = holder.getAdapterPosition();
+                                listOfRequest.getRequestList().remove(position);
+                                notifyItemRemoved(newPosition);
+                                notifyItemRangeChanged(newPosition, listOfRequest.getRequestList().size());
+                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                //break;
+
                             }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+                        }
+//
+//                                for (Request request : listOfRequest.getRequestList()) {
+//
+//                                    listOfRequest.getRequestList().remove(request);
+//
+//                                }
+//                        for (DataSnapshot ds : snapshot.getChildren()) {
+//
+//                            ds.getRef().removeValue();
+//                            int newPosition = holder.getAdapterPosition();
+//                            listOfRequest.getRequestList().remove(position);
+//                            notifyItemRemoved(newPosition);
+//                            notifyItemRangeChanged(newPosition, listOfRequest.getRequestList().size());
+//                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+//                        }
+                    }
 
-                            }
-                        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
 
             }
         });
 
     }
-
 
 
     @Override
