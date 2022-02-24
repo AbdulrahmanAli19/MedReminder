@@ -1,8 +1,12 @@
 package com.example.itijavaproject.ui.homescreen.view;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,9 +44,10 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
         HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface,
-        OnDateSelectedListener {
+        OnDateSelectedListener, HomeCommunicator{
 
     private static final String TAG = "HomeFragment.DEV";
+    private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
     private NavController navController;
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
@@ -61,6 +66,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
                 .getInstance(ConcreteLocalSource.getInstance(this.getContext()), getContext()));
+        checkPermission();
         adapter = new CurrentDayAdapter(getContext(), this);
         binding.homeRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecycler.setAdapter(adapter);
@@ -131,5 +137,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
         long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
         presenter.getSelectedDateMedicines(mili);
+    }
+
+    public void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
+            new HomePermissionDialog(this)
+                    .show(getActivity().getSupportFragmentManager(), "OverAppsPermission");
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE) {
+            if (!Settings.canDrawOverlays(getActivity())) {
+                Log.d(TAG, "onActivityResult: permission denied");
+            } else {
+                Log.d(TAG, "onActivityResult: permission granted");
+            }
+
+        }
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @Override
+    public void getPermission() {
+        if (!Settings.canDrawOverlays(getActivity())) {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getContext().getPackageName()));
+            startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
+        }
     }
 }
