@@ -59,7 +59,7 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
                 navController.navigate(MedicationsFragmentDirections.actionMedicationsFragmentToMedicationDisplayFragment(ActiveMedicines.get(position)));
             }
         });
-//        holder.txtMedRefill.setText(ActiveMedicines.get(position).getNumOfPills());
+        holder.txtMedRefill.setText(""+ActiveMedicines.get(position).getNumOfPills() +" "+ActiveMedicines.get(position).getIconType());
     }
 
     @Override

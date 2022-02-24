@@ -1,39 +1,33 @@
 package com.example.itijavaproject.ui.requestScreen.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.itijavaproject.R;
-import com.example.itijavaproject.databinding.FragmentAddHealthTakerBinding;
 import com.example.itijavaproject.databinding.FragmentRegisterBinding;
 import com.example.itijavaproject.pojo.model.ListOfRequest;
-import com.example.itijavaproject.pojo.model.Request;
-import com.example.itijavaproject.ui.medicationsscreen.view.ActiveMedicationAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.List;
-
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
-    ListOfRequest listOfRequest;
+    private ListOfRequest listOfRequest;
     private FragmentRegisterBinding binding;
     private final Context context;
+    private DatabaseReference databaseReference;
+
 
     public RequestAdapter(ListOfRequest listOfRequest, Context context) {
         this.listOfRequest = listOfRequest;
@@ -48,22 +42,46 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtEmailReq.setText(listOfRequest.getRequestList().get(position).getSenderMail());
         holder.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
 
             }
         });
         holder.btnIgnore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                databaseReference= FirebaseDatabase.getInstance().getReference("Requests")
+                        .child("requestList");
+               databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot ds : snapshot.getChildren())
+                                {
+                                    ds.getRef().removeValue();
+//                                    int tag = (Integer) view.getTag();
+//                                    if (tag != (listOfRequest.getRequestList().size() - 1)) {
+//                                        listOfRequest.getRequestList().remove(tag);
+//                                        Log.d("GCM", "Item removed from " + tag);
+////                                        myAdapter.notifyDataSetChanged();
+//                                    }
+                                    Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(context, "Failed to delete", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
 
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
@@ -76,9 +94,9 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtEmailReq = itemView.findViewById(R.id.txtEmailReq);
-            btnAccept = itemView.findViewById(R.id.btnAccept);
-            btnIgnore = itemView.findViewById(R.id.btnIgnore);
+            txtEmailReq = itemView.findViewById(R.id.txtmsgRefill);
+            btnAccept = itemView.findViewById(R.id.btnok);
+            btnIgnore = itemView.findViewById(R.id.btnIcancel);
         }
     }
 
