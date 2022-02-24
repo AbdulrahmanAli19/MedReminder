@@ -29,14 +29,12 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 public class MainActivity extends AppCompatActivity implements
-        NavController.OnDestinationChangedListener,
-        OnDateSelectedListener {
+        NavController.OnDestinationChangedListener{
 
     private static final String TAG = "MainActivity.DEV";
     private AppBarConfiguration appBarConfiguration;
     private NavController navController;
     private ActivityMainBinding binding;
-    private HomeCommunicator homeCommunicator;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -127,13 +125,6 @@ public class MainActivity extends AppCompatActivity implements
         }
     }
 
-
-    @Override
-    public void onDateSelected(@NonNull MaterialCalendarView widget,
-                               @NonNull CalendarDay date, boolean selected) {
-        if (homeCommunicator != null)
-            homeCommunicator.onDateChange(widget, date, selected);
-    }
 
 
     @Override

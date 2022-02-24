@@ -54,14 +54,20 @@ public class RequestFragment extends Fragment {
                 ListOfRequest listOfRequest = snapshot.getValue(ListOfRequest.class);
                 ListOfRequest list = new ListOfRequest();
                 Log.d(TAG, "onDataChange: " + listOfRequest.getRequestList().size());
-                for (Request request : listOfRequest.getRequestList()) {
-                    if (request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().toLowerCase(Locale.ROOT))) {
-                        list.getRequestList().add(request);
+                if(!snapshot.exists())
+                {
+                    for (Request request : listOfRequest.getRequestList()) {
+                        if (request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance().getCurrentUser().getEmail().toLowerCase(Locale.ROOT))) {
+                            list.getRequestList().add(request);
+                        }
                     }
+                    Log.d(TAG, "onDataChange: " + list.getRequestList().isEmpty());
+                    requestAdapter = new RequestAdapter(list, getContext());
+                    binding.recRequest.setAdapter(requestAdapter);
                 }
-                Log.d(TAG, "onDataChange: " + list.getRequestList().isEmpty());
-                requestAdapter = new RequestAdapter(list, getContext());
-                binding.recRequest.setAdapter(requestAdapter);
+                else {
+                    Snackbar.make(getContext(), getView(), "not requests yet", Snackbar.LENGTH_LONG).show();
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

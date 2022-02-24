@@ -311,6 +311,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         if(medicine.getNumOfPills()<=2)
         {
 
+
         }
     }
 

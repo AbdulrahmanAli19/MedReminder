@@ -55,19 +55,19 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 databaseReference= FirebaseDatabase.getInstance().getReference("Requests")
-                        .child("requestList").push();
+                        .child("requestList");
                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot ds : snapshot.getChildren())
                                 {
                                     ds.getRef().removeValue();
-                                    int tag = (Integer) view.getTag();
-                                    if (tag != (listOfRequest.getRequestList().size() - 1)) {
-                                        listOfRequest.getRequestList().remove(tag);
-                                        Log.d("GCM", "Item removed from " + tag);
-//                                        myAdapter.notifyDataSetChanged();
-                                    }
+//                                    int tag = (Integer) view.getTag();
+//                                    if (tag != (listOfRequest.getRequestList().size() - 1)) {
+//                                        listOfRequest.getRequestList().remove(tag);
+//                                        Log.d("GCM", "Item removed from " + tag);
+////                                        myAdapter.notifyDataSetChanged();
+//                                    }
                                     Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                                 }
                             }

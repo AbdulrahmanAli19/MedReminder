@@ -68,7 +68,6 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
             @Override
             public void onClick(View view) {
                 navController.navigate(MedicationsFragmentDirections.actionMedicationsFragmentToMedicationDisplayFragment(inactiveMedicines.get(position)));
-
             }
         });
         holder.txtMedRefill.setText(""+inactiveMedicines.get(position).getNumOfPills()+" "+inactiveMedicines.get(position).getIconType());    }
