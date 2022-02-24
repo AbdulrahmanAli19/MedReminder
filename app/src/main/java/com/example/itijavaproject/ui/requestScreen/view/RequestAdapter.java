@@ -62,12 +62,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                                 for (DataSnapshot ds : snapshot.getChildren())
                                 {
                                     ds.getRef().removeValue();
-//                                    int tag = (Integer) view.getTag();
-//                                    if (tag != (listOfRequest.getRequestList().size() - 1)) {
-//                                        listOfRequest.getRequestList().remove(tag);
-//                                        Log.d("GCM", "Item removed from " + tag);
-////                                        myAdapter.notifyDataSetChanged();
-//                                    }
+                                    int newPosition = holder.getAdapterPosition();
+                                    listOfRequest.getRequestList().remove(position);
+                                    notifyItemRemoved(newPosition);
+                                    notifyItemRangeChanged(newPosition, listOfRequest.getRequestList().size());
                                     Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -81,7 +79,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
             }
         });
+
     }
+
+
 
     @Override
     public int getItemCount() {
