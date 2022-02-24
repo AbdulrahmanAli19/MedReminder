@@ -33,6 +33,7 @@ import com.example.itijavaproject.pojo.model.Medicine;
 
 import com.example.itijavaproject.pojo.model.User;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
+import com.example.itijavaproject.workers.WorkerUtil;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,6 +81,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        navController = Navigation.findNavController(view);
         Medicine medicine = MedicationDisplayFragmentArgs.fromBundle(getArguments()).getObjOfMeds();
         if (medicine.getIconType().equals(getActivity().getApplicationContext().getString(R.string.pill))) {
             binding.drugIcon.setImageDrawable(getActivity().getApplicationContext().getResources().getDrawable(R.drawable.ic_pill));
@@ -90,6 +92,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         } else if (medicine.getIconType().equals(getActivity().getApplicationContext().getString(R.string.injection))) {
             binding.drugIcon.setImageDrawable(getActivity().getApplicationContext().getResources().getDrawable(R.drawable.ic_injection__1_));
         }
+
         binding.drugName.setText(medicine.getName());
         binding.noDrugStrength.setText(String.valueOf(medicine.getNoOfStrength()));
         binding.drugStrength.setText(medicine.getStrength());
@@ -100,7 +103,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         Long duration=endDate.getTime()-startDate.getTime();
         LocalDate localDate =LocalDate.ofEpochDay(duration);
         binding.txtGetDuration.setText(medicine.getDuration()+" ,take for "+localDate.getDayOfMonth()+" days");
-
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
             long millisecondsSinceEpoch = medicine.getTimes().get(i);
@@ -109,8 +111,8 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
             String output = formatter.format(zdt);
             binding.txtTimes.append(output + " take 1 pill(s) \n");
-
         }
+
         if (medicine.isActive() == true) {
             binding.suspendBtn.setText("SUSPEND");
             binding.suspendBtn.setOnClickListener(new View.OnClickListener() {
@@ -156,7 +158,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                         @Override
                         public void run() {
                             databaseAccess.medicineDao().updateMedicine(medicine);
-
                         }
                     }).start();
                 }
@@ -202,10 +203,12 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 customAlertDialog.show();
             }
         });
+        WorkerUtil workerUtil=new WorkerUtil();
         binding.addDoseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController = Navigation.findNavController(view);
+
+                workerUtil.createNotification(getContext());
                 directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToAddMedicineFragment2(medicine);
                 navController.navigate(directions);
 
@@ -219,20 +222,15 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                     @Override
                     public void run() {
                         databaseAccess.medicineDao().deleteMedicine(medicine);
-
                     }
                 }).start();
-                navController = Navigation.findNavController(view);
-                directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToMedicationsFragment3();
-                navController.navigate(directions);
-
+                navController.popBackStack();
             }
         });
 
         binding.editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                navController = Navigation.findNavController(view);
                 directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToAddMedicineFragment2(medicine);
                 navController.navigate(directions);
             }
