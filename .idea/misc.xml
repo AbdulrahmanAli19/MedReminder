@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/activity_main.xml" value="0.16953125" />
+        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/custom_dialogue.xml" value="0.536" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/customrowmeds.xml" value="0.536" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_add_health_taker.xml" value="0.38125" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_add_medicine.xml" value="0.4" />

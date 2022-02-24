@@ -122,4 +122,6 @@
     <string name="instruction">Instruction</string>
     <string name="requsets">requsets</string>
     <string name="sign_in">Sign-in</string>
+    <string name="take">Take</string>
+    <string name="snooze">Snooze</string>
 </resources>

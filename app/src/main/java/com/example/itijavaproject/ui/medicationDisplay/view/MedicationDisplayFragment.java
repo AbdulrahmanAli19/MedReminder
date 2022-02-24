@@ -1,5 +1,6 @@
 package com.example.itijavaproject.ui.medicationDisplay.view;
 
+import android.app.AlertDialog;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -116,6 +117,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                               databaseAccess.medicineDao().updateMedicine(medicine);
                           }
                       }).start();
+
 
                       databaseReference.child(FirebaseAuth.getInstance().getUid())
                               .addListenerForSingleValueEvent(new ValueEventListener() {
