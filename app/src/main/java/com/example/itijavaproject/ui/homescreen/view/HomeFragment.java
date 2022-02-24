@@ -21,20 +21,19 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.itijavaproject.MainActivity;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
+import com.example.itijavaproject.util.Window;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.Calendar;
 import java.util.List;
 
 import io.reactivex.Maybe;
@@ -44,7 +43,7 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
         HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface,
-        OnDateSelectedListener, HomeCommunicator{
+        OnDateSelectedListener, HomeCommunicator {
 
     private static final String TAG = "HomeFragment.DEV";
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
@@ -128,6 +127,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClickItemClickListener(int pos) {
+        new Window(getContext()).open();
         Log.d(TAG, "onClickItemClickListener: " + pos);
     }
 

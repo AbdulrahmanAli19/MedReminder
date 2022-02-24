@@ -55,7 +55,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         reference = FirebaseDatabase.getInstance().getReference("users");
-
     }
 
     @Override
@@ -121,6 +120,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 if (isDataValid()) {
                     ///TODO: send data to firebase
                     User user = createUser();
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    user.setUid(uid);
+                    Log.d(TAG, "onClick: " + uid);
                     reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnSuccessListener(unused -> {
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest
