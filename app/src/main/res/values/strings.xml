@@ -124,4 +124,11 @@
     <string name="sign_in">Sign-in</string>
     <string name="take">Take</string>
     <string name="snooze">Snooze</string>
+    <string name="left">left</string>
+    <string name="refill_your_prescription">Refill your prescription</string>
+    <string name="add">Add</string>
+    <string name="add_number_of_pills">add number of pills</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="meds_remaining">meds remaining</string>
 </resources>

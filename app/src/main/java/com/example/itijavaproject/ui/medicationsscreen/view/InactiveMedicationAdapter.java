@@ -71,8 +71,7 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
 
             }
         });
-//        holder.txtMedRefill.setText(inactiveMedicines.get(position).getNumOfPills());
-    }
+        holder.txtMedRefill.setText(""+inactiveMedicines.get(position).getNumOfPills()+" "+inactiveMedicines.get(position).getIconType());    }
 
     @Override
     public int getItemCount() {
