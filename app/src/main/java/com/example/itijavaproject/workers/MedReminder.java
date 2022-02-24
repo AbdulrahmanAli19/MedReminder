@@ -18,9 +18,6 @@ public class MedReminder extends Worker {
     public Result doWork() {
 
 
-
-
-
         return Result.success();
     }
 }
