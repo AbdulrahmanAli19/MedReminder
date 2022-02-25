@@ -12,12 +12,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsingLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
             app:contentInsetStartWithNavigation="0dp"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="top"
@@ -50,6 +52,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
+                android:fitsSystemWindows="true"
+                android:gravity="center_vertical"
                 android:showAsAction="always|collapseActionView"
                 app:layout_collapseMode="pin"
                 app:subtitleTextColor="@color/white"

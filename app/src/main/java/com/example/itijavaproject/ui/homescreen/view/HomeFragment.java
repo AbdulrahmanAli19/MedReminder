@@ -71,6 +71,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         binding.calendarView.setSelectedDate(CalendarDay.today());
         binding.calendarView.setOnDateChangedListener(this);
         binding.collapsingLayout.setTitle("Home");
+        setHasOptionsMenu(true);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
@@ -164,11 +165,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         presenter.getSelectedDateMedicines(mili);
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -186,7 +182,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
             default:
                 break;
         }
-
         return false;
     }
 
