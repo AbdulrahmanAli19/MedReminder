@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.itijavaproject.R;
 
@@ -19,13 +20,17 @@ public class Window {
     private static final String TAG = "Window.DEV";
 
     private Context context;
+    private String title;
+    private String body;
     private View mView;
     private WindowManager.LayoutParams mParams;
     private WindowManager mWindowManager;
     private LayoutInflater layoutInflater;
 
-    public Window(Context context) {
+    public Window(Context context, String body, String title) {
         this.context = context;
+        this.body = body;
+        this.title = title;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mParams = new WindowManager.LayoutParams(
@@ -38,6 +43,12 @@ public class Window {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mView = layoutInflater.inflate(R.layout.popup_window, null);
+
+        TextView txtMedName = mView.findViewById(R.id.txtMedName);
+        txtMedName.setText(title);
+
+        TextView txtBody = mView.findViewById(R.id.txtMedName);
+        txtBody.setText(body);
 
         mView.findViewById(R.id.btnSnooze).setOnClickListener(view -> {
             ///TODO: REMIND ME LATTER

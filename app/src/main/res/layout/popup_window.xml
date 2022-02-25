@@ -10,15 +10,15 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp">
+        android:layout_margin="20dp">
 
         <TextView
-            android:textStyle="bold"
             android:id="@+id/txtMedName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="Med Name" />
 
         <TextView
@@ -31,7 +31,7 @@
             android:textSize="16sp"
             tools:text="It's time to take Keppera 500M\ text texxt" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <Button
             android:id="@+id/btnSnooze"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             android:text="@string/snooze"
             android:textColor="@color/white" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <Button
             android:id="@+id/btnTake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
