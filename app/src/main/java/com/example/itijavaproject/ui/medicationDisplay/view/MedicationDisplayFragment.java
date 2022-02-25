@@ -41,10 +41,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.threeten.bp.LocalDate;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -52,6 +54,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class MedicationDisplayFragment extends Fragment implements MedicineDisplayInterface {
@@ -105,12 +108,9 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.txtGetDuration.setText(medicine.getDuration()+" ,take for "+localDate.getDayOfMonth()+" days");
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
-            long millisecondsSinceEpoch = medicine.getTimes().get(i);
-            Instant instant = Instant.ofEpochMilli(millisecondsSinceEpoch);
-            ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneOffset.UTC);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-            String output = formatter.format(zdt);
-            binding.txtTimes.append(output + " take 1 pill(s) \n");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
+            String dateTime = simpleDateFormat.format(medicine.getTimes().get(i));
+            binding.txtTimes.append(dateTime+ " take 1 pill(s) \n");
         }
 
         if (medicine.isActive() == true) {
@@ -126,23 +126,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                               databaseAccess.medicineDao().updateMedicine(medicine);
                           }
                       }).start();
-
-                      databaseReference.child(FirebaseAuth.getInstance().getUid())
-                              .addListenerForSingleValueEvent(new ValueEventListener() {
-                                  @Override
-                                  public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                      //User user=snapshot.getValue(null);
-                                      String mID=snapshot.getKey();
-                                      databaseReference.child(mID).removeValue();
-                                      Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
-                                  }
-
-                                  @Override
-                                  public void onCancelled(@NonNull DatabaseError error) {
-                                      Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
-
-                                  }
-                              });
                   }
               }
             );
@@ -224,6 +207,23 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                         databaseAccess.medicineDao().deleteMedicine(medicine);
                     }
                 }).start();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+                Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("name").equalTo(medicine.getName());
+
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot db: dataSnapshot.getChildren()) {
+                            db.getRef().removeValue();
+                        }
+                    }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
                 navController.popBackStack();
             }
         });
