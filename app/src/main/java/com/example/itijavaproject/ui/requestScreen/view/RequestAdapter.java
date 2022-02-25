@@ -59,7 +59,8 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.btnIgnore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                databaseReference = FirebaseDatabase.getInstance().getReference("Requests");
+                databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance()
+                        .getUid()).child("recivedRequests");
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
