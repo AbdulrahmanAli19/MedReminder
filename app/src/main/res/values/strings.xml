@@ -122,6 +122,8 @@
     <string name="instruction">Instruction</string>
     <string name="requsets">requsets</string>
     <string name="sign_in">Sign-in</string>
+    <string name="take">Take</string>
+    <string name="snooze">Snooze</string>
     <string name="left">left</string>
     <string name="refill_your_prescription">Refill your prescription</string>
     <string name="add">Add</string>
@@ -131,6 +133,4 @@
     <string name="meds_remaining">meds remaining</string>
     <string name="profiles">Profiles</string>
     <string name="account_name">account name</string>
-    <string name="snooze">Snooze</string>
-    <string name="take">Take</string>
 </resources>
