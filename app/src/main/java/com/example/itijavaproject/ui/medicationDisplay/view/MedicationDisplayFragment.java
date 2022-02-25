@@ -203,12 +203,12 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 customAlertDialog.show();
             }
         });
-        WorkerUtil workerUtil=new WorkerUtil();
+
         binding.addDoseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                workerUtil.createNotification(getContext());
+
                 directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToAddMedicineFragment2(medicine);
                 navController.navigate(directions);
 
