@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class AddHealthTakerFragment extends Fragment {
     DatabaseReference databaseReference;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     NavController navController;
-
+    String userId;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +102,8 @@ public class AddHealthTakerFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    addRequest(request);
+                    addRequestSendeer(request);
+                    addRequestReciver(request);
                 } else {
                     databaseReference.setValue(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -121,16 +123,19 @@ public class AddHealthTakerFragment extends Fragment {
             }
         });
     }
-    private  void addRequest(ListOfRequest request)
+    private  void addRequestSendeer(ListOfRequest request)
     {
-        String userId = FirebaseAuth.getInstance().getUid();
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+         userId = FirebaseAuth.getInstance().getUid();
+        databaseReference.child(userId)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         User user=snapshot.getValue(User.class);
                         user.getRequestList().add(request.getRequestList().get(0));
-                        databaseReference.child(userId).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                        Map<String,Object> map=new HashMap<>();
+                        map.put("senderRequests",request);
+                        databaseReference.child(userId).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
                                 Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
@@ -148,6 +153,28 @@ public class AddHealthTakerFragment extends Fragment {
                         Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
                     }
                 });
+    }
+    public void addRequestReciver(ListOfRequest listOfRequest)
+    {
+        String email=listOfRequest.getRequestList().get(0).getReceiverMail();
+        userId=FirebaseAuth.getInstance().getUid();
+        Query query=databaseReference.orderByChild("email").equalTo(email);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Map<String,Object> map=new HashMap<>();
+                map.put("recivedRequests",listOfRequest);
+                for (DataSnapshot snapshot1: snapshot.getChildren()){
+                    snapshot1.getRef().updateChildren(map);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 //    private void addNewRequest(ListOfRequest request) {
 //        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {

@@ -3,12 +3,15 @@ package com.example.itijavaproject.pojo.model;
 public class Request {
     private String senderMail;
     private String receiverMail;
-    private  String senderUid;
+    private String senderUid;
+    private String key;
     private boolean isShared;
-    private boolean state=false;
+    private boolean state = false;
 
     public Request() {
+
     }
+
     public Request(String senderMail, String receiverMail, String senderUid, boolean isShared, boolean state) {
         this.senderMail = senderMail;
         this.receiverMail = receiverMail;
@@ -55,5 +58,13 @@ public class Request {
 
     public void setSenderUid(String senderUid) {
         this.senderUid = senderUid;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

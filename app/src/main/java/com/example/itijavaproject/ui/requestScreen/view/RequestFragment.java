@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.itijavaproject.databinding.FragmentRequestBinding;
 import com.example.itijavaproject.pojo.model.ListOfRequest;
 import com.example.itijavaproject.pojo.model.Request;
+import com.example.itijavaproject.pojo.model.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,7 +28,8 @@ import java.util.Locale;
 
 public class RequestFragment extends Fragment {
     private static final String TAG = "RequestFragment";
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Requests");
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance()
+    .getUid());
     private FragmentRequestBinding binding;
     RequestAdapter requestAdapter;
     @Override
@@ -48,22 +50,24 @@ public class RequestFragment extends Fragment {
         addNewRequest();
     }
     private void addNewRequest() {
+       ListOfRequest list = new ListOfRequest();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ListOfRequest listOfRequest = snapshot.getValue(ListOfRequest.class);
-                ListOfRequest list = new ListOfRequest();
+                User user=snapshot.getValue(User.class);
                 if(snapshot.exists())
                 {
-
-                    for (Request request : listOfRequest.getRequestList()) {
-                        if (request.getReceiverMail().toLowerCase(Locale.ROOT)
-                                .equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()
-                                        .toLowerCase(Locale.ROOT))) {
-                            list.getRequestList().add(request);
+                    Log.d(TAG, "onDataChange snap: "+snapshot.exists());
+                    for (Request request: user.getRequestList()) {
+                        Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
+                        if(request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
+                        .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
+                        {
+                            Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
+                            user.getRequestList().add(request);
                         }
                     }
-                    Log.d(TAG, "onDataChange: " + list.getRequestList().isEmpty());
+                    Log.d(TAG, "onDataChange adapter: " + list.getRequestList().isEmpty());
                     requestAdapter = new RequestAdapter(list, getContext());
                     binding.recRequest.setAdapter(requestAdapter);
                 }
@@ -76,5 +80,33 @@ public class RequestFragment extends Fragment {
                 Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
             }
         });
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ListOfRequest listOfRequest = snapshot.getValue(ListOfRequest.class);
+//                ListOfRequest list = new ListOfRequest();
+//                if(snapshot.exists())
+//                {
+//
+//                    for (Request request : listOfRequest.getRequestList()) {
+//                        if (request.getReceiverMail().toLowerCase(Locale.ROOT)
+//                                .equals(FirebaseAuth.getInstance().getCurrentUser().getEmail()
+//                                        .toLowerCase(Locale.ROOT))) {
+//                            list.getRequestList().add(request);
+//                        }
+//                    }
+//                    Log.d(TAG, "onDataChange: " + list.getRequestList().isEmpty());
+//                    requestAdapter = new RequestAdapter(list, getContext());
+//                    binding.recRequest.setAdapter(requestAdapter);
+//                }
+//                else {
+//                    Snackbar.make(getContext(), getView(), "not requests yet", Snackbar.LENGTH_LONG).show();
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
+//            }
+//        });
     }
 }
