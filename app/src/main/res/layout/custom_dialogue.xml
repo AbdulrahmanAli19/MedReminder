@@ -82,7 +82,7 @@
         android:padding="4dp"
         android:background="@color/background">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <Button
             android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/close_black_24dp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <Button
             android:id="@+id/doneBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             app:layout_constraintTop_toTopOf="@+id/cancelBtn"
             app:srcCompat="@drawable/done_black_24dp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <Button
             android:id="@+id/snoozeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
