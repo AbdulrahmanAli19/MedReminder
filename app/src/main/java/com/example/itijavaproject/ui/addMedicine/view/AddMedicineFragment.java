@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -32,8 +33,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -41,14 +44,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, AddMedicineInterface, View.OnClickListener {
     private static final String TAG = "AddMedicineFragment";
     private FragmentAddMedicineBinding binding;
-    Calendar myCalenderTime = Calendar.getInstance();
     AddMedicinePresenterInterface presenterInterface;
     NavController navController;
     NavDirections directions;
@@ -66,8 +70,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     }
 
     public void showHourPicker() {
-        myCalenderTime = Calendar.getInstance();
-        int hour = myCalenderTime.get(Calendar.HOUR_OF_DAY);
+        final Calendar myCalenderTime = Calendar.getInstance();
+        int hourOfDay =myCalenderTime.get(Calendar.HOUR_OF_DAY);
         int minute = myCalenderTime.get(Calendar.MINUTE);
 
         TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -77,16 +81,18 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     myCalenderTime.set(Calendar.MINUTE, minute);
                     listTime.add(myCalenderTime.getTimeInMillis());
-
+                    Log.i(TAG, "onTimeSet: "+hourOfDay);
                 }
             }
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
-                myTimeListener, hour, minute, true);
+                myTimeListener, hourOfDay, minute, false);
+        Log.i(TAG, "showHourPicker: "+hourOfDay);
         timePickerDialog.setTitle("Choose hour:");
-
         timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         timePickerDialog.show();
+
+
     }
 
     public void showStartDatePicker() {
@@ -208,16 +214,12 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.txtAmount.setText(String.valueOf(editMedicine.getNumOfPills()));
             binding.txtFrequence.setText(String.valueOf(editMedicine.getFrequencyPerDay()));
             for (int i = 0; i < editMedicine.getTimes().size(); i++) {
-                long millisecondsSinceEpoch = editMedicine.getTimes().get(i);
-                Instant instant = Instant.ofEpochMilli(millisecondsSinceEpoch);
-                ZonedDateTime zdt = ZonedDateTime.ofInstant(instant, ZoneOffset.UTC);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:mm a");
-                String output = formatter.format(zdt);
-                binding.txtTime.append(output + "\n");
-                Log.i(TAG, "onClick: " + output);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
+                String dateTime = simpleDateFormat.format(editMedicine.getTimes().get(i));
+                binding.txtTime.append(dateTime);
             }
-//            binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
-//                    .getPosition(editMedicine.getDuration()));
+            binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
+                    .getPosition(editMedicine.getDuration()));
             binding.saveBtn.setText("UPDATE");
             binding.saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -249,22 +251,25 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                             databaseAccess.medicineDao().updateMedicine(editMedicine);
                         }
                     }).start();
-                    String userId = FirebaseAuth.getInstance().getUid();
-//                    databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                            .addListenerForSingleValueEvent(new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                    User user=snapshot.getValue(User.class);
-//                                    user.getMedicine().add(editMedicine);
-//                                    databaseReference.child(userId).setValue(editMedicine);
-//                                    Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(@NonNull DatabaseError error) {
-//                                    Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
+                    Query query = databaseReference.child(FirebaseAuth.getInstance().getUid()).child("medicine")
+                            .orderByChild("name").equalTo(editMedicine.getName());
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot db: dataSnapshot.getChildren()) {
+                                String key=db.getKey();
+                                Map<String, Object> childUpdates = new HashMap<>();
+                                childUpdates.put(key+"/name/", editMedicine.getName());
+                                databaseReference.updateChildren(childUpdates);
+                                //db.getRef().setValue(editMedicine);
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                     navController.popBackStack();
                 }
             });
@@ -276,6 +281,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     String userId = FirebaseAuth.getInstance().getUid();
                     if(userId==null){
                         new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+
                     }else{
                         new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
                         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -285,16 +291,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                         User user=snapshot.getValue(User.class);
                                         user.getMedicine().add(createMedicine());
                                         databaseReference.child(userId).setValue(user);
-                                        //Toast.makeText(getContext(), "saved in firebase", Toast.LENGTH_SHORT).show();
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
-                                        //Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
-
                                     }
                                 });
                     }
+
                  navController.popBackStack();
                 }
             });
