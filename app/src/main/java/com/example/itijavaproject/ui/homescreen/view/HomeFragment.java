@@ -2,7 +2,6 @@ package com.example.itijavaproject.ui.homescreen.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -10,9 +9,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -161,6 +162,32 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
         long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
         presenter.getSelectedDateMedicines(mili);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.home_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.alarm:
+                Log.d(TAG, "onOptionsItemSelected: alarm clicked...");
+                return false;
+            default:
+                break;
+        }
+
+        return false;
     }
 
     public void checkPermission() {

@@ -27,7 +27,7 @@ public class MedReminder extends Worker {
             super.handleMessage(msg);
             String title = getInputData().getString("title");
             String body = getInputData().getString("body");
-            Boolean isPermissionGranted = getInputData().getBoolean("permission", false);
+            boolean isPermissionGranted = getInputData().getBoolean("permission", false);
 
             if (isPermissionGranted)
                 new Window(getApplicationContext(), body, title).open();
