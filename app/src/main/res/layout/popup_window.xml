@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_margin="20dp"
     app:cardCornerRadius="9dp">
 
     <RelativeLayout
@@ -13,12 +14,12 @@
         android:layout_margin="10dp">
 
         <TextView
-            android:textStyle="bold"
             android:id="@+id/txtMedName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="Med Name" />
 
         <TextView
@@ -26,32 +27,45 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtMedName"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:gravity="center"
             android:textSize="16sp"
             tools:text="It's time to take Keppera 500M\ text texxt" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <Button
             android:id="@+id/btnSnooze"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBody"
             android:layout_marginTop="40dp"
+            android:backgroundTint="@color/secondary"
             android:gravity="center"
             android:text="@string/snooze"
             android:textColor="@color/white" />
 
-        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <Button
             android:id="@+id/btnTake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBody"
+            android:layout_alignParentEnd="true"
             android:layout_marginStart="30dp"
             android:layout_marginTop="40dp"
-            android:layout_toEndOf="@id/btnSnooze"
             android:backgroundTint="@color/light_blue"
             android:gravity="center"
             android:text="@string/take"
             android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btnSkip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtBody"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="16dp"
+            android:text="@string/skip" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -33,8 +33,10 @@ public class User {
     private boolean isMale;
 
     private List<Medicine> medicine=new ArrayList<>();
-    private List<Request>requestList;
-    private List<Request>respondList;
+
+    private List<Request>requestList=new ArrayList<>();
+
+    private List<Request>respondList=new ArrayList<>();
 
     public User() {
     }

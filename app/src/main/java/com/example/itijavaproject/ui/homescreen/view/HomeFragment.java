@@ -17,11 +17,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.work.Constraints;
+import androidx.work.Data;
+import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.data.db.ConcreteLocalSource;
@@ -29,7 +35,7 @@ import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
-import com.example.itijavaproject.util.Window;
+import com.example.itijavaproject.workers.MedReminder;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -58,6 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
+        ViewCompat.requestApplyInsets(binding.parent);
         binding.collapsingLayout.setExpandedTitleColor(getResources().getColor(R.color.transperent));
         binding.collapsingLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
         binding.calendarView.setSelectedDate(CalendarDay.today());
@@ -127,10 +134,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                 });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickItemClickListener(int pos) {
-        new Window(getContext()).open();
         Log.d(TAG, "onClickItemClickListener: " + pos);
+        Data data = new Data.Builder().putString("title", "dummy")
+                .putString("body", "dummy body")
+                .putBoolean("permission", Settings.canDrawOverlays(getActivity())).build();
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                .setRequiresCharging(false)
+                .build();
+
+        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MedReminder.class)
+                .setInputData(data)
+                .setConstraints(constraints)
+                .addTag("TEST WORK")
+                .build();
+        WorkManager.getInstance(getContext()).enqueue(request);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

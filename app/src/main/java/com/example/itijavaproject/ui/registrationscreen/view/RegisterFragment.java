@@ -71,6 +71,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         user.setFullName(binding.edtName.getEditText().getEditableText().toString().toLowerCase(Locale.ROOT));
         user.setPhoneNumber(binding.edtPhoneNumber.getEditText().getText().toString());
         user.setEmail(binding.edtEmail.getEditText().getEditableText().toString());
+        user.setBirthday(myCalendar.getTimeInMillis());
         int id = binding.genderGroup.getCheckedRadioButtonId();
         user.setMale(id == binding.btnM.getId());
         return user;

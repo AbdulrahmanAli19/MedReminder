@@ -4,12 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/activity_main.xml" value="0.16953125" />
-        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/custom_dialogue.xml" value="0.1" />
-        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/custom_row_dialog.xml" value="0.31875" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/customrowmeds.xml" value="0.536" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_add_health_taker.xml" value="0.38125" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_add_medicine.xml" value="0.4" />
-        <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_home.xml" value="0.38125" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_medication_display.xml" value="0.34523809523809523" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_medications.xml" value="0.23125" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_register.xml" value="0.38125" />
@@ -26,6 +23,8 @@
         <entry key="app/src/main/res/drawable/home_layout.xml" value="0.1205" />
         <entry key="app/src/main/res/drawable/outline_vaccines_20.xml" value="0.199" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/custom_dialogue.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/customrowmeds.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/fragment_add_health_taker.xml" value="0.23743589743589744" />
         <entry key="app/src/main/res/layout/fragment_auth.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.24114583333333334" />
@@ -35,6 +34,7 @@
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/home_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/layout_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/popup_window.xml" value="0.33" />
       </map>
     </option>
   </component>
