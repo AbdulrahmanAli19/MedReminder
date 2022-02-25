@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentAddHealthTakerBinding;
@@ -48,7 +49,7 @@ public class AddHealthTakerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        databaseReference = FirebaseDatabase.getInstance().getReference("Requests");
+        databaseReference = FirebaseDatabase.getInstance().getReference("users");
     }
 
     @Override
@@ -56,44 +57,43 @@ public class AddHealthTakerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
 
-        binding.btnInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-             if(isVaild())
-             {
-                 auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
-                         .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                             @Override
-                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                 boolean dol = task.getResult().getSignInMethods().isEmpty();
-                                 if (dol) {
-                                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                         @Override
-                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                             Log.d(TAG, "onDataChange: no data");
-                                             ListOfRequest listOfRequest = new ListOfRequest();
-                                             Request request = new Request();
-                                             request.setReceiverMail(binding.txtEmail.getText().toString());
-                                             request.setSenderMail(auth.getCurrentUser().getEmail());
-                                             request.setSenderUid(FirebaseAuth.getInstance().getUid());
-                                             request.setShared(binding.boxPolicy.isChecked());
-                                             listOfRequest.getRequestList().add(request);
-                                             checkRequests(listOfRequest);
-                                         }
+            binding.btnInvite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
 
-                                         @Override
-                                         public void onCancelled(@NonNull DatabaseError error) {
-                                             Log.d(TAG, "onCancelled: ");
-                                         }
-                                     });
-                                 } else {
-                                     Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
-                                 }
-                             }
-                         });
-             }
-            }
-        });
+                    auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                    boolean dol = task.getResult().getSignInMethods().isEmpty();
+                                    if (dol) {
+                                        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                Log.d(TAG, "onDataChange: no data");
+                                                ListOfRequest listOfRequest = new ListOfRequest();
+                                                Request request = new Request();
+                                                request.setReceiverMail(binding.txtEmail.getText().toString());
+                                                request.setSenderMail(auth.getCurrentUser().getEmail());
+//                                             request.setSenderUid(FirebaseAuth.getInstance().getUid());
+                                                request.setShared(binding.boxPolicy.isChecked());
+                                                listOfRequest.getRequestList().add(request);
+                                                checkRequests(listOfRequest);
+                                            }
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                                Log.d(TAG, "onCancelled: ");
+                                            }
+                                        });
+                                    }
+                                    else {
+                                        Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                }
+            });
     }
 
     private void checkRequests(ListOfRequest request) {
@@ -101,7 +101,7 @@ public class AddHealthTakerFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    addNewRequest(request);
+                    addRequest(request);
                 } else {
                     databaseReference.setValue(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
@@ -121,34 +121,61 @@ public class AddHealthTakerFragment extends Fragment {
             }
         });
     }
-
-    private void addNewRequest(ListOfRequest request) {
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                ListOfRequest listOfRequest = snapshot.getValue(ListOfRequest.class);
-                listOfRequest.getRequestList().add(request.getRequestList().get(0));
-                databaseReference.setValue(listOfRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+    private  void addRequest(ListOfRequest request)
+    {
+        String userId = FirebaseAuth.getInstance().getUid();
+        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
-                        navController.popBackStack();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user=snapshot.getValue(User.class);
+                        user.getRequestList().add(request.getRequestList().get(0));
+                        databaseReference.child(userId).setValue(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
+                                navController.popBackStack();
+                            }}).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Snackbar.make(getContext(), getView(), "error" + e.getMessage(), Snackbar.LENGTH_LONG).show();
 
+                            }
+                        });
                     }
-                }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Snackbar.make(getContext(), getView(), "error" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
                     }
                 });
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
-            }
-        });
     }
+//    private void addNewRequest(ListOfRequest request) {
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                ListOfRequest listOfRequest = snapshot.getValue(ListOfRequest.class);
+//                listOfRequest.getRequestList().add(request.getRequestList().get(0));
+//                databaseReference.setValue(listOfRequest).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
+//                        navController.popBackStack();
+//
+//                    }
+//                }).addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Snackbar.make(getContext(), getView(), "error" + e.getMessage(), Snackbar.LENGTH_LONG).show();
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
+//            }
+//        });
+//    }
 
     private boolean isVaild() {
         if (binding.txtEmail.getText().toString().isEmpty()) {

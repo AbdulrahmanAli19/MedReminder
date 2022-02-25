@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListOfRequest {
-    private List<Request> requestList=new ArrayList<>();
-   public ListOfRequest(){}
+    private List<Request> requestList = new ArrayList<>();
+
+    public ListOfRequest() {
+    }
 
     public ListOfRequest(List<Request> requestList) {
         this.requestList = requestList;
