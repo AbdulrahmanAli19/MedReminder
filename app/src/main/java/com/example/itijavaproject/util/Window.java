@@ -2,7 +2,7 @@ package com.example.itijavaproject.util;
 
 import static android.content.Context.WINDOW_SERVICE;
 
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.PixelFormat;
 import android.os.Build;
@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.itijavaproject.R;
 
@@ -22,18 +20,14 @@ public class Window {
 
     private static final String TAG = "Window.DEV";
 
-    private Context context;
-    private String title;
-    private String body;
-    private View mView;
+    private final Context context;
+    private final View mView;
     private WindowManager.LayoutParams mParams;
-    private WindowManager mWindowManager;
-    private LayoutInflater layoutInflater;
+    private final WindowManager mWindowManager;
 
+    @SuppressLint("InflateParams")
     public Window(Context context, String body, String title) {
         this.context = context;
-        this.body = body;
-        this.title = title;
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mParams = new WindowManager.LayoutParams(
@@ -43,15 +37,13 @@ public class Window {
                     PixelFormat.TRANSLUCENT);
         }
 
-        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mView = layoutInflater.inflate(R.layout.popup_window, null);
 
-        TextView txtMedName = mView.findViewById(R.id.txtMedName);
-        txtMedName.setText(title);
+        ((TextView) mView.findViewById(R.id.txtMedName)).setText(title);
 
-        TextView txtBody = mView.findViewById(R.id.txtMedName);
-        txtBody.setText(body);
+        ((TextView) mView.findViewById(R.id.txtBody)).setText(body);
 
         mView.findViewById(R.id.btnSnooze).setOnClickListener(view -> {
             ///TODO: REMIND ME LATTER
@@ -59,28 +51,17 @@ public class Window {
         });
 
         mView.findViewById(R.id.btnTake).setOnClickListener(view -> {
-            ///TODO: TAKE THE MED
+
+            close();
+        });
+
+        mView.findViewById(R.id.btnSkip).setOnClickListener(view -> {
+            ///TODO: Skip med
             close();
         });
 
         mParams.gravity = Gravity.CENTER;
         mWindowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
-    }
-        public void createNotificationDialogue(){
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View dialogue = inflater.inflate(R.layout.custom_dialogue, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setView(dialogue);
-        TextView header = dialogue.findViewById(R.id.txtHeader);
-        TextView medName = dialogue.findViewById(R.id.medName);
-        TextView details = dialogue.findViewById(R.id.txtMedDetails);
-        ImageButton iconType = dialogue.findViewById(R.id.Icon);
-        //FloatingActionButton skip=dialogue.findViewById(R.id.cancelBtn);
-        //FloatingActionButton take=dialogue.findViewById(R.id.doneBtn);
-        //FloatingActionButton snooze=dialogue.findViewById(R.id.snoozeBtn);
-        AlertDialog customDialog = builder.create();
-        customDialog.show();
-
     }
 
     public void open() {

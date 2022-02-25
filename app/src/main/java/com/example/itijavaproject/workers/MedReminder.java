@@ -5,7 +5,6 @@ import static java.lang.Thread.sleep;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -22,13 +21,20 @@ public class MedReminder extends Worker {
 
     }
 
-    Handler handler = new Handler(getApplicationContext().getMainLooper()){
+    Handler handler = new Handler(getApplicationContext().getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             String title = getInputData().getString("title");
             String body = getInputData().getString("body");
-            new Window(getApplicationContext(), body, title).open();
+            Boolean isPermissionGranted = getInputData().getBoolean("permission", false);
+
+            if (isPermissionGranted)
+                new Window(getApplicationContext(), body, title).open();
+            else {
+                new WorkerUtil(getApplicationContext()).createNotification(body, title);
+            }
+
         }
     };
 

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -63,6 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
+        ViewCompat.requestApplyInsets(binding.parent);
         binding.collapsingLayout.setExpandedTitleColor(getResources().getColor(R.color.transperent));
         binding.collapsingLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
         binding.calendarView.setSelectedDate(CalendarDay.today());
@@ -132,11 +134,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                 });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickItemClickListener(int pos) {
         Log.d(TAG, "onClickItemClickListener: " + pos);
         Data data = new Data.Builder().putString("title", "dummy")
-                .putString("body", "dummy body").build();
+                .putString("body", "dummy body")
+                .putBoolean("permission", Settings.canDrawOverlays(getActivity())).build();
 
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
