@@ -79,17 +79,18 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
         }
     }
 
-    static class CurrentDayViewHolder extends RecyclerView.ViewHolder {
+    class CurrentDayViewHolder extends RecyclerView.ViewHolder {
         private final LayoutHomeBinding binding;
         public CurrentDayViewHolder(LayoutHomeBinding binding, HomeAdapterInterface homeAdapterInterface) {
             super(binding.getRoot());
             this.binding = binding;
+
             binding.cardView.setOnClickListener(v -> homeAdapterInterface
-                    .onClickItemClickListener(getAdapterPosition()));
+                    .onClickItemClickListener(medicines.get(getAdapterPosition())));
         }
     }
 
     interface HomeAdapterInterface {
-        void onClickItemClickListener(int pos);
+        void onClickItemClickListener(Medicine medicine);
     }
 }

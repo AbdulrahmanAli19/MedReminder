@@ -23,6 +23,8 @@
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/popup_window.xml" value="0.20863616930312098" />
         <entry key="app/src/main/res/drawable/fab_shabe.xml" value="0.1395" />
         <entry key="app/src/main/res/drawable/home_layout.xml" value="0.1205" />
+        <entry key="app/src/main/res/drawable/ic_remove_white_36dp.xml" value="0.1795" />
+        <entry key="app/src/main/res/drawable/med_ic.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_vaccines_20.xml" value="0.199" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="app/src/main/res/layout/custom_dialogue.xml" value="0.1" />
@@ -34,9 +36,11 @@
         <entry key="app/src/main/res/layout/fragment_medications.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_splash.xml" value="0.2265625" />
+        <entry key="app/src/main/res/layout/home_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/home_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/layout_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/popup_window.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/home_menu.xml" value="0.24114583333333334" />
       </map>
     </option>
   </component>

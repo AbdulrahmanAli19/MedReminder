@@ -11,13 +11,6 @@
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_medicationsFragment"
-            app:destination="@id/medicationsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_homeFragment_to_addMedicineFragment"
             app:destination="@id/addMedicineFragment"
             app:enterAnim="@anim/fade_in"
@@ -67,20 +60,32 @@
         tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_registerFragment"
-            app:destination="@id/registerFragment" />
+            app:destination="@id/registerFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
         <action
             android:id="@+id/action_splashFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_splashFragment_to_signinFragment"
-            app:destination="@id/signinFragment" />
+            app:destination="@id/signinFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
         android:id="@+id/signinFragment"
         android:name="com.example.itijavaproject.ui.sigininscreen.view.SigninFragment"
         android:label="@string/login_in"
-        tools:layout="@layout/fragment_siginin"/>
+        tools:layout="@layout/fragment_siginin" />
 
     <fragment
         android:id="@+id/addHealthTakerFragment"
@@ -113,7 +118,7 @@
         android:id="@+id/moreFragment"
         android:name="com.example.itijavaproject.ui.morescreen.view.MoreFragment"
         android:label="fragment_more"
-        tools:layout="@layout/fragment_more" >
+        tools:layout="@layout/fragment_more">
         <action
             android:id="@+id/action_moreFragment_to_requestFragment"
             app:destination="@id/requestFragment" />

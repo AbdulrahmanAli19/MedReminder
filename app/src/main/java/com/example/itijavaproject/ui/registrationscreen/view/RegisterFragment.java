@@ -135,6 +135,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                 .build();
                         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
                         fUser.updateEmail(user.getEmail());
+                        fUser.updateProfile(profileUpdates);
                         navController.navigate(RegisterFragmentDirections
                                 .actionRegisterFragmentToHomeFragment());
                     }).addOnFailureListener(e -> {

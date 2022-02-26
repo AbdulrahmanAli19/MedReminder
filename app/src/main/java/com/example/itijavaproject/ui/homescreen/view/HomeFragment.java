@@ -2,7 +2,6 @@ package com.example.itijavaproject.ui.homescreen.view;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -10,9 +9,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,6 +43,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Maybe;
@@ -51,7 +53,7 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
         HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface,
-        OnDateSelectedListener, HomeCommunicator {
+        OnDateSelectedListener, HomeCommunicator, HomeDialogCommunicator {
 
     private static final String TAG = "HomeFragment.DEV";
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
@@ -59,6 +61,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
     private CurrentDayAdapter adapter;
+    private HomeDialog dialog;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -70,6 +73,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         binding.calendarView.setSelectedDate(CalendarDay.today());
         binding.calendarView.setOnDateChangedListener(this);
         binding.collapsingLayout.setTitle("Home");
+        setHasOptionsMenu(true);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
@@ -136,9 +140,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onClickItemClickListener(int pos) {
-        Log.d(TAG, "onClickItemClickListener: " + pos);
-        Data data = new Data.Builder().putString("title", "dummy")
+    public void onClickItemClickListener(Medicine medicine) {
+        /*Data data = new Data.Builder().putString("title", "dummy")
                 .putString("body", "dummy body")
                 .putBoolean("permission", Settings.canDrawOverlays(getActivity())).build();
 
@@ -152,7 +155,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                 .setConstraints(constraints)
                 .addTag("TEST WORK")
                 .build();
-        WorkManager.getInstance(getContext()).enqueue(request);
+        WorkManager.getInstance(getContext()).enqueue(request);*/
+        dialog = new HomeDialog(getContext(), this);
+        dialog.show(medicine);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -161,6 +166,26 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
         long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
         presenter.getSelectedDateMedicines(mili);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.home_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.alarm:
+                Log.d(TAG, "onOptionsItemSelected: alarm clicked...");
+                return false;
+            default:
+                break;
+        }
+        return false;
     }
 
     public void checkPermission() {
@@ -193,5 +218,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                     Uri.parse("package:" + getContext().getPackageName()));
             startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
         }
+    }
+
+    @Override
+    public void take() {
+
+    }
+
+    @Override
+    public void snooze() {
+
+    }
+
+    @Override
+    public void close() {
+        dialog.close();
     }
 }
