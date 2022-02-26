@@ -53,8 +53,6 @@ public class SigninFragment extends Fragment {
 
         Intent intent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(false)
-                .setAlwaysShowSignInMethodScreen(true)
                 .setAvailableProviders(provider)
                 .setTheme(R.style.GreenTheme)
                 .setLogo(R.drawable.med_ic)
