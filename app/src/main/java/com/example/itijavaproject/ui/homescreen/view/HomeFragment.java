@@ -43,6 +43,7 @@ import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Maybe;
@@ -52,7 +53,7 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
         HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface,
-        OnDateSelectedListener, HomeCommunicator {
+        OnDateSelectedListener, HomeCommunicator, HomeDialogCommunicator {
 
     private static final String TAG = "HomeFragment.DEV";
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
@@ -60,6 +61,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     private FragmentHomeBinding binding;
     private HomePresenter presenter;
     private CurrentDayAdapter adapter;
+    private HomeDialog dialog;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -138,9 +140,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onClickItemClickListener(int pos) {
-        Log.d(TAG, "onClickItemClickListener: " + pos);
-        Data data = new Data.Builder().putString("title", "dummy")
+    public void onClickItemClickListener(Medicine medicine) {
+        /*Data data = new Data.Builder().putString("title", "dummy")
                 .putString("body", "dummy body")
                 .putBoolean("permission", Settings.canDrawOverlays(getActivity())).build();
 
@@ -154,7 +155,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                 .setConstraints(constraints)
                 .addTag("TEST WORK")
                 .build();
-        WorkManager.getInstance(getContext()).enqueue(request);
+        WorkManager.getInstance(getContext()).enqueue(request);*/
+        dialog = new HomeDialog(getContext(), this);
+        dialog.show(medicine);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -215,5 +218,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
                     Uri.parse("package:" + getContext().getPackageName()));
             startActivityForResult(intent, ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE);
         }
+    }
+
+    @Override
+    public void take() {
+
+    }
+
+    @Override
+    public void snooze() {
+
+    }
+
+    @Override
+    public void close() {
+        dialog.close();
     }
 }
