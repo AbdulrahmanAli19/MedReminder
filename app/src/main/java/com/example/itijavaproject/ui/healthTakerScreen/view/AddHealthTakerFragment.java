@@ -91,12 +91,9 @@ public class AddHealthTakerFragment extends Fragment {
                                         } else {
                                             Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
                                         }
-
                                     }
-
                             });
                 }
-
         });
     }
 
@@ -106,10 +103,12 @@ public class AddHealthTakerFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     addRequestReciver(request);
-                } else {
+                }
+                else {
                     databaseReference.setValue(request).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
+                            Log.d(TAG, "onSuccess pop up: ");
                             Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
                             navController.popBackStack();
                         }
@@ -123,8 +122,6 @@ public class AddHealthTakerFragment extends Fragment {
             }
         });
     }
-
-
     public void addRequestReciver(ListOfRequest listOfRequest) {
         String email = listOfRequest.getRequestList().get(0).getReceiverMail();
         userId = FirebaseAuth.getInstance().getUid();
@@ -137,7 +134,6 @@ public class AddHealthTakerFragment extends Fragment {
                     snapshot1.getRef().child("recivedRequests").child(request.getSenderMail().split("\\.")[0]).setValue(request);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }

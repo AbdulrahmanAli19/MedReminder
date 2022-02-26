@@ -64,27 +64,28 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             public void onClick(View view) {
                 databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance()
                         .getUid()).child("recivedRequests");
+
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                         User user=snapshot.getValue(User.class);
-                        for (Request request:user.getRequestList()) {
-                            Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
-                            if (request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
-                            .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
-                            {
-                                Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
-                                user.getRequestList().remove(request);
 
-                            }
-//                            int newPosition = holder.getAdapterPosition();
-//                                request.remove(position);
-//                                notifyItemRemoved(newPosition);
-//                                notifyItemRangeChanged(newPosition, request.size());
-                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                        }
 
+//                        for (Request request:user.getRequestList()) {
+//                            Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
+//                            if (request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
+//                            .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
+//                            {
+//                                Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
+//                                user.getRequestList().remove(request);
+//
+//                            }
+////                            int newPosition = holder.getAdapterPosition();
+////                                request.remove(position);
+////                                notifyItemRemoved(newPosition);
+////                                notifyItemRangeChanged(newPosition, request.size());
+//                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+//                        }
                     }
 
                     @Override
