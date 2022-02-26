@@ -83,7 +83,7 @@
 
     <fragment
         android:id="@+id/signinFragment"
-        android:name="com.example.itijavaproject.ui.sigininscreen.view.SigninFragment"
+        android:name="com.example.itijavaproject.ui.sigininscreen.view.SigningFragment"
         android:label="@string/login_in"
         tools:layout="@layout/fragment_siginin" />
 
