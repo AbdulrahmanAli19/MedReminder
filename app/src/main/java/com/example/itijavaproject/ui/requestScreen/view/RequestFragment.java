@@ -23,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 public class RequestFragment extends Fragment {
     private static final String TAG = "RequestFragment";
@@ -49,24 +51,28 @@ public class RequestFragment extends Fragment {
     }
     private void addNewRequest() {
        ListOfRequest list = new ListOfRequest();
+       List<Request> requestList=new ArrayList<>();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User user=snapshot.getValue(User.class);
                 if(snapshot.exists())
                 {
                     Log.d(TAG, "onDataChange snap: "+snapshot.exists());
-                    for (Request request:user.getRequestList()) {
-                        Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
-                        if(request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
-                        .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
-                        {
-                            Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
-                            list.getRequestList().add(request);
-                        }
+//                    for (Request request:user.getRequestList()) {
+//                        Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
+//                        if(request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
+//                        .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
+//                        {
+//                            Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
+//                            list.getRequestList().add(request);
+//                        }
+//                    }
+                    for (DataSnapshot snapshot1:snapshot.getChildren()) {
+                      Request request = snapshot1.getValue(Request.class);
+                        requestList.add(request);
                     }
                     Log.d(TAG, "onDataChange adapter: " + list.getRequestList().isEmpty());
-                    requestAdapter = new RequestAdapter(list, getContext());
+                    requestAdapter = new RequestAdapter(requestList, getContext());
                     binding.recRequest.setAdapter(requestAdapter);
                 }
                 else {

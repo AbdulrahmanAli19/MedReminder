@@ -19,7 +19,6 @@ import com.example.itijavaproject.R;
 public class Window {
 
     private static final String TAG = "Window.DEV";
-
     private final Context context;
     private final View mView;
     private WindowManager.LayoutParams mParams;

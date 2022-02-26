@@ -63,38 +63,40 @@ public class AddHealthTakerFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                boolean dol = task.getResult().getSignInMethods().isEmpty();
-                                if (dol) {
-                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            Log.d(TAG, "onDataChange: no data");
-                                            ListOfRequest listOfRequest = new ListOfRequest();
-                                            Request request = new Request();
-                                            request.setReceiverMail(binding.txtEmail.getText().toString());
-                                            request.setSenderMail(auth.getCurrentUser().getEmail());
-//                                             request.setSenderUid(FirebaseAuth.getInstance().getUid());
-                                            request.setShared(binding.boxPolicy.isChecked());
-                                            listOfRequest.getRequestList().add(request);
-                                            checkRequests(listOfRequest);
+                    auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                        boolean dol = task.getResult().getSignInMethods().isEmpty();
+                                        if (dol) {
+                                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    Log.d(TAG, "onDataChange: no data");
+                                                    ListOfRequest listOfRequest = new ListOfRequest();
+                                                    Request request = new Request();
+                                                    request.setReceiverMail(binding.txtEmail.getText().toString());
+                                                    request.setSenderMail(auth.getCurrentUser().getEmail());
+                                                    request.setSenderUid(FirebaseAuth.getInstance().getUid());
+                                                    request.setShared(binding.boxPolicy.isChecked());
+                                                    listOfRequest.getRequestList().add(request);
+                                                    checkRequests(listOfRequest);
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    Log.d(TAG, "onCancelled: ");
+                                                }
+                                            });
+                                        } else {
+                                            Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
                                         }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Log.d(TAG, "onCancelled: ");
-                                        }
-                                    });
-                                } else {
-                                    Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
-                                }
-                            }
-                        });
+                                    }
 
-            }
+                            });
+                }
+
         });
     }
 
@@ -103,7 +105,6 @@ public class AddHealthTakerFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    addRequestSendeer(request);
                     addRequestReciver(request);
                 } else {
                     databaseReference.setValue(request).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -111,7 +112,6 @@ public class AddHealthTakerFragment extends Fragment {
                         public void onSuccess(Void unused) {
                             Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
                             navController.popBackStack();
-
                         }
                     });
                 }
@@ -120,77 +120,36 @@ public class AddHealthTakerFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
-
             }
         });
     }
 
-    private void addRequestSendeer(ListOfRequest request) {
-        userId = FirebaseAuth.getInstance().getUid();
-        databaseReference.child(userId)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user = snapshot.getValue(User.class);
-                        user.getRequestList().add(request.getRequestList().get(0));
-
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("senderRequests", request);
-                        databaseReference.child(userId).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
-                                navController.popBackStack();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Snackbar.make(getContext(), getView(), "error" + e.getMessage(), Snackbar.LENGTH_LONG).show();
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
-                    }
-                });
-    }
 
     public void addRequestReciver(ListOfRequest listOfRequest) {
         String email = listOfRequest.getRequestList().get(0).getReceiverMail();
         userId = FirebaseAuth.getInstance().getUid();
         Query query = databaseReference.orderByChild("email").equalTo(email);
+        Request request = listOfRequest.getRequestList().get(0);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("recivedRequests", listOfRequest);
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    snapshot1.getRef().updateChildren(map);
+                    snapshot1.getRef().child("recivedRequests").child(request.getSenderMail().split("\\.")[0]).setValue(request);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
     }
 
-
     private boolean isVaild() {
-        if (binding.txtEmail.getText().toString().isEmpty()) {
-            binding.txtEmail.setError(getString(R.string.empty_email));
-            String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-            if (!binding.txtEmail.getText().toString().equals(emailRegex)) {
-                binding.txtEmail.setError(getString(R.string.not_vaild_email));
-            }
-            return false;
+        String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        if (binding.txtEmail.getText().toString().isEmpty()&& !binding.txtEmail.getText().toString().equals(emailRegex)) {
+            Toast.makeText(getContext(), "invaild email", Toast.LENGTH_SHORT).show();
         }
-        return false;
+            return true;
     }
 
     @Override

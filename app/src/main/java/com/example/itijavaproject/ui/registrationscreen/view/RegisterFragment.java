@@ -85,7 +85,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 binding.edtEmail.setError(getString(R.string.not_vaild_email));
             }
             return false;
-        } else if (binding.edtName.getEditText().getText().toString().isEmpty()) {
+        }
+        else if (binding.edtName.getEditText().getText().toString().isEmpty()) {
             binding.edtName.setError(getString(R.string.empty_name));
 
         } else if (binding.edtPhoneNumber.getEditText().getText().toString().isEmpty()) {
@@ -94,12 +95,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         } else if (binding.edtBirthdayLayout.getEditText().getText().toString().isEmpty()) {
             binding.edtPhoneNumber.setError(getString(R.string.empty_birthday));
 
-        } else if (binding.genderGroup.getCheckedRadioButtonId() == -1) {
+        }
+        else if (binding.genderGroup.getCheckedRadioButtonId() == -1) {
             Snackbar.make(getContext(), getView(),
                     getContext().getString(R.string.empty_gender),
                     Snackbar.LENGTH_LONG)
                     .show();
-        } else {
+        }
+        else {
             return true;
         }
         return false;

@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentRegisterBinding;
-import com.example.itijavaproject.pojo.model.ListOfRequest;
 import com.example.itijavaproject.pojo.model.Request;
+import com.example.itijavaproject.pojo.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,17 +24,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.List;
 import java.util.Locale;
 
 public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHolder> {
-    private ListOfRequest listOfRequest;
+//    private ListOfRequest listOfRequest;
+    private List<Request> request;
     private FragmentRegisterBinding binding;
     private final Context context;
     private DatabaseReference databaseReference;
 
+    private static final String TAG = "RequestAdapter";
 
-    public RequestAdapter(ListOfRequest listOfRequest, Context context) {
-        this.listOfRequest = listOfRequest;
+    public RequestAdapter(List<Request> request, Context context) {
+        this.request = request;
         this.context = context;
     }
 
@@ -47,7 +50,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.txtEmailReq.setText(listOfRequest.getRequestList().get(position).getSenderMail());
+        holder.txtEmailReq.setText(request.get(position).getSenderMail());
         holder.btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,39 +67,24 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        listOfRequest = snapshot.getValue(ListOfRequest.class);
-                        for (int i = 0; i < listOfRequest.getRequestList().size(); i++) {
-                            if (listOfRequest.getRequestList().get(i)
-                                    .getSenderMail().toLowerCase(Locale.ROOT)
-                                    .equals(FirebaseAuth.getInstance()
-                                            .getCurrentUser().getEmail()))
+
+                        User user=snapshot.getValue(User.class);
+                        for (Request request:user.getRequestList()) {
+                            Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
+                            if (request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
+                            .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
                             {
-                                listOfRequest.getRequestList().remove(i);
-                                int newPosition = holder.getAdapterPosition();
-                                listOfRequest.getRequestList().remove(position);
-                                notifyItemRemoved(newPosition);
-                                notifyItemRangeChanged(newPosition, listOfRequest.getRequestList().size());
-                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                                //break;
+                                Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
+                                user.getRequestList().remove(request);
 
                             }
-
-                        }
-//
-//                                for (Request request : listOfRequest.getRequestList()) {
-//
-//                                    listOfRequest.getRequestList().remove(request);
-//
-//                                }
-//                        for (DataSnapshot ds : snapshot.getChildren()) {
-//
-//                            ds.getRef().removeValue();
 //                            int newPosition = holder.getAdapterPosition();
-//                            listOfRequest.getRequestList().remove(position);
-//                            notifyItemRemoved(newPosition);
-//                            notifyItemRangeChanged(newPosition, listOfRequest.getRequestList().size());
-//                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-//                        }
+//                                request.remove(position);
+//                                notifyItemRemoved(newPosition);
+//                                notifyItemRangeChanged(newPosition, request.size());
+                                Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
+                        }
+
                     }
 
                     @Override
@@ -114,7 +102,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return listOfRequest.getRequestList().size();
+        return request.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
