@@ -73,6 +73,7 @@ public class SigningFragment extends Fragment {
                         Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
                     }
                     navController.popBackStack();
+                    launcher.unregister();
                 }
             }
         } else {
@@ -84,6 +85,7 @@ public class SigningFragment extends Fragment {
                 Log.d(TAG, "onCreate: ActivityResult" + response.getError());
             }
             navController.popBackStack();
+            launcher.unregister();
         }
     }
 }

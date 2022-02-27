@@ -9,11 +9,9 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +26,7 @@ import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
 import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import com.example.itijavaproject.R;
@@ -45,6 +44,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
@@ -53,7 +53,8 @@ import io.reactivex.disposables.Disposable;
 
 public class HomeFragment extends Fragment implements View.OnClickListener,
         HomeFragInterface, CurrentDayAdapter.HomeAdapterInterface,
-        OnDateSelectedListener, HomeCommunicator, HomeDialogCommunicator {
+        OnDateSelectedListener, HomeCommunicator, HomeDialogCommunicator,
+        MaybeObserver<List<Medicine>> {
 
     private static final String TAG = "HomeFragment.DEV";
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
@@ -73,7 +74,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         binding.calendarView.setSelectedDate(CalendarDay.today());
         binding.calendarView.setOnDateChangedListener(this);
         binding.collapsingLayout.setTitle("Home");
-        setHasOptionsMenu(true);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
@@ -84,6 +84,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         binding.homeRecycler.setAdapter(adapter);
         presenter.getSelectedDateMedicines(System.currentTimeMillis());
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getSelectedDateMedicines(System.currentTimeMillis());
     }
 
     @Override
@@ -113,80 +119,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void getSelectedDateMedicines(Maybe<List<Medicine>> medicines) {
-        medicines.observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new MaybeObserver<List<Medicine>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Log.d(TAG, "onSubscribe: ");
-                    }
-
-                    @Override
-                    public void onSuccess(List<Medicine> medicines) {
-                        Log.d(TAG, "onSuccess: " + medicines.isEmpty());
-                        adapter.setMedicines(medicines);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "onError: ");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d(TAG, "onComplete: ");
-                    }
-                });
+        medicines.observeOn(AndroidSchedulers.mainThread()).subscribe(this);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickItemClickListener(Medicine medicine) {
-        /*Data data = new Data.Builder().putString("title", "dummy")
-                .putString("body", "dummy body")
-                .putBoolean("permission", Settings.canDrawOverlays(getActivity())).build();
-
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
-                .setRequiresCharging(false)
-                .build();
-
-        OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(MedReminder.class)
-                .setInputData(data)
-                .setConstraints(constraints)
-                .addTag("TEST WORK")
-                .build();
-        WorkManager.getInstance(getContext()).enqueue(request);*/
         dialog = new HomeDialog(getContext(), this);
         dialog.show(medicine);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+    public void onDateSelected(@NonNull MaterialCalendarView widget,
+                               @NonNull CalendarDay date, boolean selected) {
         LocalDate localDate = LocalDate.ofEpochDay(date.getDate().toEpochDay());
-        long mili = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
-        presenter.getSelectedDateMedicines(mili);
+        long toEpochMilli = localDate.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+        presenter.getSelectedDateMedicines(toEpochMilli);
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.home_menu, menu);
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.alarm:
-                Log.d(TAG, "onOptionsItemSelected: alarm clicked...");
-                return false;
-            default:
-                break;
-        }
-        return false;
-    }
 
     public void checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getActivity())) {
@@ -233,5 +183,28 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     @Override
     public void close() {
         dialog.close();
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
+
+    }
+
+    @Override
+    public void onSuccess(List<Medicine> medicines) {
+        Log.d(TAG, "onSuccess: " + medicines.isEmpty());
+        adapter.setMedicines(medicines);
+
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Toast.makeText(getContext(), "ERROR", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onError: " + e.getMessage());
+    }
+
+    @Override
+    public void onComplete() {
+
     }
 }

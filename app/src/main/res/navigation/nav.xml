@@ -102,7 +102,6 @@
             android:name="medicine"
             app:argType="com.example.itijavaproject.pojo.model.Medicine" />
 
-
     </fragment>
 
     <fragment
@@ -115,17 +114,13 @@
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
-        android:id="@+id/moreFragment"
-        android:name="com.example.itijavaproject.ui.morescreen.view.MoreFragment"
-        android:label="fragment_more"
-        tools:layout="@layout/fragment_more">
-        <action
-            android:id="@+id/action_moreFragment_to_requestFragment"
-            app:destination="@id/requestFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/requestFragment"
         android:name="com.example.itijavaproject.ui.requestScreen.view.RequestFragment"
         android:label="fragment_request"
         tools:layout="@layout/fragment_request" />
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.example.itijavaproject.ui.userscreen.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
 </navigation>
