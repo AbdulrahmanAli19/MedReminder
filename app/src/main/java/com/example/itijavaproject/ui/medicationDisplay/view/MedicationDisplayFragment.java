@@ -27,11 +27,14 @@ import android.widget.Toast;
 
 
 import com.example.itijavaproject.R;
+import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentMedicationDisplayBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 
 import com.example.itijavaproject.pojo.model.User;
+import com.example.itijavaproject.pojo.repo.Repository;
+import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
 import com.example.itijavaproject.workers.WorkerUtil;
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -65,7 +68,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     NavDirections directions;
     DatabaseAccess databaseAccess;
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("medicine");
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +86,8 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        presenter=new MedicationDisplayPresenter(Repository.getInstance(ConcreteLocalSource.getInstance(getContext()),getContext())
+                ,this);
         navController = Navigation.findNavController(view);
         Medicine medicine = MedicationDisplayFragmentArgs.fromBundle(getArguments()).getObjOfMeds();
         if (medicine.getIconType().equals(getActivity().getApplicationContext().getString(R.string.pill))) {
@@ -197,16 +201,10 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
 
             }
         });
-        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
         binding.deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        databaseAccess.medicineDao().deleteMedicine(medicine);
-                    }
-                }).start();
+                presenter.deleteMedicine(medicine);
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                 Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("name").equalTo(medicine.getName());
 
@@ -236,13 +234,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             }
         });
     }
-
-    @Override
-    public void editMedicine(Medicine medicine) {
-        presenter.editMedicine(medicine);
-
-    }
-
     @Override
     public void deleteMedicine(Medicine medicine) {
         presenter.deleteMedicine(medicine);

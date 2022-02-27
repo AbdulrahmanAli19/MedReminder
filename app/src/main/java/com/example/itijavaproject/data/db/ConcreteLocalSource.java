@@ -65,6 +65,7 @@ public class ConcreteLocalSource implements LocalSource {
 
     @Override
     public void editMedicine(Medicine medicine) {
+        new Thread(() -> medicineDao.updateMedicine(medicine)).start();
 
     }
 }
