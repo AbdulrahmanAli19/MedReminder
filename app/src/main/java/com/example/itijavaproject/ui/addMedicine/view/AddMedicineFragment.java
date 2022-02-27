@@ -23,11 +23,15 @@ import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.itijavaproject.R;
+import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentAddMedicineBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.model.User;
+import com.example.itijavaproject.pojo.repo.Repository;
+import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenter;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
+import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,9 +57,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         DatePickerDialog.OnDateSetListener, AddMedicineInterface, View.OnClickListener {
     private static final String TAG = "AddMedicineFragment";
     private FragmentAddMedicineBinding binding;
-    AddMedicinePresenterInterface presenterInterface;
-    NavController navController;
-    NavDirections directions;
+    private AddMedicinePresenterInterface presenterInterface;
+    private NavController navController;
+    private NavDirections directions;
     Calendar startCalender, endCalender;
     String startDate;
     String endDate;
@@ -174,6 +178,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        presenterInterface=new AddMedicinePresenter(Repository.getInstance(ConcreteLocalSource.getInstance(getContext()),getContext())
+                ,this);
         navController = Navigation.findNavController(view);
         binding.calenderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,23 +251,17 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
                     editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked( ));
                     editMedicine.setActive(true);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            databaseAccess.medicineDao().updateMedicine(editMedicine);
-                        }
-                    }).start();
-                    Query query = databaseReference.child(FirebaseAuth.getInstance().getUid()).child("medicine")
-                            .orderByChild("name").equalTo(editMedicine.getName());
+                    presenterInterface.editMedicine(editMedicine);
+
+
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+                    Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("name").equalTo(editMedicine.getName());
+
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot db: dataSnapshot.getChildren()) {
-                                String key=db.getKey();
-                                Map<String, Object> childUpdates = new HashMap<>();
-                                childUpdates.put(key+"/name/", editMedicine.getName());
-                                databaseReference.updateChildren(childUpdates);
-                                //db.getRef().setValue(editMedicine);
+                                db.getRef().setValue(editMedicine);
                             }
                         }
                         @Override
@@ -280,10 +280,11 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
                     String userId = FirebaseAuth.getInstance().getUid();
                     if(userId==null){
-                        new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                       presenterInterface.addMedicine(createMedicine());
 
                     }else{
-                        new Thread(() -> databaseAccess.medicineDao().insertMedicine(createMedicine())).start();
+                        presenterInterface.addMedicine(createMedicine());
+                        Log.i(TAG, "onClick: "+createMedicine().getMed_id());
                         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -291,11 +292,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                         User user=snapshot.getValue(User.class);
                                         user.getMedicine().add(createMedicine());
                                         databaseReference.child(userId).setValue(user);
+
                                     }
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
                                     }
                                 });
+
                     }
 
                  navController.popBackStack();

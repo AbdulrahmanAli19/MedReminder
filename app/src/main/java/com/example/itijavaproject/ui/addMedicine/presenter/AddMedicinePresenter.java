@@ -2,18 +2,19 @@ package com.example.itijavaproject.ui.addMedicine.presenter;
 
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
+import com.example.itijavaproject.ui.addMedicine.view.AddMedicineInterface;
 
 public class AddMedicinePresenter implements AddMedicinePresenterInterface {
 
     private RepositoryInterface repo;
 
-    private AddMedicinePresenterInterface addMedicinePresenterInterface;
+    private  AddMedicineInterface addMedicineInterface;
 
 
     public AddMedicinePresenter(RepositoryInterface repo,
-                                AddMedicinePresenterInterface addMedicinePresenterInterface) {
+                                AddMedicineInterface addMedicineInterface) {
         this.repo = repo;
-        this.addMedicinePresenterInterface = addMedicinePresenterInterface;
+        this.addMedicineInterface=addMedicineInterface;
     }
 
     @Override

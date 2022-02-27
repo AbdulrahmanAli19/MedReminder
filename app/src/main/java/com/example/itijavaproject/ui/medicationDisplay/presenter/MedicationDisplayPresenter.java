@@ -14,13 +14,11 @@ public class MedicationDisplayPresenter implements MedicineDisplayPresenterInter
     }
 
 
+
     @Override
     public void deleteMedicine(Medicine medicine) {
         repo.deleteMedicine(medicine);
 
     }
-    @Override
-    public void editMedicine(Medicine medicine) {
-        repo.editMedicine(medicine);
-    }
+
 }
