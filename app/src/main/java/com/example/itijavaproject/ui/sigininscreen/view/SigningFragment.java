@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-public class SigninFragment extends Fragment {
+public class SigningFragment extends Fragment {
 
     private static final String TAG = "SigninFragment.DEV";
     private NavController navController;
