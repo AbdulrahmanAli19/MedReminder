@@ -41,8 +41,5 @@ public class MoreFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         btnRequest=view.findViewById(R.id.btnRequest);
         navController = Navigation.findNavController(view);
-        NavDirections directions = MoreFragmentDirections.actionMoreFragmentToRequestFragment();
-        btnRequest.setOnClickListener(v -> navController
-                .navigate(directions));
     }
 }

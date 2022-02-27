@@ -5,14 +5,24 @@
         android:enabled="true"
         android:icon="@drawable/ic_round_home_24"
         android:title="@string/home" />
+
     <item
         android:id="@+id/medicationsFragment"
         android:enabled="true"
         android:icon="@drawable/outline_vaccines_20"
         android:title="@string/med_title" />
+
     <item
-        android:id="@+id/moreFragment"
+        android:id="@+id/requestFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_more_horiz_24"
-        android:title="@string/more" />
+        android:icon="@drawable/ic_baseline_access_alarms_24"
+        android:title="@string/requests" />
+
+    <item
+        android:id="@+id/userFragment"
+        android:enabled="true"
+        android:icon="@drawable/ic_person"
+        android:title="@string/user" />
+
+
 </menu>

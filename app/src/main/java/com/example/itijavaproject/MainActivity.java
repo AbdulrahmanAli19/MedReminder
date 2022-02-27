@@ -21,15 +21,9 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.itijavaproject.databinding.ActivityMainBinding;
-import com.example.itijavaproject.ui.homescreen.view.HomeCommunicator;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.prolificinteractive.materialcalendarview.CalendarDay;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 public class MainActivity extends AppCompatActivity implements
-        NavController.OnDestinationChangedListener{
+        NavController.OnDestinationChangedListener {
 
     private static final String TAG = "MainActivity.DEV";
     private AppBarConfiguration appBarConfiguration;
@@ -61,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements
         navController = Navigation.findNavController(this, R.id.fragmentContainerView);
 
         appBarConfiguration = new AppBarConfiguration.Builder(R.id.homeFragment,
-                R.id.moreFragment, R.id.signinFragment, R.id.splashFragment,
+                R.id.userFragment, R.id.requestFragment, R.id.signinFragment, R.id.splashFragment,
                 R.id.medicationsFragment, R.id.registerFragment).build();
 
 
@@ -72,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements
         navController.addOnDestinationChangedListener(this);
     }
 
-    public NavController getNavController(){
+    public NavController getNavController() {
         return navController;
     }
 
@@ -114,7 +108,8 @@ public class MainActivity extends AppCompatActivity implements
                 binding.appBarLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.medicationsFragment:
-            case R.id.moreFragment:
+            case R.id.userFragment:
+            case R.id.recRequest:
                 binding.toolBar.setVisibility(View.VISIBLE);
                 binding.bottomNavigation.setVisibility(View.VISIBLE);
                 binding.appBarLayout.setVisibility(View.VISIBLE);
@@ -123,13 +118,5 @@ public class MainActivity extends AppCompatActivity implements
                 Log.d(TAG, "onDestinationChanged: unknown destiny " + navDestination.getDisplayName());
                 break;
         }
-    }
-
-
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        FirebaseAuth.getInstance().signOut();
     }
 }

@@ -30,7 +30,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.Arrays;
 import java.util.List;
 
-public class SigninFragment extends Fragment {
+public class SigningFragment extends Fragment {
 
     private static final String TAG = "SigninFragment.DEV";
     private NavController navController;
@@ -73,6 +73,7 @@ public class SigninFragment extends Fragment {
                         Toast.makeText(getContext(), "Welcome", Toast.LENGTH_SHORT).show();
                     }
                     navController.popBackStack();
+                    launcher.unregister();
                 }
             }
         } else {
@@ -84,6 +85,7 @@ public class SigninFragment extends Fragment {
                 Log.d(TAG, "onCreate: ActivityResult" + response.getError());
             }
             navController.popBackStack();
+            launcher.unregister();
         }
     }
 }

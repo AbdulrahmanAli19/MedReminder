@@ -16,6 +16,7 @@ import com.example.itijavaproject.pojo.model.Medicine;
 import org.threeten.bp.LocalDateTime;
 import org.threeten.bp.ZoneOffset;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.CurrentDayViewHolder> {
@@ -42,8 +43,7 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
         Medicine currentMed = medicines.get(position);
         holder.binding.imgMed.setImageDrawable(getImage(currentMed.getIconType()));
         holder.binding.txtMedName.setText(currentMed.getName());
-        LocalDateTime time = LocalDateTime.ofEpochSecond(currentMed.getTimes().get(0), 0, ZoneOffset.UTC);
-        holder.binding.txtTime.setText(time.getHour() + " : " + time.getMinute());
+        holder.binding.txtTime.setText(getTime(currentMed.getTimes().get(0)));
         String details = currentMed.getStrength() + currentMed.getStrength() + ", take " + currentMed.getTimes().size() + "(s)";
         holder.binding.txtMedDetails.setText(details);
     }
@@ -51,6 +51,10 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
     @Override
     public int getItemCount() {
         return medicines != null ? medicines.size() : 0;
+    }
+    private String getTime(Long date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
+        return simpleDateFormat.format(date);
     }
 
     @SuppressLint("NotifyDataSetChanged")

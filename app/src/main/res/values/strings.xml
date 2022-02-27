@@ -133,4 +133,5 @@
     <string name="profiles">Profiles</string>
     <string name="account_name">account name</string>
     <string name="skip">Skip</string>
+    <string name="user">User</string>
 </resources>

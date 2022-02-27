@@ -30,6 +30,8 @@
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:background="@color/background"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
