@@ -81,6 +81,7 @@ public class AddHealthTakerFragment extends Fragment {
                                                     request.setShared(binding.boxPolicy.isChecked());
                                                     listOfRequest.getRequestList().add(request);
                                                     checkRequests(listOfRequest);
+                                                    navController.popBackStack();
                                                 }
 
                                                 @Override
