@@ -33,7 +33,7 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new ViewHolder(layoutInflater.inflate(R.layout.customrowmeds, parent, false));
+        return new ViewHolder(layoutInflater.inflate(R.layout.custom_row_meds, parent, false));
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})

@@ -5,7 +5,6 @@
     <string name="home">Home</string>
     <string name="reminder">Reminder</string>
     <string name="suspend">Suspend</string>
-    <string name="refill">Refill</string>
     <string name="prescriptionRefill">Prescription Refill</string>
     <string name="howToUse">How To Use</string>
     <string name="addDose">add dose</string>
@@ -134,4 +133,5 @@
     <string name="account_name">account name</string>
     <string name="skip">Skip</string>
     <string name="user">User</string>
+    <string name="refill">Refill</string>
 </resources>

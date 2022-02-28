@@ -11,11 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.pojo.model.Medicine;
 
@@ -36,7 +33,7 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        return new InactiveMedicationAdapter.ViewHolder( layoutInflater.inflate(R.layout.customrowmeds, parent, false));
+        return new InactiveMedicationAdapter.ViewHolder( layoutInflater.inflate(R.layout.custom_row_meds, parent, false));
     }
 
     @SuppressLint({"UseCompatLoadingForDrawables", "SetTextI18n"})
