@@ -33,8 +33,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtTacker.setText(request.get(position).getSenderMail());
+        holder.txtTackerMail.setText(request.get(position).getSenderMail());
         holder.imageTacker.setImageResource(R.drawable.img_avatar);
+
     }
 
     @Override
@@ -43,11 +44,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtTacker;
+        TextView txtTackerMail;
         ImageView imageTacker;
+        TextView txtNameTacker;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtTacker = itemView.findViewById(R.id.txtTacker);
+            txtTackerMail = itemView.findViewById(R.id.txtTackerMail);
             imageTacker=itemView.findViewById(R.id.imageTacker);
 
 

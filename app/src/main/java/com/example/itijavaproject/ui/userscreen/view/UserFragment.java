@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.databinding.FragmentMedicationDisplayBinding;
 import com.example.itijavaproject.databinding.FragmentUserBinding;
+import com.example.itijavaproject.pojo.model.Request;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 
 
 public class UserFragment extends Fragment {
@@ -25,6 +28,9 @@ public class UserFragment extends Fragment {
     NavController navController;
     NavDirections directions;
     RecyclerView recyclerView;
+    private Request request=new Request();
+    private DatabaseReference databaseReference;
+
 
     public UserFragment() {
     }
@@ -33,12 +39,12 @@ public class UserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.recTacker.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.txtAccount.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
