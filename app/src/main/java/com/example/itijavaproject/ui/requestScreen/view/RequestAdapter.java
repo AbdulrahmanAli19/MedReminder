@@ -61,24 +61,16 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             public void onClick(View view) {
                 databaseReference = FirebaseDatabase.getInstance().getReference("users");
 
-//                Query query = databaseReference.child(FirebaseAuth.getInstance().getUid())
-//                        .child("recivedRequests").orderByChild("senderUid");
-//                query.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-////                          User user=snapshot.getValue(User.class);
-//                        Request request = snapshot.getValue(Request.class);
-//                        for (DataSnapshot db : snapshot.getChildren()) {
-////                            db.getRef().setValue(request.setState(true));
-//                        }
-//                        Toast.makeText(context, "accepted", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
+                databaseReference = FirebaseDatabase.getInstance().getReference("users");
+                DatabaseReference query = databaseReference.child(FirebaseAuth.getInstance().getUid())
+                        .child("recivedRequests");
+                query.child(request.get(position).getSenderMail().split("\\.")[0]).child("state").setValue("true");
+                Log.d(TAG, "onClick query: ");
+                int newPosition = holder.getAdapterPosition();
+                request.remove(position);
+                notifyItemRemoved(newPosition);
+                notifyItemRangeChanged(newPosition, request.size());
+
 
             }
         });
@@ -86,25 +78,15 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 databaseReference = FirebaseDatabase.getInstance().getReference("users");
-                Query query = databaseReference.child(FirebaseAuth.getInstance().getUid())
-                        .child("recivedRequests").orderByChild("senderMail").equalTo(request.get(position).getSenderMail().split("\\.")[0]);
+                DatabaseReference query = databaseReference.child(FirebaseAuth.getInstance().getUid())
+                        .child("recivedRequests");
+                query.child(request.get(position).getSenderMail().split("\\.")[0]).removeValue();
                 Log.d(TAG, "onClick query: ");
-                query.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            dataSnapshot.getRef().removeValue();
-                        }
-                        int newPosition = holder.getAdapterPosition();
-                        request.remove(position);
-                        notifyItemRemoved(newPosition);
-                        notifyItemRangeChanged(newPosition, request.size());
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Toast.makeText(context, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                int newPosition = holder.getAdapterPosition();
+                request.remove(position);
+                notifyItemRemoved(newPosition);
+                notifyItemRangeChanged(newPosition, request.size());
+
             }
         });
     }

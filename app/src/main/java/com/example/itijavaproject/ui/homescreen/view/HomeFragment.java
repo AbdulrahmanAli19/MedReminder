@@ -29,6 +29,7 @@ import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
+import com.example.itijavaproject.workers.AddMedReminder;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -59,12 +60,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     private Medicine selectedMed = null;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setSelectedDate = System.currentTimeMillis();
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         ViewCompat.requestApplyInsets(binding.parent);
         binding.calendarView.setSelectedDate(CalendarDay.today());
-        setSelectedDate = System.currentTimeMillis();
         binding.calendarView.setOnDateChangedListener(this);
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
@@ -115,8 +121,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickItemClickListener(Medicine medicine) {
+        new AddMedReminder(getContext(), medicine.getMed_id()).addMedReminder();
         this.selectedMed = medicine;
         dialog = new HomeDialog(getContext(), this);
         dialog.show(medicine);
@@ -183,24 +191,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void showInfo() {
-        navController.navigate(HomeFragmentDirections.actionHomeFragmentToMedicationDisplayFragment(selectedMed));
+        navController.navigate(HomeFragmentDirections
+                .actionHomeFragmentToMedicationDisplayFragment(selectedMed));
         dialog.close();
     }
 
     @Override
     public void editMed() {
-
         dialog.close();
     }
 
     @Override
     public void deleteMed() {
-        if (wantToDelete){
+        if (wantToDelete) {
             presenter.deleteMed(selectedMed);
             dialog.close();
             wantToDelete = false;
             presenter.getSelectedDateMedicines(setSelectedDate);
-        }else{
+        } else {
             Toast.makeText(getContext(), "Are you sure u want to delete " + selectedMed.getName()
                     + "!!", Toast.LENGTH_SHORT).show();
             wantToDelete = true;

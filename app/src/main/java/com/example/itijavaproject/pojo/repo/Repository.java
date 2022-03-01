@@ -1,9 +1,6 @@
 package com.example.itijavaproject.pojo.repo;
 
 import android.content.Context;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
 
 import androidx.lifecycle.LiveData;
 
@@ -13,7 +10,6 @@ import com.example.itijavaproject.pojo.model.Medicine;
 import java.util.List;
 
 import io.reactivex.Maybe;
-import io.reactivex.Scheduler;
 import io.reactivex.schedulers.Schedulers;
 
 public class Repository implements RepositoryInterface {
@@ -78,6 +74,11 @@ public class Repository implements RepositoryInterface {
     @Override
     public void editMedicine(Medicine medicine) {
         localSource.editMedicine(medicine);
+    }
+
+    @Override
+    public Maybe<Medicine> getMedById(String medId) {
+        return localSource.getMedById(medId);
     }
 
 }

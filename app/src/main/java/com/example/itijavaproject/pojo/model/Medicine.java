@@ -15,17 +15,17 @@ import java.util.List;
 @Entity(tableName = "Medicine")
 @TypeConverters(TimeTypeConverters.class)
 public class Medicine implements Serializable {
-    @ColumnInfo(name = "med_id")
-    @PrimaryKey(autoGenerate = true)
     @NonNull
-    private int med_id;
+    @PrimaryKey
+    @ColumnInfo(name = "med_id")
+    private String med_id;
     @ColumnInfo(name = "name")
     private String name;
     @ColumnInfo(name = "iconType")
     private String iconType;
     @ColumnInfo(name = "strength")
     private String strength;
-    @ColumnInfo (name = "noOfStrength")
+    @ColumnInfo(name = "noOfStrength")
     private int noOfStrength;
     @ColumnInfo(name = "isActive")
     private boolean isActive;
@@ -44,7 +44,7 @@ public class Medicine implements Serializable {
     private String duration;
     @ColumnInfo(name = "startDate")
     private Long startDate;
-    @ColumnInfo(name="endDate")
+    @ColumnInfo(name = "endDate")
     private Long endDate;
 
 
@@ -53,7 +53,7 @@ public class Medicine implements Serializable {
 
     public Medicine(String name, String iconType, String strength, boolean isActive, String instructions,
                     String reason, boolean isRefillReminder, int numOfPills, List<Long> times,
-                    int frequencyPerDay, String duration,Long startDate,int noOfStrength,Long endDate) {
+                    int frequencyPerDay, String duration, Long startDate, int noOfStrength, Long endDate) {
         this.name = name;
         this.iconType = iconType;
         this.strength = strength;
@@ -65,17 +65,21 @@ public class Medicine implements Serializable {
         this.times = times;
         this.frequencyPerDay = frequencyPerDay;
         this.duration = duration;
-        this.startDate=startDate;
-        this.endDate=endDate;
-        this.noOfStrength=noOfStrength;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.noOfStrength = noOfStrength;
 
     }
 
-    public int getMed_id() {
+    public void createId() {
+        med_id = name + startDate + endDate;
+    }
+
+    public String getMed_id() {
         return med_id;
     }
 
-    public void setMed_id(int med_id) {
+    public void setMed_id(String med_id) {
         this.med_id = med_id;
     }
 
@@ -191,7 +195,6 @@ public class Medicine implements Serializable {
     public void setTimes(List<Long> times) {
         this.times = times;
     }
-
 
 
     @Override
