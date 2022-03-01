@@ -169,7 +169,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
         medicine.setActive(true);
         binding.saveBtn.setText("SAVE");
-
+        medicine.createId();
         return medicine;
     }
 
@@ -284,7 +284,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
                     }else{
                         presenterInterface.addMedicine(createMedicine());
-                        Log.i(TAG, "onClick: "+createMedicine().getMed_id());
+                        /*Log.i(TAG, "onClick: "+createMedicine().getMed_id());
                         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
@@ -298,7 +298,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                     public void onCancelled(@NonNull DatabaseError error) {
                                     }
                                 });
-
+*/
                     }
 
                  navController.popBackStack();

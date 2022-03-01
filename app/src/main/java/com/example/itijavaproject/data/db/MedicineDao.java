@@ -36,4 +36,7 @@ public interface MedicineDao {
     @Query("SELECT * FROM MEDICINE WHERE :selectedDate BETWEEN startDate AND endDate AND isActive = 1")
     Maybe<List<Medicine>> getCurrentDayMedicines(Long selectedDate);
 
+    @Query("SELECT * FROM Medicine WHERE med_id = :id")
+    Maybe<Medicine> getMedById(String id);
+
 }

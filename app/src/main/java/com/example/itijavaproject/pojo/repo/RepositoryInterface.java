@@ -1,7 +1,5 @@
 package com.example.itijavaproject.pojo.repo;
 
-import android.os.Handler;
-
 import androidx.lifecycle.LiveData;
 
 import com.example.itijavaproject.pojo.model.Medicine;
@@ -28,5 +26,7 @@ public interface RepositoryInterface {
     void deleteMedicine(Medicine medicine);
 
     void editMedicine(Medicine medicine);
+
+    Maybe<Medicine> getMedById(String medId);
 
 }

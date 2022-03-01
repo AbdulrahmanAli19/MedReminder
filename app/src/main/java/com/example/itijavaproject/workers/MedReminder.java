@@ -25,15 +25,13 @@ public class MedReminder extends Worker {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            String title = getInputData().getString("title");
-            String body = getInputData().getString("body");
+            String medId = getInputData().getString("medId");
             boolean isPermissionGranted = getInputData().getBoolean("permission", false);
 
-            if (isPermissionGranted)
-                new Window(getApplicationContext(), body, title).open();
-            else {
-                new WorkerUtil(getApplicationContext()).createNotification(body, title);
+            if (isPermissionGranted) {
+                new Window(getApplicationContext(), medId);
             }
+            new WorkerUtil(getApplicationContext()).createNotification("Test", "title");
 
         }
     };
@@ -42,15 +40,12 @@ public class MedReminder extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-
         try {
             sleep(5000);
             handler.sendMessage(new Message());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
         return Result.success();
     }
 }
