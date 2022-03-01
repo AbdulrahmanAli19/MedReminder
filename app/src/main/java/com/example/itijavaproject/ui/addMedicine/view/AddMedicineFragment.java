@@ -32,6 +32,7 @@ import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenter;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
+import com.example.itijavaproject.workers.AddMedReminder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -306,12 +307,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             });
         }
     }
+    @RequiresApi(api = Build.VERSION_CODES.M)
     public void setRefill()
     {
         if(medicine.getNumOfPills()<=2)
         {
-
-
+            AddMedReminder addMedReminder=new AddMedReminder(getContext());
+            addMedReminder.addMedReminder();
         }
     }
 
