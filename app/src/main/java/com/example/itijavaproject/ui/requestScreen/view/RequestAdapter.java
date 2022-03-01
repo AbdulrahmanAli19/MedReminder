@@ -85,22 +85,20 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
         holder.btnIgnore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Request request1 = new Request();
                 databaseReference = FirebaseDatabase.getInstance().getReference("users");
                 Query query = databaseReference.child(FirebaseAuth.getInstance().getUid())
-                        .child("recivedRequests").orderByChild("senderMail");
+                        .child("recivedRequests").orderByChild("senderMail").equalTo(request.get(position).getSenderMail().split("\\.")[0]);
                 Log.d(TAG, "onClick query: ");
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            dataSnapshot.getRef();
+                            dataSnapshot.getRef().removeValue();
                         }
                         int newPosition = holder.getAdapterPosition();
                         request.remove(position);
                         notifyItemRemoved(newPosition);
                         notifyItemRangeChanged(newPosition, request.size());
-
                     }
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
