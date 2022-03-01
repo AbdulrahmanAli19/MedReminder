@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="15dp"
         tools:context=".ui.morescreen.view.MoreFragment">
@@ -27,48 +27,43 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/imageTacker"
+                    android:layout_width="104dp"
+                    android:layout_height="109dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/txtAccount"
+                    app:layout_constraintEnd_toStartOf="@+id/txtTacker"
+                    app:layout_constraintTop_toTopOf="@+id/txtTacker"
+                    app:layout_constraintVertical_bias="0.565"
+                    tools:srcCompat="@tools:sample/avatars" />
+
                 <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="246dp"
-                    android:layout_height="37dp"
+                    android:id="@+id/txtTacker"
+                    android:layout_width="152dp"
+                    android:layout_height="45dp"
                     android:layout_marginTop="16dp"
-                    android:text="@string/profiles"
+                    android:text="@string/your_profile"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.125"
+                    app:layout_constraintHorizontal_bias="0.785"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/txtAccount"
-                    android:layout_width="247dp"
-                    android:layout_height="47dp"
+                    android:layout_width="150dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="8dp"
                     android:hint="@string/account_name"
-                    app:layout_constraintEnd_toEndOf="@+id/textView"
+                    app:layout_constraintEnd_toEndOf="@+id/txtTacker"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/textView"
-                    app:layout_constraintTop_toBottomOf="@+id/textView" />
+                    app:layout_constraintStart_toStartOf="@+id/txtTacker"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTacker" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="84dp">
-
-            <Button
-                android:id="@+id/btnRequest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:text="@string/requests"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.456"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

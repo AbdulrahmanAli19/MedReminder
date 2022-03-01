@@ -123,7 +123,7 @@
         tools:layout="@layout/fragment_request" />
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.itijavaproject.ui.userscreen.UserFragment"
+        android:name="com.example.itijavaproject.ui.userscreen.view.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
 </navigation>
