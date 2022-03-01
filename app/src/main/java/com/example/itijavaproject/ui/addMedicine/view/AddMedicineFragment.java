@@ -59,11 +59,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     private FragmentAddMedicineBinding binding;
     private AddMedicinePresenterInterface presenterInterface;
     private NavController navController;
-    private NavDirections directions;
     Calendar startCalender, endCalender;
     String startDate;
     String endDate;
-    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("users");
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
     Medicine medicine = new Medicine();
     List<Long> listTime = new ArrayList<>();
     String s;
@@ -75,7 +74,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
     public void showHourPicker() {
         final Calendar myCalenderTime = Calendar.getInstance();
-        int hourOfDay =myCalenderTime.get(Calendar.HOUR_OF_DAY);
+        int hourOfDay = myCalenderTime.get(Calendar.HOUR_OF_DAY);
         int minute = myCalenderTime.get(Calendar.MINUTE);
 
         TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
@@ -85,13 +84,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
                     myCalenderTime.set(Calendar.MINUTE, minute);
                     listTime.add(myCalenderTime.getTimeInMillis());
-                    Log.i(TAG, "onTimeSet: "+hourOfDay);
+                    Log.i(TAG, "onTimeSet: " + hourOfDay);
                 }
             }
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 myTimeListener, hourOfDay, minute, false);
-        Log.i(TAG, "showHourPicker: "+hourOfDay);
+        Log.i(TAG, "showHourPicker: " + hourOfDay);
         timePickerDialog.setTitle("Choose hour:");
         timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         timePickerDialog.show();
@@ -178,15 +177,18 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenterInterface=new AddMedicinePresenter(Repository.getInstance(ConcreteLocalSource.getInstance(getContext()),getContext())
-                ,this);
+        presenterInterface = new AddMedicinePresenter(Repository
+                .getInstance(ConcreteLocalSource.getInstance(getContext()), getContext()),
+                this);
         navController = Navigation.findNavController(view);
+
         binding.calenderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showStartDatePicker();
             }
         });
+
         binding.calenderEndBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -194,6 +196,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
             }
         });
+
         binding.timeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -249,7 +252,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
                     editMedicine.setTimes(listTime);
                     editMedicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
-                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked( ));
+                    editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
                     editMedicine.setActive(true);
                     presenterInterface.editMedicine(editMedicine);
 
@@ -260,10 +263,11 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot db: dataSnapshot.getChildren()) {
+                            for (DataSnapshot db : dataSnapshot.getChildren()) {
                                 db.getRef().setValue(editMedicine);
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
@@ -279,37 +283,36 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 public void onClick(View view) {
 
                     String userId = FirebaseAuth.getInstance().getUid();
-                    if(userId==null){
-                       presenterInterface.addMedicine(createMedicine());
-
-                    }else{
+                    if (userId == null) {
                         presenterInterface.addMedicine(createMedicine());
-                        /*Log.i(TAG, "onClick: "+createMedicine().getMed_id());
+
+                    } else {
+                        presenterInterface.addMedicine(createMedicine());
+                        Log.i(TAG, "onClick: " + createMedicine().getMed_id());
                         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        User user=snapshot.getValue(User.class);
+                                        User user = snapshot.getValue(User.class);
                                         user.getMedicine().add(createMedicine());
                                         databaseReference.child(userId).setValue(user);
 
                                     }
+
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
                                     }
                                 });
-*/
                     }
 
-                 navController.popBackStack();
+                    navController.popBackStack();
                 }
             });
         }
     }
-    public void setRefill()
-    {
-        if(medicine.getNumOfPills()<=2)
-        {
+
+    public void setRefill() {
+        if (medicine.getNumOfPills() <= 2) {
 
 
         }
