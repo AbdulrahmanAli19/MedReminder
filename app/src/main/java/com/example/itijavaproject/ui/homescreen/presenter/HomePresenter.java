@@ -1,7 +1,7 @@
 package com.example.itijavaproject.ui.homescreen.presenter;
 
-import android.os.Handler;
-
+import com.example.itijavaproject.pojo.model.Medicine;
+import com.example.itijavaproject.pojo.model.User;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
 import com.example.itijavaproject.ui.homescreen.view.HomeFragInterface;
 
@@ -19,4 +19,16 @@ public class HomePresenter implements HomePresenterInterface {
     public void getSelectedDateMedicines(Long date) {
         home.getSelectedDateMedicines(repo.getSelectedDateMedicines(date));
     }
+
+    @Override
+    public void updateMed(Medicine medicine) {
+        repo.editMedicine(medicine);
+    }
+
+    @Override
+    public void deleteMed(Medicine medicine) {
+        repo.deleteMedicine(medicine);
+    }
+
+
 }

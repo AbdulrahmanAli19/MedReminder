@@ -23,11 +23,15 @@ public class HomeDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.home_dialog);
         dialog.findViewById(R.id.btnClose).setOnClickListener(v -> communicator.close());
-        dialog.findViewById(R.id.btnTake).setOnClickListener(v -> communicator.take());
+        dialog.findViewById(R.id.btnTake).setOnClickListener(v -> communicator.takeMed());
         dialog.findViewById(R.id.btnSnooze).setOnClickListener(v -> communicator.snooze());
+        dialog.findViewById(R.id.imgEdit).setOnClickListener(v -> communicator.editMed());
+        dialog.findViewById(R.id.imgDelete).setOnClickListener(v -> communicator.deleteMed());
+        dialog.findViewById(R.id.imgInfo).setOnClickListener(v -> communicator.showInfo());
     }
 
     public void show(Medicine medicine) {
+
 
         ((TextView) dialog.findViewById(R.id.txtMedName)).setText(medicine.getName());
         ((TextView) dialog.findViewById(R.id.txtSchaduler)).setText(medicine.getName());
@@ -38,6 +42,7 @@ public class HomeDialog {
         dialog.show();
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private Drawable getDrawbaleImage(String img) {
         if (img.equals(context.getString(R.string.pill))) {
 

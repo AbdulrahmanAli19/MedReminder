@@ -20,19 +20,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            app:collapsedTitleTextColor="@color/white"
+            app:title="@string/home"
             app:contentInsetStartWithNavigation="0dp"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="top"
             app:expandedTitleTextAppearance="@android:color/transparent"
+            app:expandedTitleTextColor="@color/transperent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/calendarView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/background"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:background="@color/background"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

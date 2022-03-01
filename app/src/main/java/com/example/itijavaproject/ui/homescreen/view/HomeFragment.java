@@ -22,12 +22,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.work.Constraints;
-import androidx.work.Data;
-import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkManager;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.data.db.ConcreteLocalSource;
@@ -35,16 +29,13 @@ import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
-import com.example.itijavaproject.workers.MedReminder;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.time.LocalDate;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
@@ -63,17 +54,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     private HomePresenter presenter;
     private CurrentDayAdapter adapter;
     private HomeDialog dialog;
+    private boolean wantToDelete;
+    private Long setSelectedDate = null;
+    private Medicine selectedMed = null;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
         ViewCompat.requestApplyInsets(binding.parent);
-        binding.collapsingLayout.setExpandedTitleColor(getResources().getColor(R.color.transperent));
-        binding.collapsingLayout.setCollapsedTitleTextColor(getResources().getColor(R.color.white));
         binding.calendarView.setSelectedDate(CalendarDay.today());
+        setSelectedDate = System.currentTimeMillis();
         binding.calendarView.setOnDateChangedListener(this);
-        binding.collapsingLayout.setTitle("Home");
         binding.fabAddHealthTacker.setOnClickListener(this);
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
@@ -82,7 +74,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         adapter = new CurrentDayAdapter(getContext(), this);
         binding.homeRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecycler.setAdapter(adapter);
-        presenter.getSelectedDateMedicines(System.currentTimeMillis());
+        presenter.getSelectedDateMedicines(setSelectedDate);
 
     }
 
@@ -122,8 +114,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         medicines.observeOn(AndroidSchedulers.mainThread()).subscribe(this);
     }
 
+
     @Override
     public void onClickItemClickListener(Medicine medicine) {
+        this.selectedMed = medicine;
         dialog = new HomeDialog(getContext(), this);
         dialog.show(medicine);
     }
@@ -171,8 +165,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void take() {
-
+    public void takeMed() {
+        selectedMed.setNumOfPills(selectedMed.getNumOfPills() - 1);
+        presenter.updateMed(selectedMed);
+        dialog.close();
     }
 
     @Override
@@ -186,15 +182,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     }
 
     @Override
-    public void onSubscribe(Disposable d) {
+    public void showInfo() {
+        navController.navigate(HomeFragmentDirections.actionHomeFragmentToMedicationDisplayFragment(selectedMed));
+        dialog.close();
+    }
 
+    @Override
+    public void editMed() {
+
+        dialog.close();
+    }
+
+    @Override
+    public void deleteMed() {
+        if (wantToDelete){
+            presenter.deleteMed(selectedMed);
+            dialog.close();
+            wantToDelete = false;
+            presenter.getSelectedDateMedicines(setSelectedDate);
+        }else{
+            Toast.makeText(getContext(), "Are you sure u want to delete " + selectedMed.getName()
+                    + "!!", Toast.LENGTH_SHORT).show();
+            wantToDelete = true;
+        }
+
+    }
+
+    @Override
+    public void onSubscribe(Disposable d) {
     }
 
     @Override
     public void onSuccess(List<Medicine> medicines) {
         Log.d(TAG, "onSuccess: " + medicines.isEmpty());
         adapter.setMedicines(medicines);
-
     }
 
     @Override

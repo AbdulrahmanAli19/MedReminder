@@ -30,7 +30,7 @@
             android:src="@drawable/ic_baseline_edit_24" />
 
         <ImageView
-            android:id="@+id/btnDelete"
+            android:id="@+id/imgDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -41,7 +41,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/btnDelete"
+            android:layout_below="@id/imgDelete"
             android:layout_marginTop="0dp"
             android:paddingBottom="40dp">
 

@@ -7,5 +7,6 @@ import java.util.List;
 import io.reactivex.Maybe;
 
 public interface HomeFragInterface {
+
     void getSelectedDateMedicines(Maybe<List<Medicine>> medicines);
 }

@@ -32,7 +32,7 @@ import java.util.List;
 
 public class SigningFragment extends Fragment {
 
-    private static final String TAG = "SigninFragment.DEV";
+    private static final String TAG = "SigningFragment.DEV";
     private NavController navController;
     final ActivityResultLauncher<Intent> launcher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(), this::onSignInResult);
@@ -40,9 +40,6 @@ public class SigningFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.PhoneBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
 
         MainActivity m = (MainActivity) getActivity();
         navController = m.getNavController();
