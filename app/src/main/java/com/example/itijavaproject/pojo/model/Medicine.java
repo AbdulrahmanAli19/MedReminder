@@ -47,6 +47,13 @@ public class Medicine implements Serializable {
     @ColumnInfo(name = "endDate")
     private Long endDate;
 
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
 
     public Medicine() {
     }
@@ -115,13 +122,6 @@ public class Medicine implements Serializable {
         this.frequencyPerDay = frequencyPerDay;
     }
 
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String periodTime) {
-        this.duration = duration;
-    }
 
 
     public String getName() {

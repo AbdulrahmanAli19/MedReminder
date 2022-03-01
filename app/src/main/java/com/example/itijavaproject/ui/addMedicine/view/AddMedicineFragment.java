@@ -171,8 +171,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.createId();
         return medicine;
     }
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

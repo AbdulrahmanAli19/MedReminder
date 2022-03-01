@@ -239,7 +239,6 @@
                         android:entries="@array/durationMenu"
                         android:prompt="@string/duration"
                         app:layout_constraintBottom_toBottomOf="parent"
-
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/textView4"
