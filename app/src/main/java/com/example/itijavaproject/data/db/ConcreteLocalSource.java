@@ -53,6 +53,11 @@ public class ConcreteLocalSource implements LocalSource {
     }
 
     @Override
+    public Maybe<Medicine> getMedById(String id) {
+        return medicineDao.getMedById(id);
+    }
+
+    @Override
     public void addMedicine(Medicine medicine) {
         new Thread(() -> medicineDao.insertMedicine(medicine)).start();
 
