@@ -21,4 +21,9 @@ public class MedicationDisplayPresenter implements MedicineDisplayPresenterInter
 
     }
 
+    @Override
+    public void editMedicine(Medicine medicine) {
+        repo.deleteMedicine(medicine);
+    }
+
 }

@@ -125,7 +125,10 @@ public class Window implements MaybeObserver<Medicine> {
         open();
         selectedMed = medicine;
         medName.setText(medicine.getName());
-        medDesc.setText(medicine.getStrength()+" ");
+
+        ////TODO:Add tima and date
+        medDesc.setText(medicine.getNoOfStrength()+" "+medicine.getStrength()+" ,take 1 Pill(s), "+medicine.getInstructions()
+                +"\n,at  ");
         medDesc.append(medicine.getNumOfPills() + " ");
         medDesc.append(medicine.getTimes().size() + " ");
     }

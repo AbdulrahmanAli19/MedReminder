@@ -88,6 +88,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         super.onViewCreated(view, savedInstanceState);
         presenter=new MedicationDisplayPresenter(Repository.getInstance(ConcreteLocalSource.getInstance(getContext()),getContext())
                 ,this);
+        databaseAccess= DatabaseAccess.getInstance(getActivity().getApplicationContext());
         navController = Navigation.findNavController(view);
         Medicine medicine = MedicationDisplayFragmentArgs.fromBundle(getArguments()).getObjOfMeds();
         if (medicine.getIconType().equals(getActivity().getApplicationContext().getString(R.string.pill))) {
@@ -124,6 +125,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                   public void onClick(View view) {
                       binding.suspendBtn.setText("ACTIVE");
                       medicine.setActive(false);
+
                       new Thread(new Runnable() {
                           @Override
                           public void run() {
@@ -141,6 +143,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 public void onClick(View view) {
                     binding.suspendBtn.setText("SUSPEND");
                     medicine.setActive(true);
+
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -195,7 +198,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             @Override
             public void onClick(View view) {
 
-
                 directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToAddMedicineFragment2(medicine);
                 navController.navigate(directions);
 
@@ -237,6 +239,11 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     @Override
     public void deleteMedicine(Medicine medicine) {
         presenter.deleteMedicine(medicine);
+
+    }
+    @Override
+    public void editMedicine(Medicine medicine) {
+        presenter.editMedicine(medicine);
 
     }
 }
