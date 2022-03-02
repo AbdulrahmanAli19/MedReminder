@@ -52,7 +52,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener, AddMedicineInterface, View.OnClickListener {
     private static final String TAG = "AddMedicineFragment";
@@ -256,7 +255,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
 
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-                    Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("name").equalTo(editMedicine.getName());
+                    Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(editMedicine.getMed_id());
 
                     query.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

@@ -208,7 +208,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             public void onClick(View view) {
                 presenter.deleteMedicine(medicine);
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-                Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("name").equalTo(medicine.getName());
+                Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(medicine.getMed_id());
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
