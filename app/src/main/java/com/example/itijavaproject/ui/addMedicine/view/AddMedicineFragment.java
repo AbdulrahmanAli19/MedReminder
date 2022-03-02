@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.itijavaproject.R;
@@ -31,7 +30,7 @@ import com.example.itijavaproject.pojo.model.User;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenter;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
-import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
+import com.example.itijavaproject.workers.MedReminderUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -41,16 +40,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener,
@@ -293,6 +286,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
                     } else {
                         presenterInterface.addMedicine(createMedicine());
+                        for (long time : createMedicine().getTimes()) {
+                            MedReminderUtil.addMedReminder(time, getContext(), createMedicine().getMed_id());
+                        }
                         Log.i(TAG, "onClick: " + createMedicine().getMed_id());
                         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {

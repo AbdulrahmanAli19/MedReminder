@@ -29,7 +29,7 @@ import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
-import com.example.itijavaproject.workers.AddMedReminder;
+import com.example.itijavaproject.workers.MedReminderUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -38,6 +38,7 @@ import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.util.List;
 
+import io.paperdb.Paper;
 import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         MaybeObserver<List<Medicine>> {
 
     private static final String TAG = "HomeFragment.DEV";
+    private final String WORKER_TAG = "DAYWORKER";
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
     private NavController navController;
     private FragmentHomeBinding binding;
@@ -59,14 +61,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     private Long setSelectedDate = null;
     private Medicine selectedMed = null;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSelectedDate = System.currentTimeMillis();
-        AddMedReminder.addDayReminder(12, "DAYWORKER", getContext());
+        Paper.init(getContext());
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -78,7 +80,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         binding.fabAddMed.setOnClickListener(this);
         presenter = new HomePresenter(this, Repository
                 .getInstance(ConcreteLocalSource.getInstance(this.getContext()), getContext()));
-        checkPermission();
+        if (Paper.book().read("isFirstTimeToRun") == null || !Paper.book().read("isFirstTimeToRun").equals("false")) {
+            Log.d(TAG, "onViewCreated: paper is not Not shity");
+            MedReminderUtil.addDayReminder(12, WORKER_TAG, getContext());
+            checkPermission();
+            Paper.book().write("isFirstTimeToRun", "false");
+        }
         adapter = new CurrentDayAdapter(getContext(), this);
         binding.homeRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.homeRecycler.setAdapter(adapter);
@@ -183,7 +190,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void snooze() {
-        AddMedReminder.addSingleReminder(5, selectedMed.getMed_id(), getContext());
+        MedReminderUtil.addSingleReminder(5, selectedMed.getMed_id(), getContext());
     }
 
     @Override
