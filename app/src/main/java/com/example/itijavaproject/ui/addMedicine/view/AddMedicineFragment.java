@@ -19,7 +19,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.example.itijavaproject.R;
@@ -31,6 +30,7 @@ import com.example.itijavaproject.pojo.model.User;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenter;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
+import com.example.itijavaproject.workers.MedReminderUtil;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
 import com.example.itijavaproject.workers.WorkerUtil;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,16 +42,10 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class AddMedicineFragment extends Fragment implements TimePickerDialog.OnTimeSetListener,
@@ -110,6 +104,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     startCalender.set(Calendar.YEAR, year);
                     startCalender.set(Calendar.MONTH, month);
                     startCalender.set(Calendar.DAY_OF_MONTH, day);
+                    startCalender.set(Calendar.HOUR_OF_DAY, 0);
+                    startCalender.set(Calendar.MINUTE, 0);
+                    startCalender.set(Calendar.SECOND, 0);
+                    startCalender.set(Calendar.MILLISECOND, 0);
                     month = month + 1;
                     startDate = day + "/" + month + "/" + year;
                     binding.startDateTxt.setText(startDate);
@@ -136,6 +134,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 endCalender.set(Calendar.YEAR, year);
                 endCalender.set(Calendar.MONTH, month);
                 endCalender.set(Calendar.DAY_OF_MONTH, day);
+                endCalender.set(Calendar.HOUR_OF_DAY, 0);
+                endCalender.set(Calendar.MINUTE, 0);
+                endCalender.set(Calendar.SECOND, 0);
+                endCalender.set(Calendar.MILLISECOND, 0);
                 month = month + 1;
                 endDate = day + "/" + month + "/" + year;
                 binding.endDateTxt.setText(endDate);
@@ -171,6 +173,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.createId();
         return medicine;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -289,6 +292,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
                     } else {
                         presenterInterface.addMedicine(createMedicine());
+                        for (long time : createMedicine().getTimes()) {
+                            MedReminderUtil.addMedReminder(time, getContext(), createMedicine().getMed_id());
+                        }
                         Log.i(TAG, "onClick: " + createMedicine().getMed_id());
                         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                 .addListenerForSingleValueEvent(new ValueEventListener() {

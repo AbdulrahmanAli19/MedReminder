@@ -15,25 +15,25 @@ import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.MaybeObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class DayWork extends Worker {
+
     private static final String TAG = "DayWork.DEV";
+    private final RepositoryInterface repository;
 
     public DayWork(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+        repository = Repository.getInstance(ConcreteLocalSource
+                .getInstance(getApplicationContext()), getApplicationContext());
     }
 
     @NonNull
     @Override
     public Result doWork() {
-
-        RepositoryInterface repository = Repository.getInstance(ConcreteLocalSource
-                .getInstance(getApplicationContext()), getApplicationContext());
         repository
                 .getSelectedDateMedicines(System.currentTimeMillis())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -48,8 +48,10 @@ public class DayWork extends Worker {
                     public void onSuccess(List<Medicine> medicines) {
                         Log.d(TAG, "onSuccess: size: " + medicines.size());
                         for (Medicine medicine : medicines) {
-                            AddMedReminder.addMedReminder(medicine.getTimes().get(0),
-                                    getApplicationContext(), medicine.getMed_id());
+                            for (long time : medicine.getTimes()) {
+                                MedReminderUtil.addMedReminder(time,
+                                        getApplicationContext(), medicine.getMed_id());
+                            }
                         }
                     }
 
@@ -63,6 +65,7 @@ public class DayWork extends Worker {
                         Log.d(TAG, "onComplete: ");
                     }
                 });
+
         return Result.success();
     }
 }
