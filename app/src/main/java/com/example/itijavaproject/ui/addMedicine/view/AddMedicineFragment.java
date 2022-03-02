@@ -32,6 +32,7 @@ import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenter;
 import com.example.itijavaproject.ui.addMedicine.presenter.AddMedicinePresenterInterface;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
+import com.example.itijavaproject.workers.WorkerUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -165,6 +166,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
         medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
+
         medicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
         medicine.setActive(true);
         binding.saveBtn.setText("SAVE");
@@ -194,7 +196,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
 
             }
         });
-
+        if(medicine.getIsRefillReminder()==true)
+        {
+            setRefill();
+        }
         binding.timeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -310,9 +315,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     }
 
     public void setRefill() {
-        if (medicine.getNumOfPills() <= 2) {
-
-
+        if (medicine.getNumOfPills() == 2) {
+            new WorkerUtil(getContext()).createNotification("you need refill your med","Refill reminder");
         }
     }
 

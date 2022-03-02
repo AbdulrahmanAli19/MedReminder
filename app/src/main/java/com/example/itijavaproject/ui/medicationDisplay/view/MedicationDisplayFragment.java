@@ -4,6 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,30 +20,15 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import android.text.format.DateFormat;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.data.db.DatabaseAccess;
 import com.example.itijavaproject.databinding.FragmentMedicationDisplayBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
-
-import com.example.itijavaproject.pojo.model.User;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
-import com.example.itijavaproject.workers.WorkerUtil;
-import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.example.itijavaproject.workers.AddRefillReminder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -50,24 +41,20 @@ import com.google.firebase.database.ValueEventListener;
 import org.threeten.bp.LocalDate;
 
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 
 public class MedicationDisplayFragment extends Fragment implements MedicineDisplayInterface {
     private static final String TAG = "MedicationDisplayFragme";
     private FragmentMedicationDisplayBinding binding;
     private MedicineDisplayPresenterInterface presenter;
+    private Medicine selectedMed = new Medicine();
     NavController navController;
     NavDirections directions;
     DatabaseAccess databaseAccess;
-    DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference("medicine");
+    Medicine medicine;
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("medicine");
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,11 +73,11 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter=new MedicationDisplayPresenter(Repository.getInstance(ConcreteLocalSource.getInstance(getContext()),getContext())
-                ,this);
-        databaseAccess= DatabaseAccess.getInstance(getActivity().getApplicationContext());
+        presenter = new MedicationDisplayPresenter(Repository.getInstance(ConcreteLocalSource.getInstance(getContext()), getContext())
+                , this);
+        databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
         navController = Navigation.findNavController(view);
-        Medicine medicine = MedicationDisplayFragmentArgs.fromBundle(getArguments()).getObjOfMeds();
+        medicine = MedicationDisplayFragmentArgs.fromBundle(getArguments()).getObjOfMeds();
         if (medicine.getIconType().equals(getActivity().getApplicationContext().getString(R.string.pill))) {
             binding.drugIcon.setImageDrawable(getActivity().getApplicationContext().getResources().getDrawable(R.drawable.ic_pill));
         } else if (medicine.getIconType().equals(getActivity().getApplicationContext().getString(R.string.bottle))) {
@@ -106,34 +93,34 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.drugStrength.setText(medicine.getStrength());
         binding.txtGetDuration.setText(medicine.getDuration());
         binding.howUse.setText(medicine.getInstructions());
-        Date startDate=new Date(medicine.getStartDate());
-        Date endDate=new Date(medicine.getEndDate());
-        Long duration=endDate.getTime()-startDate.getTime();
-        LocalDate localDate =LocalDate.ofEpochDay(duration);
-        binding.txtGetDuration.setText(medicine.getDuration()+" ,take for "+localDate.getDayOfMonth()+" days");
+        Date startDate = new Date(medicine.getStartDate());
+        Date endDate = new Date(medicine.getEndDate());
+        Long duration = endDate.getTime() - startDate.getTime();
+        LocalDate localDate = LocalDate.ofEpochDay(duration);
+        binding.txtGetDuration.setText(medicine.getDuration() + " ,take for " + localDate.getDayOfMonth() + " days");
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
             String dateTime = simpleDateFormat.format(medicine.getTimes().get(i));
-            binding.txtTimes.append(dateTime+ " take 1 pill(s) \n");
+            binding.txtTimes.append(dateTime + " take 1 pill(s) \n");
         }
 
         if (medicine.isActive() == true) {
             binding.suspendBtn.setText("SUSPEND");
             binding.suspendBtn.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View view) {
-                      binding.suspendBtn.setText("ACTIVE");
-                      medicine.setActive(false);
+                                                      @Override
+                                                      public void onClick(View view) {
+                                                          binding.suspendBtn.setText("ACTIVE");
+                                                          medicine.setActive(false);
 
-                      new Thread(new Runnable() {
-                          @Override
-                          public void run() {
-                              databaseAccess.medicineDao().updateMedicine(medicine);
-                          }
-                      }).start();
-                  }
-              }
+                                                          new Thread(new Runnable() {
+                                                              @Override
+                                                              public void run() {
+                                                                  databaseAccess.medicineDao().updateMedicine(medicine);
+                                                              }
+                                                          }).start();
+                                                      }
+                                                  }
             );
 
         } else {
@@ -157,40 +144,8 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater inflater = LayoutInflater.from(getContext());
-                View dialogLayout = inflater.inflate(R.layout.custom_row_dialog, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                builder.setView(dialogLayout);
-                TextView Refill =dialogLayout.findViewById(R.id.txtmsgRefill);
-                TextView addText=dialogLayout.findViewById(R.id.txtadd);
-                TextView numpill=dialogLayout.findViewById(R.id.numPills);
-                TextView txtmsg=dialogLayout.findViewById(R.id.txtmsg);
-                final EditText AddEdit = (EditText) dialogLayout.findViewById(R.id.editRefill);
-                numpill.append("you have "+medicine.getNumOfPills());
-                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (AddEdit.getText().toString().isEmpty()) {
-                            Snackbar.make(getContext(),getView(),"please enter number of pills",Snackbar.LENGTH_LONG).show();
-                        } else {
-                            medicine.setNumOfPills(Integer.parseInt(AddEdit.getText().toString()));
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    databaseAccess.medicineDao().updateMedicine(medicine);
-                                }
-                            }).start();
-                        }
-                    }
-                });
-                builder.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-                    }
-                });
-                AlertDialog customAlertDialog = builder.create();
-                customAlertDialog.show();
+//                new AddRefillReminder(getContext(),medicine.getName()).addRefill();
+                createDialog();
             }
         });
 
@@ -213,17 +168,17 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot db: dataSnapshot.getChildren()) {
+                        for (DataSnapshot db : dataSnapshot.getChildren()) {
                             db.getRef().removeValue();
                         }
                     }
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
 
-                            }
-                        });
+                    }
+                });
                 navController.popBackStack();
             }
         });
@@ -236,14 +191,53 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             }
         });
     }
+
     @Override
     public void deleteMedicine(Medicine medicine) {
         presenter.deleteMedicine(medicine);
 
     }
+
     @Override
     public void editMedicine(Medicine medicine) {
         presenter.editMedicine(medicine);
 
+    }
+
+    public void createDialog() {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View dialogLayout = inflater.inflate(R.layout.custom_row_dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setView(dialogLayout);
+        TextView Refill = dialogLayout.findViewById(R.id.txtmsgRefill);
+        TextView addText = dialogLayout.findViewById(R.id.txtadd);
+        TextView numpill = dialogLayout.findViewById(R.id.numPills);
+        TextView txtmsg = dialogLayout.findViewById(R.id.txtmsg);
+        final EditText AddEdit = (EditText) dialogLayout.findViewById(R.id.editRefill);
+        numpill.append("you have " + medicine.getNumOfPills());
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (AddEdit.getText().toString().isEmpty()) {
+                    Snackbar.make(getContext(), getView(), "please enter number of pills", Snackbar.LENGTH_LONG).show();
+                } else {
+                    medicine.setNumOfPills(Integer.parseInt(AddEdit.getText().toString()));
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            databaseAccess.medicineDao().updateMedicine(medicine);
+                        }
+                    }).start();
+                }
+            }
+        });
+        builder.setNeutralButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog customAlertDialog = builder.create();
+        customAlertDialog.show();
     }
 }

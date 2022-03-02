@@ -23,7 +23,7 @@ public class HomeDialog {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.home_dialog);
         dialog.findViewById(R.id.btnClose).setOnClickListener(v -> communicator.close());
-        dialog.findViewById(R.id.btnTake).setOnClickListener(v -> communicator.takeMed());
+        dialog.findViewById(R.id.btnRefill).setOnClickListener(v -> communicator.takeMed());
         dialog.findViewById(R.id.btnSnooze).setOnClickListener(v -> communicator.snooze());
         dialog.findViewById(R.id.imgEdit).setOnClickListener(v -> communicator.editMed());
         dialog.findViewById(R.id.imgDelete).setOnClickListener(v -> communicator.deleteMed());

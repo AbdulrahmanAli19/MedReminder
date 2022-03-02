@@ -10,7 +10,7 @@
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="231dp"
         android:layout_margin="10dp">
 
         <TextView
@@ -18,9 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:text="Med Name"
             android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="Med Name" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtBody"
@@ -30,31 +30,33 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:gravity="center"
-            android:textSize="16sp"
-            tools:text="It's time to take Keppera 500M\ text texxt" />
+            android:text="It's time to refill Med "
+            android:textSize="16sp" />
+
 
         <Button
             android:id="@+id/btnSnooze"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBody"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="66dp"
             android:backgroundTint="@color/secondary"
             android:gravity="center"
             android:text="@string/snooze"
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/btnTake"
+            android:id="@+id/btnRefill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBody"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="66dp"
+            android:layout_marginEnd="2dp"
             android:backgroundTint="@color/light_blue"
             android:gravity="center"
-            android:text="@string/take"
+            android:text="@string/refill"
             android:textColor="@color/white" />
 
         <Button
@@ -64,8 +66,23 @@
             android:layout_below="@+id/txtBody"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="66dp"
             android:layout_marginEnd="16dp"
-            android:text="@string/refill" />
+            android:text="@string/skip" />
+
+        <EditText
+            android:id="@+id/editRefillmed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtBody"
+            android:layout_alignStart="@+id/txtBody"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="-39dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="51dp"
+            android:ems="10"
+            android:inputType="phone"
+            android:text="Name"
+            android:visibility="invisible"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -15,29 +15,28 @@ import java.util.concurrent.TimeUnit;
 
 public class AddRefillReminder {
     private final Context context;
+    private final String medId;
 
-    public AddRefillReminder(Context context) {
+    public AddRefillReminder(Context context , String medId) {
+        this.medId = medId;
         this.context = context;
     }
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void addRefill()
     {
-        Data data = new Data.Builder().putString("title", "dummy")
-                .putString("body", "dummy refill")
-            .putBoolean("permission", Settings.canDrawOverlays(context)).build();
-
+        Data data = new Data.Builder().putString("medId", medId)
+                .putBoolean("permission", Settings.canDrawOverlays(context))
+                .build();
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
                 .setRequiresCharging(false)
                 .build();
-
         PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest
-                .Builder(MedReminder.class, 30, TimeUnit.SECONDS)
+                .Builder(RefillReminder.class, 10, TimeUnit.HOURS)
                 .setInputData(data)
                 .addTag("TestPWorker")
                 .setConstraints(constraints)
                 .build();
-
         WorkManager.getInstance(context).enqueue(periodicWorkRequest);
     }
 }

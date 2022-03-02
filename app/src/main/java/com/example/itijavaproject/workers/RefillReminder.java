@@ -21,15 +21,14 @@ public class RefillReminder extends Worker {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            String title = getInputData().getString("title");
-            String body = getInputData().getString("body");
+            String medId = getInputData().getString("medId");
             boolean isPermissionGranted = getInputData().getBoolean("permission", false);
 
-            if (isPermissionGranted)
-                new WindowRefill(getApplicationContext(), body, title).open();
-            else {
-                new WorkerUtil(getApplicationContext()).createNotification(body, title);
+            if (isPermissionGranted) {
+                new WindowRefill(getApplicationContext(), medId).open();
             }
+//                new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
+
 
         }
     };
