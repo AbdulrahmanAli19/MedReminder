@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickItemClickListener(Medicine medicine) {
-        new AddMedReminder(getContext(), medicine.getMed_id()).addMedReminder();
+        AddMedReminder.addMedReminder(medicine.getTimes().get(0), getContext(), medicine.getMed_id());
         this.selectedMed = medicine;
         dialog = new HomeDialog(getContext(), this);
         dialog.show(medicine);
@@ -179,9 +179,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         dialog.close();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void snooze() {
-
+        AddMedReminder.addSingleReminder(5, selectedMed.getMed_id(), getContext());
     }
 
     @Override
