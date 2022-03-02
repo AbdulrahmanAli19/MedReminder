@@ -82,6 +82,11 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay1);
                 myCalenderTime.set(Calendar.MINUTE, minute1);
                 listTime.add(myCalenderTime.getTimeInMillis());
+                for (int i = 0; i < medicine.getTimes().size(); i++) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
+                    String dateTime = simpleDateFormat.format(medicine.getTimes().get(i));
+                    binding.txtTime.append(dateTime);
+                }
                 Log.i(TAG, "onTimeSet: " + hourOfDay1);
             }
         };
@@ -163,7 +168,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
         medicine.setTimes(listTime);
         medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
-
         medicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
         medicine.setActive(true);
         binding.saveBtn.setText("SAVE");
@@ -256,7 +260,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setActive(true);
                     presenterInterface.editMedicine(editMedicine);
 
-
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                     Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(editMedicine.getMed_id());
 
@@ -296,9 +299,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                         User user = snapshot.getValue(User.class);
                                         user.getMedicine().add(createMedicine());
                                         databaseReference.child(userId).setValue(user);
-
                                     }
-
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError error) {
                                     }

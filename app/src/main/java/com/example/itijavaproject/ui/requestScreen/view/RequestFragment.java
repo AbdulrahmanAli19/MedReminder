@@ -43,12 +43,14 @@ public class RequestFragment extends Fragment {
         binding = FragmentRequestBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.recRequest.setLayoutManager(new LinearLayoutManager(getContext()));
         addNewRequest();
     }
+
     private void addNewRequest() {
         ListOfRequest list = new ListOfRequest();
         List<Request> requestList=new ArrayList<>();
