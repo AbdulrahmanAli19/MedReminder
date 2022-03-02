@@ -77,18 +77,16 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         int hourOfDay = myCalenderTime.get(Calendar.HOUR_OF_DAY);
         int minute = myCalenderTime.get(Calendar.MINUTE);
 
-        TimePickerDialog.OnTimeSetListener myTimeListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                if (view.isShown()) {
-                    myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                    myCalenderTime.set(Calendar.MINUTE, minute);
-                    listTime.add(myCalenderTime.getTimeInMillis());
-                    Log.i(TAG, "onTimeSet: " + hourOfDay);
-                }
+        TimePickerDialog.OnTimeSetListener myTimeListener = (view, hourOfDay1, minute1) -> {
+            if (view.isShown()) {
+                myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay1);
+                myCalenderTime.set(Calendar.MINUTE, minute1);
+                listTime.add(myCalenderTime.getTimeInMillis());
+                Log.i(TAG, "onTimeSet: " + hourOfDay1);
             }
         };
-        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+        TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 myTimeListener, hourOfDay, minute, false);
         Log.i(TAG, "showHourPicker: " + hourOfDay);
         timePickerDialog.setTitle("Choose hour:");
