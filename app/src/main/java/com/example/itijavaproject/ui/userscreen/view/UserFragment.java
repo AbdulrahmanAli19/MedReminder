@@ -76,9 +76,9 @@ public class UserFragment extends Fragment {
     private void addNewTacker() {
         ListOfRequest list = new ListOfRequest();
         List<Request> requestList = new ArrayList<>();
-      databaseReference.child(FirebaseAuth.getInstance().getUid());
+        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         Query query = databaseReference.child(FirebaseAuth.getInstance().getUid()).child("recivedRequests")
-                .orderByChild("state").equalTo("true");
+              .orderByChild("state").equalTo(true);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
