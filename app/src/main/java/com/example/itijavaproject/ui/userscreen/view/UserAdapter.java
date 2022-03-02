@@ -47,11 +47,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         TextView txtTackerMail;
         ImageView imageTacker;
         TextView txtNameTacker;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtTackerMail = itemView.findViewById(R.id.txtTackerMail);
-            imageTacker=itemView.findViewById(R.id.imageTacker);
-
+            imageTacker = itemView.findViewById(R.id.imageTacker);
 
         }
     }

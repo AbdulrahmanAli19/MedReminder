@@ -5,6 +5,7 @@ import static java.lang.Thread.sleep;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -14,6 +15,7 @@ import com.example.itijavaproject.util.Window;
 import com.example.itijavaproject.util.WindowRefill;
 
 public class RefillReminder extends Worker {
+    private static final String TAG = "RefillReminder";
     public RefillReminder(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
     }
@@ -21,15 +23,16 @@ public class RefillReminder extends Worker {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            String title = getInputData().getString("title");
-            String body = getInputData().getString("body");
+
+            String medId = getInputData().getString("medId");
+            Log.d(TAG, "handleMessage: "+medId);
             boolean isPermissionGranted = getInputData().getBoolean("permission", false);
 
-            if (isPermissionGranted)
-                new WindowRefill(getApplicationContext(), body, title).open();
-            else {
-                new WorkerUtil(getApplicationContext()).createNotification(body, title);
+            if (isPermissionGranted) {
+                new WindowRefill(getApplicationContext(), medId);
             }
+            new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
+
 
         }
     };

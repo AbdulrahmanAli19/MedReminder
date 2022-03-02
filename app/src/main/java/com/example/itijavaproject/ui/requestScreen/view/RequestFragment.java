@@ -58,15 +58,6 @@ public class RequestFragment extends Fragment {
                 if(snapshot.exists())
                 {
                     Log.d(TAG, "onDataChange snap: "+snapshot.exists());
-//                    for (Request request:user.getRequestList()) {
-//                        Log.d(TAG, "onDataChange request: "+user.getRequestList().isEmpty());
-//                        if(request.getReceiverMail().toLowerCase(Locale.ROOT).equals(FirebaseAuth.getInstance()
-//                        .getCurrentUser().getEmail().toLowerCase(Locale.ROOT)))
-//                        {
-//                            Log.d(TAG, "onDataChange user: "+user.getRequestList().isEmpty());
-//                            list.getRequestList().add(request);
-//                        }
-//                    }
                     for (DataSnapshot snapshot1:snapshot.getChildren()) {
                         Request request = snapshot1.getValue(Request.class);
                         requestList.add(request);

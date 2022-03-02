@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.itijavaproject.R;
@@ -21,8 +20,6 @@ import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
 
-import io.reactivex.CompletableObserver;
-import io.reactivex.Maybe;
 import io.reactivex.MaybeObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -72,7 +69,7 @@ public class Window implements MaybeObserver<Medicine> {
             close();
         });
 
-        mView.findViewById(R.id.btnTake).setOnClickListener(view -> {
+        mView.findViewById(R.id.btnRefill).setOnClickListener(view -> {
             selectedMed.setNumOfPills(selectedMed.getNumOfPills() - 1);
             repository.editMedicine(selectedMed);
             close();

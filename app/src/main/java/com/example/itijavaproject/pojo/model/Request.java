@@ -1,6 +1,8 @@
 package com.example.itijavaproject.pojo.model;
 
-public class Request {
+import java.io.Serializable;
+
+public class Request implements Serializable {
     private String senderMail;
     private String receiverMail;
     private String senderUid;
