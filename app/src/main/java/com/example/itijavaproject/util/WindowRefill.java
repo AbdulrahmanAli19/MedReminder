@@ -36,7 +36,6 @@ public class WindowRefill implements MaybeObserver<Medicine> {
     private Medicine selectedMed = null;
     private final TextView medName;
     private final TextView medDesc;
-    private final EditText editRefillmed;
 
 
     @SuppressLint("InflateParams")
@@ -60,8 +59,6 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         medName = mView.findViewById(R.id.txtMedName);
 
         medDesc = mView.findViewById(R.id.txtBody);
-        editRefillmed=mView.findViewById(R.id.editRefillmed);
-
         mView.findViewById(R.id.btnSnooze).setOnClickListener(view -> {
             ///TODO: REMIND ME LATTER
             close();
@@ -70,7 +67,6 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         mView.findViewById(R.id.btnRefill).setOnClickListener(view -> {
 //            MedicationDisplayFragment medicationDisplayFragment=new MedicationDisplayFragment();
 //            medicationDisplayFragment.createDialog();
-            editRefillmed.setVisibility(EditText.VISIBLE);
 
 
         });
@@ -115,13 +111,13 @@ public class WindowRefill implements MaybeObserver<Medicine> {
 
     @Override
     public void onSuccess(Medicine medicine) {
-
+        open();
         Log.d(TAG, "onSuccess med: "+medicine.getName().isEmpty());
         selectedMed=medicine;
         medName.setText(medicine.getName());
         medDesc.setText("you need to refill "+medicine.getName()+"you have only 2 doses ");
         medDesc.append(medicine.getNumOfPills() + " ");
-        open();
+
     }
 
     @Override

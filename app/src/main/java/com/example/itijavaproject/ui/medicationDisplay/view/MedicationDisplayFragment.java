@@ -144,7 +144,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                new AddRefillReminder(getContext(),medicine.getName()).addRefill();
+                new AddRefillReminder(getContext(),medicine.getName()).addRefill();
                 createDialog();
             }
         });

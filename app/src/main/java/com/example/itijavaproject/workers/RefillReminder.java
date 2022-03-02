@@ -25,9 +25,9 @@ public class RefillReminder extends Worker {
             boolean isPermissionGranted = getInputData().getBoolean("permission", false);
 
             if (isPermissionGranted) {
-                new WindowRefill(getApplicationContext(), medId).open();
+                new WindowRefill(getApplicationContext(), medId);
             }
-//                new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
+            new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
 
 
         }

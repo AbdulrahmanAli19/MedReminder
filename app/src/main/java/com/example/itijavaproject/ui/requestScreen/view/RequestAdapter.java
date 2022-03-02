@@ -62,8 +62,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
             @Override
             public void onClick(View view) {
                 databaseReference = FirebaseDatabase.getInstance().getReference("users");
-
-                databaseReference = FirebaseDatabase.getInstance().getReference("users");
                 DatabaseReference query = databaseReference.child(FirebaseAuth.getInstance().getUid())
                         .child("recivedRequests");
                 query.child(request.get(position).getSenderMail().split("\\.")[0]).child("state").setValue("true");
@@ -72,6 +70,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 request.remove(position);
                 notifyItemRemoved(newPosition);
                 notifyItemRangeChanged(newPosition, request.size());
+                navController.navigate(RequestFragmentDirections.actionRequestFragmentToUserFragment());
 
             }
         });
