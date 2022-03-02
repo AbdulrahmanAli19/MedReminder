@@ -71,4 +71,29 @@ public class AddMedReminder {
 
         WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void addDayReminder(int time, String tag, Context context) {
+
+        Data data = new Data.Builder()
+                .putBoolean("permission", Settings.canDrawOverlays(context))
+                .build();
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                .setRequiresCharging(false)
+                .build();
+
+        PeriodicWorkRequest oneTimeWorkRequest = new PeriodicWorkRequest
+                .Builder(DayWork.class, time, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .setInputData(data)
+                .addTag(tag)
+                .build();
+
+        WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
+    }
+
+
+
 }

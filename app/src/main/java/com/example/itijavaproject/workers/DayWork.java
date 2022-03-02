@@ -1,14 +1,28 @@
 package com.example.itijavaproject.workers;
 
 import android.content.Context;
+import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.example.itijavaproject.data.db.ConcreteLocalSource;
+import com.example.itijavaproject.pojo.model.Medicine;
+import com.example.itijavaproject.pojo.repo.Repository;
+import com.example.itijavaproject.pojo.repo.RepositoryInterface;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.MaybeObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 public class DayWork extends Worker {
+    private static final String TAG = "DayWork.DEV";
 
     public DayWork(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -18,6 +32,37 @@ public class DayWork extends Worker {
     @Override
     public Result doWork() {
 
+        RepositoryInterface repository = Repository.getInstance(ConcreteLocalSource
+                .getInstance(getApplicationContext()), getApplicationContext());
+        repository
+                .getSelectedDateMedicines(System.currentTimeMillis())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new MaybeObserver<List<Medicine>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        Log.d(TAG, "onSubscribe: isDisposed" + d.isDisposed());
+                    }
+
+                    @RequiresApi(api = Build.VERSION_CODES.M)
+                    @Override
+                    public void onSuccess(List<Medicine> medicines) {
+                        Log.d(TAG, "onSuccess: size: " + medicines.size());
+                        for (Medicine medicine : medicines) {
+                            AddMedReminder.addMedReminder(medicine.getTimes().get(0),
+                                    getApplicationContext(), medicine.getMed_id());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete: ");
+                    }
+                });
         return Result.success();
     }
 }
