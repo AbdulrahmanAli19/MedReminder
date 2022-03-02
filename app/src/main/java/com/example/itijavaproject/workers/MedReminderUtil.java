@@ -13,18 +13,18 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-public class AddMedReminder {
+public class MedReminderUtil {
     private static final String TAG = "AddMedReminder.DEV";
 
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static void addMedReminder(long hours, Context context, String medId) {
+    public static void addMedReminder(long time, Context context, String medId) {
 
-        int medHrs = (int) ((hours / (1000 * 60 * 60)) % 24);
-        int currentHrs = (int) ((System.currentTimeMillis() / (1000 * 60 * 60)) % 24);
-        int durationHrs = (currentHrs + 2) - (medHrs + 2);
+        long delay = ((time / 1000L) - (System.currentTimeMillis() / 1000L));
 
+        Calendar calendar = Calendar.getInstance();
         Data data = new Data.Builder().putString("medId", medId)
                 .putBoolean("permission", Settings.canDrawOverlays(context))
                 .build();
@@ -36,7 +36,7 @@ public class AddMedReminder {
 
         OneTimeWorkRequest periodicWorkRequest = new OneTimeWorkRequest
                 .Builder(MedReminder.class)
-                .setInitialDelay(durationHrs, TimeUnit.HOURS)
+                .setInitialDelay(delay, TimeUnit.SECONDS)
                 .setInputData(data)
                 .addTag(medId)
                 .setConstraints(constraints)
@@ -93,7 +93,5 @@ public class AddMedReminder {
 
         WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
     }
-
-
 
 }

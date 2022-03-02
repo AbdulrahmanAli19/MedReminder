@@ -31,8 +31,6 @@ public class HomeDialog {
     }
 
     public void show(Medicine medicine) {
-
-
         ((TextView) dialog.findViewById(R.id.txtMedName)).setText(medicine.getName());
         ((TextView) dialog.findViewById(R.id.txtSchaduler)).setText(medicine.getName());
         ((TextView) dialog.findViewById(R.id.txtInfo)).setText(medicine.getInstructions());

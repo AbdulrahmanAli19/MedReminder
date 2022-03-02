@@ -52,8 +52,10 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
     public int getItemCount() {
         return medicines != null ? medicines.size() : 0;
     }
+
     private String getTime(Long date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new
+                SimpleDateFormat(" hh:mm a");
         return simpleDateFormat.format(date);
     }
 
@@ -85,6 +87,7 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
 
     class CurrentDayViewHolder extends RecyclerView.ViewHolder {
         private final LayoutHomeBinding binding;
+
         public CurrentDayViewHolder(LayoutHomeBinding binding, HomeAdapterInterface homeAdapterInterface) {
             super(binding.getRoot());
             this.binding = binding;
