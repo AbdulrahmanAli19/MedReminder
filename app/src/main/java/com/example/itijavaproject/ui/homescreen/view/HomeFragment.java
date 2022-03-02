@@ -59,10 +59,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     private Long setSelectedDate = null;
     private Medicine selectedMed = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setSelectedDate = System.currentTimeMillis();
+        AddMedReminder.addDayReminder(12, "DAYWORKER", getContext());
     }
 
     @Override
