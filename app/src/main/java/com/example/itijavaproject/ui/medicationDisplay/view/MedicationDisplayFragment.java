@@ -139,7 +139,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                     }).start();
                 }
             });
-
         }
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,14 +147,12 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                 createDialog();
             }
         });
-
         binding.addDoseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 directions = MedicationDisplayFragmentDirections.actionMedicationDisplayFragmentToAddMedicineFragment2(medicine);
                 navController.navigate(directions);
-
             }
         });
         binding.deleteBtn.setOnClickListener(new View.OnClickListener() {

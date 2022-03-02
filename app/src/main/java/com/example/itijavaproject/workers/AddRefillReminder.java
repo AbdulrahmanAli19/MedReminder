@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
-import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -38,7 +37,6 @@ public class AddRefillReminder {
                 .addTag("TestPWorker")
                 .setConstraints(constraints)
                 .build();
-//        OneTimeWorkRequest oneTimeWorkRequest=new OneTimeWorkRequest.Builder()
         WorkManager.getInstance(context).enqueue(periodicWorkRequest);
     }
 }
