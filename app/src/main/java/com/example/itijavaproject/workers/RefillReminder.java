@@ -43,5 +43,6 @@ public class RefillReminder extends Worker {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return Result.success();    }
+        return Result.success();
+    }
 }

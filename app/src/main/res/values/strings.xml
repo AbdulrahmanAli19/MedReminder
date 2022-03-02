@@ -134,4 +134,8 @@
     <string name="skip">Skip</string>
     <string name="user">User</string>
     <string name="refill">Refill</string>
+    <string name="your_profile">your profile</string>
+    <string name="your_tackers">your tackers</string>
+    <string name="tackermail">TackerMail</string>
+    <string name="tackername">tackerName</string>
 </resources>

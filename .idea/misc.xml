@@ -10,7 +10,11 @@
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_medication_display.xml" value="0.34523809523809523" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_medications.xml" value="0.23125" />
         <entry key="..\:/Android_projects/MediReminder/app/src/main/res/layout/fragment_register.xml" value="0.38125" />
+        <entry key="..\:/Users/TEBA/Desktop/MedReminder/app/src/main/res/layout/ciustom_row_users.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/TEBA/Desktop/MedReminder/app/src/main/res/layout/fragment_add_health_taker.xml" value="0.20863616930312098" />
+        <entry key="..\:/Users/TEBA/Desktop/MedReminder/app/src/main/res/layout/fragment_user.xml" value="0.20863616930312098" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/activity_main.xml" value="0.18359020852221214" />
+        <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/ciustom_row_users.xml" value="0.20863616930312098" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/custom_dialogue.xml" value="0.2" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/custom_row_dialog.xml" value="0.20863616930312098" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/custom_row_requests.xml" value="0.264" />
@@ -23,6 +27,7 @@
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_more.xml" value="0.20863616930312098" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_register.xml" value="0.16500453309156846" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_request.xml" value="0.20863616930312098" />
+        <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/fragment_user.xml" value="0.20863616930312098" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/home_dialog.xml" value="0.1455122393472348" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/layout_home.xml" value="0.20863616930312098" />
         <entry key="..\:/androuid projects/MedReminder/app/src/main/res/layout/popup_window.xml" value="0.20863616930312098" />
@@ -46,6 +51,7 @@
         <entry key="app/src/main/res/layout/home_layout.xml" value="0.2265625" />
         <entry key="app/src/main/res/layout/layout_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/popup_window.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.19166666666666668" />
         <entry key="app/src/main/res/menu/home_menu.xml" value="0.24114583333333334" />
       </map>
     </option>

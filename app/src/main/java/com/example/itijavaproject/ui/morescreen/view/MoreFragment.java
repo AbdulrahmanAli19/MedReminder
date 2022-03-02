@@ -39,7 +39,7 @@ public class MoreFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnRequest=view.findViewById(R.id.btnRequest);
+//        btnRequest=view.findViewById(R.id.btnRequest);
         navController = Navigation.findNavController(view);
     }
 }

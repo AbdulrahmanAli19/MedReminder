@@ -29,7 +29,7 @@ import java.util.Locale;
 public class RequestFragment extends Fragment {
     private static final String TAG = "RequestFragment";
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance()
-    .getUid()).child("recivedRequests");
+            .getUid()).child("recivedRequests");
     private FragmentRequestBinding binding;
     RequestAdapter requestAdapter;
     @Override
@@ -50,8 +50,8 @@ public class RequestFragment extends Fragment {
         addNewRequest();
     }
     private void addNewRequest() {
-       ListOfRequest list = new ListOfRequest();
-       List<Request> requestList=new ArrayList<>();
+        ListOfRequest list = new ListOfRequest();
+        List<Request> requestList=new ArrayList<>();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -68,7 +68,7 @@ public class RequestFragment extends Fragment {
 //                        }
 //                    }
                     for (DataSnapshot snapshot1:snapshot.getChildren()) {
-                      Request request = snapshot1.getValue(Request.class);
+                        Request request = snapshot1.getValue(Request.class);
                         requestList.add(request);
                     }
                     Log.d(TAG, "onDataChange adapter: " + list.getRequestList().isEmpty());
