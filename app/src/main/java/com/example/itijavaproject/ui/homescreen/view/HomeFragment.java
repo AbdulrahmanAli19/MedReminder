@@ -126,7 +126,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClickItemClickListener(Medicine medicine) {
-        AddMedReminder.addMedReminder(medicine.getTimes().get(0), getContext(), medicine.getMed_id());
         this.selectedMed = medicine;
         dialog = new HomeDialog(getContext(), this);
         dialog.show(medicine);
@@ -201,6 +200,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void editMed() {
+        navController.navigate(HomeFragmentDirections.actionHomeFragmentToAddMedicineFragment(selectedMed));
         dialog.close();
     }
 

@@ -109,6 +109,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     startCalender.set(Calendar.YEAR, year);
                     startCalender.set(Calendar.MONTH, month);
                     startCalender.set(Calendar.DAY_OF_MONTH, day);
+                    startCalender.set(Calendar.HOUR_OF_DAY, 0);
+                    startCalender.set(Calendar.MINUTE, 0);
+                    startCalender.set(Calendar.SECOND, 0);
+                    startCalender.set(Calendar.MILLISECOND, 0);
                     month = month + 1;
                     startDate = day + "/" + month + "/" + year;
                     binding.startDateTxt.setText(startDate);
@@ -135,6 +139,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 endCalender.set(Calendar.YEAR, year);
                 endCalender.set(Calendar.MONTH, month);
                 endCalender.set(Calendar.DAY_OF_MONTH, day);
+                endCalender.set(Calendar.HOUR_OF_DAY, 0);
+                endCalender.set(Calendar.MINUTE, 0);
+                endCalender.set(Calendar.SECOND, 0);
+                endCalender.set(Calendar.MILLISECOND, 0);
                 month = month + 1;
                 endDate = day + "/" + month + "/" + year;
                 binding.endDateTxt.setText(endDate);
@@ -169,6 +177,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         medicine.createId();
         return medicine;
     }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

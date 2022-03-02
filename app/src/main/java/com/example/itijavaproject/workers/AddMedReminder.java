@@ -20,7 +20,6 @@ public class AddMedReminder {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void addMedReminder(long hours, Context context, String medId) {
-
         int medHrs = (int) ((hours / (1000 * 60 * 60)) % 24);
         int currentHrs = (int) ((System.currentTimeMillis() / (1000 * 60 * 60)) % 24);
         int durationHrs = (currentHrs + 2) - (medHrs + 2);
@@ -93,7 +92,5 @@ public class AddMedReminder {
 
         WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
     }
-
-
 
 }

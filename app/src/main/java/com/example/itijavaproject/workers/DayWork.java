@@ -48,8 +48,10 @@ public class DayWork extends Worker {
                     public void onSuccess(List<Medicine> medicines) {
                         Log.d(TAG, "onSuccess: size: " + medicines.size());
                         for (Medicine medicine : medicines) {
-                            AddMedReminder.addMedReminder(medicine.getTimes().get(0),
-                                    getApplicationContext(), medicine.getMed_id());
+                            for (long time : medicine.getTimes()) {
+                                AddMedReminder.addMedReminder(time,
+                                        getApplicationContext(), medicine.getMed_id());
+                            }
                         }
                     }
 
@@ -63,6 +65,7 @@ public class DayWork extends Worker {
                         Log.d(TAG, "onComplete: ");
                     }
                 });
+
         return Result.success();
     }
 }

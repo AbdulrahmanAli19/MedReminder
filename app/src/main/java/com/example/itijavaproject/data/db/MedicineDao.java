@@ -24,19 +24,19 @@ public interface MedicineDao {
     @Update
     void updateMedicine(Medicine medicine);
 
-    @Query("SELECT * FROM Medicine")
+    @Query("SELECT * FROM MEDICINE")
     LiveData<List<Medicine>> getAllMedicines();
 
-    @Query("SELECT * FROM Medicine WHERE isActive = 1")
+    @Query("SELECT * FROM MEDICINE WHERE isActive = 1")
     LiveData<List<Medicine>> getActiveMeds();
 
-    @Query("SELECT * FROM Medicine WHERE isActive = 0")
+    @Query("SELECT * FROM MEDICINE WHERE isActive = 0")
     LiveData<List<Medicine>> getInActiveMeds();
 
     @Query("SELECT * FROM MEDICINE WHERE :selectedDate BETWEEN startDate AND endDate AND isActive = 1")
     Maybe<List<Medicine>> getCurrentDayMedicines(Long selectedDate);
 
-    @Query("SELECT * FROM Medicine WHERE med_id = :id")
+    @Query("SELECT * FROM MEDICINE WHERE med_id = :id")
     Maybe<Medicine> getMedById(String id);
 
 }

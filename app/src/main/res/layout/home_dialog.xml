@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/background"
+    android:padding="20dp"
     app:cardCornerRadius="10dp">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transperent">
 
         <ImageView
             android:id="@+id/imgInfo"
@@ -37,6 +39,13 @@
             android:layout_toStartOf="@id/imgEdit"
             android:padding="20dp"
             android:src="@drawable/ic_baseline_delete_24" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/imgInfo"
+            android:layout_alignParentTop="true"
+            android:background="#0D329BC9" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
