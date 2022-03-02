@@ -152,7 +152,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/btnTake"
+                android:id="@+id/btnRefill"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:backgroundTint="@color/light_blue"

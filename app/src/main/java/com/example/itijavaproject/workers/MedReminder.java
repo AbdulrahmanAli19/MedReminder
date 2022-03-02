@@ -31,7 +31,7 @@ public class MedReminder extends Worker {
             if (isPermissionGranted) {
                 new Window(getApplicationContext(), medId);
             }
-            new WorkerUtil(getApplicationContext()).createNotification("Test", "title");
+//           new WorkerUtil(getApplicationContext()).createNotification("Test", "title");
 
         }
     };
