@@ -120,14 +120,7 @@
         android:id="@+id/requestFragment"
         android:name="com.example.itijavaproject.ui.requestScreen.view.RequestFragment"
         android:label="fragment_request"
-        tools:layout="@layout/fragment_request" >
-        <action
-            android:id="@+id/action_requestFragment_to_userFragment"
-            app:destination="@id/userFragment" />
-        <argument
-            android:name="requests"
-            app:argType="com.example.itijavaproject.pojo.model.Request" />
-    </fragment>
+        tools:layout="@layout/fragment_request" />
     <fragment
         android:id="@+id/userFragment"
         android:name="com.example.itijavaproject.ui.userscreen.view.UserFragment"

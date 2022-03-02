@@ -70,7 +70,6 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 request.remove(position);
                 notifyItemRemoved(newPosition);
                 notifyItemRangeChanged(newPosition, request.size());
-                navController.navigate(RequestFragmentDirections.actionRequestFragmentToUserFragment());
 
             }
         });

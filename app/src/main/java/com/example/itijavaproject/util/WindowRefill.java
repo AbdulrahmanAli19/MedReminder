@@ -23,6 +23,7 @@ import com.example.itijavaproject.pojo.repo.RepositoryInterface;
 import com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragment;
 
 import io.reactivex.MaybeObserver;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 
 public class WindowRefill implements MaybeObserver<Medicine> {
@@ -55,6 +56,10 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mView = layoutInflater.inflate(R.layout.refill_popup, null);
+        repository.getMedById(medId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this);
+
 
         medName = mView.findViewById(R.id.txtMedName);
 
@@ -65,9 +70,6 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         });
 
         mView.findViewById(R.id.btnRefill).setOnClickListener(view -> {
-//            MedicationDisplayFragment medicationDisplayFragment=new MedicationDisplayFragment();
-//            medicationDisplayFragment.createDialog();
-
 
         });
 
@@ -108,7 +110,6 @@ public class WindowRefill implements MaybeObserver<Medicine> {
     public void onSubscribe(Disposable d) {
 
     }
-
     @Override
     public void onSuccess(Medicine medicine) {
         open();
@@ -122,11 +123,11 @@ public class WindowRefill implements MaybeObserver<Medicine> {
 
     @Override
     public void onError(Throwable e) {
-
+        Log.d(TAG, "onError: ");
     }
 
     @Override
     public void onComplete() {
-
+        Log.d(TAG, "onComplete: ");
     }
 }

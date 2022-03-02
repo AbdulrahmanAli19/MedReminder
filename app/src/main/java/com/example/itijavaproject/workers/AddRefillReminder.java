@@ -32,7 +32,7 @@ public class AddRefillReminder {
                 .setRequiresCharging(false)
                 .build();
         PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest
-                .Builder(RefillReminder.class, 10, TimeUnit.SECONDS)
+                .Builder(RefillReminder.class, 12, TimeUnit.HOURS)
                 .setInputData(data)
                 .addTag("TestPWorker")
                 .setConstraints(constraints)
