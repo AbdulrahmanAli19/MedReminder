@@ -129,6 +129,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     @Override
     public void getSelectedDateMedicines(Maybe<List<Medicine>> medicines) {
+        Log.i(TAG, "getSelectedDateMedicines: debug from abdo");
         medicines.observeOn(AndroidSchedulers.mainThread()).subscribe(this);
     }
 

@@ -59,7 +59,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     Medicine medicine = new Medicine();
     List<Long> listTime = new ArrayList<>();
     String s;
-
+    Medicine editMedicine;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +77,11 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 listTime.add(myCalenderTime.getTimeInMillis());
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
                     String dateTime = simpleDateFormat.format(myCalenderTime.getTimeInMillis());
+                    if (editMedicine == null)
                     binding.txtTime.append(dateTime+"\n");
+                    else {
+                       binding.txtTime.setText(dateTime+"\n");
+                    }
             }
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
@@ -131,10 +135,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 endCalender.set(Calendar.YEAR, year);
                 endCalender.set(Calendar.MONTH, month);
                 endCalender.set(Calendar.DAY_OF_MONTH, day);
-                endCalender.set(Calendar.HOUR_OF_DAY, 0);
-                endCalender.set(Calendar.MINUTE, 0);
-                endCalender.set(Calendar.SECOND, 0);
-                endCalender.set(Calendar.MILLISECOND, 0);
                 month = month + 1;
                 endDate = day + "/" + month + "/" + year;
                 binding.endDateTxt.setText(endDate);
@@ -209,7 +209,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         binding.dropBtn.setOnClickListener(this);
         binding.injectionBtn.setOnClickListener(this);
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getActivity().getApplicationContext());
-        Medicine editMedicine;
+
 
         if (AddMedicineFragmentArgs.fromBundle(getArguments()).getMedicine().getName() != null) {
             editMedicine = AddMedicineFragmentArgs.fromBundle(getArguments()).getMedicine();
@@ -225,7 +225,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             for (int i = 0; i < editMedicine.getTimes().size(); i++) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
                 String dateTime = simpleDateFormat.format(editMedicine.getTimes().get(i));
-                binding.txtTime.append(dateTime);
+                binding.txtTime.append(dateTime+"\n");
             }
             binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
                     .getPosition(editMedicine.getDuration()));
@@ -238,7 +238,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setStrength(binding.strength.getSelectedItem().toString());
                     if(listTime.size()==0){
                         editMedicine.setTimes(editMedicine.getTimes());
-                    }else{editMedicine.setTimes(listTime);}
+                    }else{
+                        editMedicine.setTimes(listTime);
+                    }
                     if(s==null)
                     { editMedicine.setIconType(editMedicine.getIconType());
                     }else{editMedicine.setIconType(s);}
@@ -261,7 +263,10 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
                     editMedicine.setActive(true);
                     presenterInterface.editMedicine(editMedicine);
-
+                    MedReminderUtil.removeMedReminder(editMedicine.getMed_id(),getContext());
+                    for (Long time:editMedicine.getTimes()) {
+                        MedReminderUtil.addMedReminder(time,getContext(),editMedicine.getMed_id());
+                    }
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
                     Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(editMedicine.getMed_id());
 
