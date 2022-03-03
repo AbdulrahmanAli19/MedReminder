@@ -44,7 +44,8 @@ public class CurrentDayAdapter extends RecyclerView.Adapter<CurrentDayAdapter.Cu
         holder.binding.imgMed.setImageDrawable(getImage(currentMed.getIconType()));
         holder.binding.txtMedName.setText(currentMed.getName());
         holder.binding.txtTime.setText(getTime(currentMed.getTimes().get(0)));
-        String details = currentMed.getStrength() + currentMed.getStrength() + ", take " + currentMed.getTimes().size() + "(s)";
+        String details = currentMed.getNoOfStrength() + " " + currentMed.getStrength() + currentMed.getStrength()
+                + ", take " + currentMed.getTimes().size() + "(s)";
         holder.binding.txtMedDetails.setText(details);
     }
 

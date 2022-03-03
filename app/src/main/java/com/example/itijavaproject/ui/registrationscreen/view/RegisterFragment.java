@@ -134,6 +134,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest
                                 .Builder()
                                 .setDisplayName(user.getFullName())
+                                .setDisplayName(user.getFullName())
                                 .build();
                         FirebaseUser fUser = FirebaseAuth.getInstance().getCurrentUser();
                         fUser.updateEmail(user.getEmail());

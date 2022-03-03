@@ -67,8 +67,7 @@ public class AddHealthTakerFragment extends Fragment {
                         .addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {
                                 boolean check = task.getResult().getSignInMethods().isEmpty();
-                                ////TODO !check
-                                if (check) {
+                                if (!check) {
                                     databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
