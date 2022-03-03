@@ -29,6 +29,7 @@ import com.example.itijavaproject.databinding.FragmentHomeBinding;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.homescreen.presenter.HomePresenter;
+import com.example.itijavaproject.workers.AddRefillReminder;
 import com.example.itijavaproject.workers.MedReminderUtil;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -51,6 +52,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
 
     private static final String TAG = "HomeFragment.DEV";
     private final String WORKER_TAG = "DAYWORKER";
+    private final String REFILL_TAG= "refillDay";
     private static final int ACTION_MANAGE_OVERLAY_PERMISSION_REQUEST_CODE = 1230;
     private NavController navController;
     private FragmentHomeBinding binding;
@@ -83,6 +85,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         if (Paper.book().read("isFirstTimeToRun") == null || !Paper.book().read("isFirstTimeToRun").equals("false")) {
             Log.d(TAG, "onViewCreated: paper is not Not shity");
             MedReminderUtil.addDayReminder(12, WORKER_TAG, getContext());
+            AddRefillReminder.RefillDayReminder(12,REFILL_TAG,getContext());
             checkPermission();
             Paper.book().write("isFirstTimeToRun", "false");
         }
@@ -180,10 +183,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void takeMed() {
         selectedMed.setNumOfPills(selectedMed.getNumOfPills() - 1);
         presenter.updateMed(selectedMed);
+        AddRefillReminder.addRefill(getContext(),selectedMed.getMed_id());
         dialog.close();
     }
 

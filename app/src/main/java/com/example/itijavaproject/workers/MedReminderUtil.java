@@ -74,7 +74,6 @@ public class MedReminderUtil {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public static void addDayReminder(int time, String tag, Context context) {
-
         Data data = new Data.Builder()
                 .putBoolean("permission", Settings.canDrawOverlays(context))
                 .build();

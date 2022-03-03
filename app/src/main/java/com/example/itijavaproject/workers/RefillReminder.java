@@ -3,11 +3,13 @@ package com.example.itijavaproject.workers;
 import static java.lang.Thread.sleep;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -20,6 +22,7 @@ public class RefillReminder extends Worker {
         super(context, workerParams);
     }
     Handler handler = new Handler(getApplicationContext().getMainLooper()) {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -31,7 +34,7 @@ public class RefillReminder extends Worker {
             if (isPermissionGranted) {
                 new WindowRefill(getApplicationContext(), medId);
             }
-//            new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
+            new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
 
 
         }

@@ -12,15 +12,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
-import com.example.itijavaproject.ui.medicationDisplay.view.MedicationDisplayFragment;
+import com.example.itijavaproject.workers.AddRefillReminder;
 
 import io.reactivex.MaybeObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +40,7 @@ public class WindowRefill implements MaybeObserver<Medicine> {
     private final TextView medDesc;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("InflateParams")
     public WindowRefill(Context context,String medId) {
         this.context = context;
@@ -62,19 +64,15 @@ public class WindowRefill implements MaybeObserver<Medicine> {
 
 
         medName = mView.findViewById(R.id.txtMedName);
-
         medDesc = mView.findViewById(R.id.txtBody);
         mView.findViewById(R.id.btnSnooze).setOnClickListener(view -> {
-            ///TODO: REMIND ME LATTER
+            AddRefillReminder.RefillSingleReminder(2,medId,context);
             close();
         });
 
-        mView.findViewById(R.id.btnRefill).setOnClickListener(view -> {
-
-        });
 
         mView.findViewById(R.id.btnSkip).setOnClickListener(view -> {
-            ///TODO: Skip refill
+
             close();
         });
 
@@ -116,8 +114,8 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         Log.d(TAG, "onSuccess med: "+medicine.getName().isEmpty());
         selectedMed=medicine;
         medName.setText(medicine.getName());
-        medDesc.setText("you need to refill "+medicine.getName()+"you have only 2 doses ");
-        medDesc.append(medicine.getNumOfPills() + " ");
+        medDesc.setText("you need to refill "+medicine.getName()+"you have only  ");
+        medDesc.append(medicine.getNumOfPills() + " "+medicine.getIconType());
 
     }
 

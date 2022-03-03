@@ -89,10 +89,12 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         else if (binding.edtName.getEditText().getText().toString().isEmpty()) {
             binding.edtName.setError(getString(R.string.empty_name));
 
-        } else if (binding.edtPhoneNumber.getEditText().getText().toString().isEmpty()) {
+        }
+        else if (binding.edtPhoneNumber.getEditText().getText().toString().isEmpty()) {
             binding.edtPhoneNumber.setError(getString(R.string.empty_phone));
 
-        } else if (binding.edtBirthdayLayout.getEditText().getText().toString().isEmpty()) {
+        }
+        else if (binding.edtBirthdayLayout.getEditText().getText().toString().isEmpty()) {
             binding.edtPhoneNumber.setError(getString(R.string.empty_birthday));
 
         }

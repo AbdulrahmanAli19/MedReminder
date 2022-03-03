@@ -29,6 +29,7 @@ import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicationDisplayPresenter;
 import com.example.itijavaproject.ui.medicationDisplay.presenter.MedicineDisplayPresenterInterface;
 import com.example.itijavaproject.workers.AddRefillReminder;
+import com.example.itijavaproject.workers.MedReminderUtil;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -112,7 +113,8 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                                                       public void onClick(View view) {
                                                           binding.suspendBtn.setText("ACTIVE");
                                                           medicine.setActive(false);
-
+                                                          MedReminderUtil.removeMedReminder(medicine.getMed_id(),getContext());
+                                                          AddRefillReminder.removeRefillReminder(medicine.getMed_id(),getContext());
                                                           new Thread(new Runnable() {
                                                               @Override
                                                               public void run() {
@@ -143,7 +145,6 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AddRefillReminder(getContext(), medicine.getMed_id()).addRefill();
                 createDialog();
             }
         });

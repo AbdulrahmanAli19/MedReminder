@@ -8,21 +8,16 @@ import androidx.annotation.RequiresApi;
 import androidx.work.Constraints;
 import androidx.work.Data;
 import androidx.work.NetworkType;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
 import java.util.concurrent.TimeUnit;
 
 public class AddRefillReminder {
-    private final Context context;
-    private final String medId;
 
-    public AddRefillReminder(Context context , String medId) {
-        this.medId = medId;
-        this.context = context;
-    }
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public void addRefill()
+    public static void addRefill(Context context,String medId)
     {
         Data data = new Data.Builder().putString("medId", medId)
                 .putBoolean("permission", Settings.canDrawOverlays(context))
@@ -31,12 +26,57 @@ public class AddRefillReminder {
                 .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
                 .setRequiresCharging(false)
                 .build();
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest
-                .Builder(RefillReminder.class, 12, TimeUnit.HOURS)
+        OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest
+                .Builder(RefillReminder.class)
                 .setInputData(data)
-                .addTag("TestPWorker")
+                .addTag(medId)
                 .setConstraints(constraints)
                 .build();
-        WorkManager.getInstance(context).enqueue(periodicWorkRequest);
+        WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
     }
+    public static void removeRefillReminder(String medId, Context context) {
+        WorkManager.getInstance(context).cancelAllWorkByTag(medId);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void RefillSingleReminder(int duration, String medId, Context context) {
+
+        Data data = new Data.Builder().putString("medId", medId)
+                .putBoolean("permission", Settings.canDrawOverlays(context))
+                .build();
+
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                .setRequiresCharging(false)
+                .build();
+
+        OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest
+                .Builder(MedReminder.class)
+                .setInitialDelay(duration, TimeUnit.MINUTES)
+                .setConstraints(constraints)
+                .setInputData(data)
+                .addTag(medId)
+                .build();
+
+        WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public static void RefillDayReminder(int time, String tag, Context context) {
+        Data data = new Data.Builder()
+                .putBoolean("permission", Settings.canDrawOverlays(context))
+                .build();
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.NOT_REQUIRED)
+                .setRequiresCharging(false)
+                .build();
+        PeriodicWorkRequest oneTimeWorkRequest = new PeriodicWorkRequest
+                .Builder(RefillWork.class, time, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .setInputData(data)
+                .addTag(tag)
+                .build();
+
+        WorkManager.getInstance(context).enqueue(oneTimeWorkRequest);
+    }
+
+
 }

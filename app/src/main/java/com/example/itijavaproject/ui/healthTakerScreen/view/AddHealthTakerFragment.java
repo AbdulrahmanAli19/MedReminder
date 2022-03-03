@@ -10,9 +10,11 @@ import androidx.navigation.Navigation;
 
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.itijavaproject.R;
@@ -47,11 +49,13 @@ public class AddHealthTakerFragment extends Fragment {
     FirebaseAuth auth = FirebaseAuth.getInstance();
     NavController navController;
     String userId;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -60,66 +64,52 @@ public class AddHealthTakerFragment extends Fragment {
         binding.btnInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                boolean dol = task.getResult().getSignInMethods().isEmpty();
-                                if (dol) {
-                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            ListOfRequest listOfRequest = new ListOfRequest();
-                                            Request request = new Request();
-                                            request.setReceiverMail(binding.txtEmail.getText().toString());
-                                            request.setSenderMail(auth.getCurrentUser().getEmail());
-                                            request.setSenderUid(FirebaseAuth.getInstance().getUid());
-                                            request.setShared(binding.boxPolicy.isChecked());
-                                            listOfRequest.getRequestList().add(request);
-                                            addRequestReciver(listOfRequest);
-                                            Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
-                                            navController.popBackStack();
-                                        }
+                if(isVaild()) {
+                    auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
+                            .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                                    if(task.isSuccessful()) {
+                                        boolean check = task.getResult().getSignInMethods().isEmpty();
+                                        if (check) {
+                                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                    ListOfRequest listOfRequest = new ListOfRequest();
+                                                    Request request = new Request();
+                                                    request.setReceiverMail(binding.txtEmail.getText().toString());
+                                                    request.setSenderMail(auth.getCurrentUser().getEmail().trim());
+                                                    request.setSenderUid(FirebaseAuth.getInstance().getUid());
+                                                    request.setShared(binding.boxPolicy.isChecked());
+                                                    listOfRequest.getRequestList().add(request);
+                                                    addRequestReciver(listOfRequest);
+                                                    Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
+                                                    navController.popBackStack();
+                                                }
 
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError error) {
-                                            Log.d(TAG, "onCancelled: ");
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError error) {
+                                                    Log.d(TAG, "onCancelled: ");
+                                                }
+                                            });
+                                        } else {
+                                            Snackbar snack = Snackbar.make(getContext(), getView(), "user not found", Snackbar.LENGTH_LONG);
+                                            View view = snack.getView();
+                                            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                                            params.gravity = Gravity.TOP;
+                                            view.setLayoutParams(params);
+                                            snack.show();
                                         }
-                                    });
-                                } else {
-                                    Snackbar.make(getContext(), getView(), "user Not Found", Snackbar.LENGTH_LONG).show();
+                                    }
+                                    else {
+                                        Toast.makeText(getContext(), "error in email", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
             }
         });
     }
-//        private void checkRequests(ListOfRequest request) {
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    Log.d(TAG, "onDataChange dSnap: "+snapshot.exists());
-//                    addRequestReciver(request);
-//                    Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
-//                    navController.popBackStack();
-//                } else {
-//
-//                }
-//                    databaseReference.setValue(request).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void unused) {
-//                            Log.d(TAG, "onSuccess pop up: ");
-//                        }
-//                    });
-//
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
-//            }
-//        });
-//    }
 
     public void addRequestReciver(ListOfRequest listOfRequest) {
         String email = listOfRequest.getRequestList().get(0).getReceiverMail();
@@ -141,11 +131,17 @@ public class AddHealthTakerFragment extends Fragment {
     }
 
     private boolean isVaild() {
-        String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-        if (binding.txtEmail.getText().toString().isEmpty() && !binding.txtEmail.getText().toString().equals(emailRegex)) {
-            Toast.makeText(getContext(), "invaild email", Toast.LENGTH_SHORT).show();
+        if (binding.txtEmail.getText().toString().isEmpty()) {
+            binding.txtEmail.setError(getString(R.string.empty_email));
+            String emailRegex = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+            if (!binding.txtEmail.getText().toString().equals(emailRegex)) {
+                binding.txtEmail.setError(getString(R.string.not_vaild_email));
+            }
+            return false;
         }
-        return true;
+        else {
+            return true;
+        }
     }
 
     @Override

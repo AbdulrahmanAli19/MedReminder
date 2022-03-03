@@ -45,7 +45,7 @@
             android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/btnRefill"
+            android:id="@+id/btnTake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/txtBody"

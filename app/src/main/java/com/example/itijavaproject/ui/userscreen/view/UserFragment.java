@@ -1,6 +1,12 @@
 package com.example.itijavaproject.ui.userscreen.view;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -10,18 +16,9 @@ import androidx.navigation.NavDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.example.itijavaproject.R;
-import com.example.itijavaproject.databinding.FragmentMedicationDisplayBinding;
-import com.example.itijavaproject.databinding.FragmentRequestBinding;
 import com.example.itijavaproject.databinding.FragmentUserBinding;
 import com.example.itijavaproject.pojo.model.ListOfRequest;
 import com.example.itijavaproject.pojo.model.Request;
-import com.example.itijavaproject.ui.requestScreen.view.RequestAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,13 +35,9 @@ import java.util.List;
 public class UserFragment extends Fragment {
     private static final String TAG = "UserFragment";
     private FragmentUserBinding binding;
-    NavController navController;
-    NavDirections directions;
     RecyclerView recyclerView;
     private Request request = new Request();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-    //            .child(FirebaseAuth.getInstance()
-//            .getUid()).child("recivedRequests");
     UserAdapter userAdapter;
 
 
@@ -92,7 +85,12 @@ public class UserFragment extends Fragment {
                     userAdapter = new UserAdapter(requestList, getContext());
                     binding.recTacker.setAdapter(userAdapter);
                 } else {
-                    Snackbar.make(getContext(), getView(), "not Tacker yet", Snackbar.LENGTH_LONG).show();
+                    Snackbar snack = Snackbar.make(getContext(), getView(), "not Tacker yet", Snackbar.LENGTH_LONG);
+                    View view = snack.getView();
+                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                    params.gravity = Gravity.TOP;
+                    view.setLayoutParams(params);
+                    snack.show();
                 }
             }
 
@@ -101,31 +99,6 @@ public class UserFragment extends Fragment {
 
             }
         });
-//                .child("recivedRequests");
-//        query.child(request.getSenderMail().split("\\.")[0]).child("state").orderByChild("true");
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if(snapshot.exists())
-//                {
-//                    Log.d(TAG, "onDataChange snap: "+snapshot.exists());
-//                    for (DataSnapshot snapshot1:snapshot.getChildren()) {
-//                        Request request = snapshot1.getValue(Request.class);
-//                        requestList.add(request);
-//                    }
-//                    Log.d(TAG, "onDataChange adapter: " + list.getRequestList().isEmpty());
-//                    userAdapter = new UserAdapter(requestList, getContext());
-//                    binding.recTacker.setAdapter(userAdapter);
-//                }
-//                else {
-//                    Snackbar.make(getContext(), getView(), "not requests yet", Snackbar.LENGTH_LONG).show();
-//                }
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Snackbar.make(getContext(), getView(), "error", Snackbar.LENGTH_LONG).show();
-//            }
-//        });
 
     }
 }
