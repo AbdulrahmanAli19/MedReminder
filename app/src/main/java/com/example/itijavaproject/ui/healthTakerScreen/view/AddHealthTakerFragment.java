@@ -61,53 +61,46 @@ public class AddHealthTakerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
 
-        binding.btnInvite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(isVaild()) {
-                    auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
-                            .addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                                    if(task.isSuccessful()) {
-                                        boolean check = task.getResult().getSignInMethods().isEmpty();
-                                        ////TODO !check
-                                        if (check) {
-                                            databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                @Override
-                                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                    ListOfRequest listOfRequest = new ListOfRequest();
-                                                    Request request = new Request();
-                                                    request.setReceiverMail(binding.txtEmail.getText().toString());
-                                                    request.setSenderMail(auth.getCurrentUser().getEmail().toLowerCase(Locale.ROOT));
-                                                    request.setSenderUid(FirebaseAuth.getInstance().getUid());
-                                                    request.setShared(binding.boxPolicy.isChecked());
-                                                    listOfRequest.getRequestList().add(request);
-                                                    addRequestReciver(listOfRequest);
-                                                    Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
-                                                    navController.popBackStack();
-                                                }
-
-                                                @Override
-                                                public void onCancelled(@NonNull DatabaseError error) {
-                                                    Log.d(TAG, "onCancelled: ");
-                                                }
-                                            });
-                                        } else {
-                                            Snackbar snack = Snackbar.make(getContext(), getView(), "user not found", Snackbar.LENGTH_LONG);
-                                            View view = snack.getView();
-                                            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-                                            params.gravity = Gravity.TOP;
-                                            view.setLayoutParams(params);
-                                            snack.show();
+        binding.btnInvite.setOnClickListener(view1 -> {
+            if (isVaild()) {
+                auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                boolean check = task.getResult().getSignInMethods().isEmpty();
+                                ////TODO !check
+                                if (check) {
+                                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            ListOfRequest listOfRequest = new ListOfRequest();
+                                            Request request = new Request();
+                                            request.setReceiverMail(binding.txtEmail.getText().toString().trim());
+                                            request.setSenderMail(auth.getCurrentUser().getEmail().toLowerCase(Locale.ROOT));
+                                            request.setSenderUid(FirebaseAuth.getInstance().getUid());
+                                            request.setShared(binding.boxPolicy.isChecked());
+                                            listOfRequest.getRequestList().add(request);
+                                            addRequestReciver(listOfRequest);
+                                            Snackbar.make(getContext(), getView(), "Success", Snackbar.LENGTH_LONG).show();
+                                            navController.popBackStack();
                                         }
-                                    }
-                                    else {
-                                        Toast.makeText(getContext(), "error in email", Toast.LENGTH_SHORT).show();
-                                    }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            Log.d(TAG, "onCancelled: ");
+                                        }
+                                    });
+                                } else {
+                                    Snackbar snack = Snackbar.make(getContext(), getView(), "user not found", Snackbar.LENGTH_LONG);
+                                    View view11 = snack.getView();
+                                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view11.getLayoutParams();
+                                    params.gravity = Gravity.TOP;
+                                    view11.setLayoutParams(params);
+                                    snack.show();
                                 }
-                            });
-                }
+                            } else {
+                                Toast.makeText(getContext(), "error in email", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         });
     }
@@ -139,8 +132,7 @@ public class AddHealthTakerFragment extends Fragment {
                 binding.txtEmail.setError(getString(R.string.not_vaild_email));
             }
             return false;
-        }
-        else {
+        } else {
             return true;
         }
     }

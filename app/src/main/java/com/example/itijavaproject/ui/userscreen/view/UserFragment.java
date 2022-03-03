@@ -36,15 +36,13 @@ import io.paperdb.Paper;
 public class UserFragment extends Fragment implements UserAdapter.UserFragInterface {
     private static final String TAG = "UserFragment";
     private FragmentUserBinding binding;
-    NavController navController;
+    private NavController navController;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
-    UserAdapter userAdapter;
-
+    private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
+    private UserAdapter userAdapter;
 
     public UserFragment() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
