@@ -59,15 +59,14 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
             holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_injection__1_));
         }
         holder.txtMedName.setText(inactiveMedicines.get(position).getName());
-        holder.txtMedStrength.setText(inactiveMedicines.get(position).getStrength());
-        holder.txtNumStrength.setText(""+inactiveMedicines.get(position).getNoOfStrength());
+        holder.txtMedStrength.setText(""+inactiveMedicines.get(position).getNumOfPills()+" "+inactiveMedicines.get(position).getNoOfStrength());
         holder.constLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navController.navigate(MedicationsFragmentDirections.actionMedicationsFragmentToMedicationDisplayFragment(inactiveMedicines.get(position)));
             }
         });
-        holder.txtMedRefill.setText(""+inactiveMedicines.get(position).getNumOfPills()+" "+inactiveMedicines.get(position).getIconType());    }
+        holder.txtMedRefill.setText(""+inactiveMedicines.get(position).getNumOfPills()+" "+inactiveMedicines.get(position).getIconType()+" "+"left");    }
 
     @Override
     public int getItemCount() {
@@ -78,7 +77,7 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
         TextView txtMedName;
         TextView txtMedStrength;
         TextView txtMedRefill;
-        TextView txtNumStrength;
+//        TextView txtNumStrength;
         ImageView imageView;
         ConstraintLayout constLayout;
 
@@ -87,7 +86,6 @@ public class InactiveMedicationAdapter extends RecyclerView.Adapter<InactiveMedi
             txtMedName = itemView.findViewById(R.id.txtMedName);
             txtMedStrength = itemView.findViewById(R.id.txtMedStrength);
             txtMedRefill = itemView.findViewById(R.id.txtMedRefill);
-            txtNumStrength=itemView.findViewById(R.id.txtNumStrength);
             imageView=itemView.findViewById(R.id.imgIcon);
             constLayout = itemView.findViewById(R.id.ActiveconstLayout);
 
