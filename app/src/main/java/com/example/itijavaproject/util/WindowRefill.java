@@ -66,7 +66,7 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         medName = mView.findViewById(R.id.txtMedName);
         medDesc = mView.findViewById(R.id.txtBody);
         mView.findViewById(R.id.btnSnooze).setOnClickListener(view -> {
-            AddRefillReminder.RefillSingleReminder(2,medId,context);
+            AddRefillReminder.RefillSingleReminder(5,medId,context);
             close();
         });
 
@@ -115,7 +115,7 @@ public class WindowRefill implements MaybeObserver<Medicine> {
         selectedMed=medicine;
         medName.setText(medicine.getName());
         medDesc.setText("you need to refill "+medicine.getName()+"you have only  ");
-        medDesc.append(medicine.getNumOfPills() + " "+medicine.getIconType());
+        medDesc.append(medicine.getNumOfPills() + " "+medicine.getIconType()+"'s");
 
     }
 
