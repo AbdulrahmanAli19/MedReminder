@@ -3,10 +3,12 @@ package com.example.itijavaproject.workers;
 import static java.lang.Thread.sleep;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -22,6 +24,7 @@ public class MedReminder extends Worker {
     }
 
     Handler handler = new Handler(getApplicationContext().getMainLooper()) {
+        @RequiresApi(api = Build.VERSION_CODES.M)
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
@@ -31,12 +34,10 @@ public class MedReminder extends Worker {
             if (isPermissionGranted) {
                 new Window(getApplicationContext(), medId);
             }
-//           new WorkerUtil(getApplicationContext()).createNotification("Test", "title");
+           new WorkerUtil(getApplicationContext()).createNotification("It's time to take your medicine\n", "Remember :)");
 
         }
     };
-
-
     @NonNull
     @Override
     public Result doWork() {
