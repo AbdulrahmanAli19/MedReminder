@@ -236,6 +236,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     Log.i(TAG, "icon: "+medicine.getIconType());
                     editMedicine.setName(binding.medName.getEditableText().toString());
                     editMedicine.setStrength(binding.strength.getSelectedItem().toString());
+                    if(listTime.size()==0){
+                        editMedicine.setTimes(editMedicine.getTimes());
+                    }else{editMedicine.setTimes(listTime);}
                     if(s==null)
                     { editMedicine.setIconType(editMedicine.getIconType());
                     }else{editMedicine.setIconType(s);}
@@ -254,7 +257,6 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
                     editMedicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
                     editMedicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
-                    editMedicine.setTimes(listTime);
                     editMedicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
                     editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
                     editMedicine.setActive(true);
@@ -288,14 +290,23 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                         {
                             Toast.makeText(getContext(), "Please choose your icon", Toast.LENGTH_SHORT).show();
                         }else{
-                            presenterInterface.addMedicine(createMedicine());
+                            if(listTime.size()<Integer.parseInt(binding.txtFrequence.getEditableText().toString()))
+                            {
+                                Toast.makeText(getContext(), "Please enter all medicine times", Toast.LENGTH_SHORT).show();
+                            }else{presenterInterface.addMedicine(createMedicine());
                                 navController.popBackStack();
+                            }
+
                         }
                     } else {
                         if(s==null)
                         {
                             Toast.makeText(getContext(), "Please choose your icon", Toast.LENGTH_SHORT).show();
                         }else{
+                            if(listTime.size()<Integer.parseInt(binding.txtFrequence.getEditableText().toString()))
+                            {
+                                Toast.makeText(getContext(), "Please enter all medicine times", Toast.LENGTH_SHORT).show();
+                            }else{
                                 presenterInterface.addMedicine(createMedicine());
                                 for (long time : createMedicine().getTimes()) {
                                     MedReminderUtil.addMedReminder(time, getContext(), createMedicine().getMed_id());
@@ -315,6 +326,8 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                             }
                                         });
                                 navController.popBackStack();
+                            }
+
                         } } }
             });
         }

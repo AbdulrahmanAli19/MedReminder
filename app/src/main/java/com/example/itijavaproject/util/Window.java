@@ -20,6 +20,8 @@ import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
 
+import java.text.SimpleDateFormat;
+
 import io.reactivex.MaybeObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -122,12 +124,12 @@ public class Window implements MaybeObserver<Medicine> {
         open();
         selectedMed = medicine;
         medName.setText(medicine.getName());
-
-        ////TODO:Add tima and date
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
+        String dateTime = simpleDateFormat.format(medicine.getTimes().get(0));
         medDesc.setText(medicine.getNoOfStrength()+" "+medicine.getStrength()+" ,take 1 Pill(s), "+medicine.getInstructions()
-                +"\n,at  "+medicine.getTimes().get(0));
-        medDesc.append(" ,you still have "+medicine.getNumOfPills() + "pills ");
-       // medDesc.append(medicine.getTimes().size() + " ");
+                +"\nat  "+dateTime);
+        medDesc.append(" ,you still have "+medicine.getNumOfPills() + " Pills ");
+
     }
 
     @Override
