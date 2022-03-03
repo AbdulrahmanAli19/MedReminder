@@ -100,7 +100,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.txtGetDuration.setText(medicine.getDuration() + " ,take for " + localDate.getDayOfMonth() + " days");
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
             String dateTime = simpleDateFormat.format(medicine.getTimes().get(i));
             binding.txtTimes.append(dateTime + " take 1 pill(s) \n");
         }
@@ -143,7 +143,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new AddRefillReminder(getContext(),medicine.getMed_id()).addRefill();
+                new AddRefillReminder(getContext(), medicine.getMed_id()).addRefill();
                 createDialog();
             }
         });

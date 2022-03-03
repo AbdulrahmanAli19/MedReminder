@@ -125,9 +125,9 @@ public class Window implements MaybeObserver<Medicine> {
 
         ////TODO:Add tima and date
         medDesc.setText(medicine.getNoOfStrength()+" "+medicine.getStrength()+" ,take 1 Pill(s), "+medicine.getInstructions()
-                +"\n,at  ");
-        medDesc.append(medicine.getNumOfPills() + " ");
-        medDesc.append(medicine.getTimes().size() + " ");
+                +"\n,at  "+medicine.getTimes().get(0));
+        medDesc.append(" ,you still have "+medicine.getNumOfPills() + "pills ");
+       // medDesc.append(medicine.getTimes().size() + " ");
     }
 
     @Override
