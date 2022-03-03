@@ -50,7 +50,7 @@ public class AddRefillReminder {
                 .build();
 
         OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest
-                .Builder(MedReminder.class)
+                .Builder(RefillReminder.class)
                 .setInitialDelay(duration, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .setInputData(data)
