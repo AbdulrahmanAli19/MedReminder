@@ -45,10 +45,10 @@ import java.util.Map;
 public class AddHealthTakerFragment extends Fragment {
     private FragmentAddHealthTakerBinding binding;
     private static final String TAG = "AddHealthTakerFragment";
-    DatabaseReference databaseReference;
-    FirebaseAuth auth = FirebaseAuth.getInstance();
-    NavController navController;
-    String userId;
+    private DatabaseReference databaseReference;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private NavController navController;
+    private String userId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class AddHealthTakerFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         navController = Navigation.findNavController(view);
 
-        binding.btnInvite.setOnClickListener(view1 -> {
+        binding.btnInvite.setOnClickListener(view12 -> {
             if (isVaild()) {
                 auth.fetchSignInMethodsForEmail(binding.txtEmail.getText().toString())
                         .addOnCompleteListener(task -> {
@@ -73,7 +73,7 @@ public class AddHealthTakerFragment extends Fragment {
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                                             ListOfRequest listOfRequest = new ListOfRequest();
                                             Request request = new Request();
-                                            request.setReceiverMail(binding.txtEmail.getText().toString().trim());
+                                            request.setReceiverMail(binding.txtEmail.getText().toString());
                                             request.setSenderMail(auth.getCurrentUser().getEmail().toLowerCase(Locale.ROOT));
                                             request.setSenderUid(FirebaseAuth.getInstance().getUid());
                                             request.setShared(binding.boxPolicy.isChecked());
@@ -90,10 +90,10 @@ public class AddHealthTakerFragment extends Fragment {
                                     });
                                 } else {
                                     Snackbar snack = Snackbar.make(getContext(), getView(), "user not found", Snackbar.LENGTH_LONG);
-                                    View view11 = snack.getView();
-                                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view11.getLayoutParams();
+                                    View view1 = snack.getView();
+                                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view1.getLayoutParams();
                                     params.gravity = Gravity.TOP;
-                                    view11.setLayoutParams(params);
+                                    view1.setLayoutParams(params);
                                     snack.show();
                                 }
                             } else {

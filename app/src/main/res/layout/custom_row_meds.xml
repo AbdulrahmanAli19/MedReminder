@@ -11,8 +11,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ActiveconstLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="10dp"
         android:orientation="vertical"
         android:padding="10dp">
 
@@ -20,7 +21,7 @@
             android:id="@+id/txtMedName"
             android:layout_width="93dp"
             android:layout_height="28dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="24dp"
             android:hint="@string/mad_name"
             app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
             app:layout_constraintStart_toEndOf="@+id/imgIcon"
@@ -31,11 +32,10 @@
             android:id="@+id/txtMedStrength"
             android:layout_width="80dp"
             android:layout_height="28dp"
-            android:layout_marginStart="4dp"
             android:hint="@string/mad_strength"
-            app:layout_constraintBottom_toBottomOf="@+id/txtNumStrength"
-            app:layout_constraintStart_toEndOf="@+id/txtNumStrength"
-            app:layout_constraintTop_toTopOf="@+id/txtNumStrength"
+            app:layout_constraintBottom_toBottomOf="@+id/txtMedName"
+            app:layout_constraintStart_toEndOf="@+id/txtMedName"
+            app:layout_constraintTop_toTopOf="@+id/txtMedName"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -48,14 +48,6 @@
             app:layout_constraintStart_toStartOf="@+id/txtMedName"
             app:layout_constraintTop_toBottomOf="@+id/txtMedStrength" />
 
-        <TextView
-            android:layout_width="35dp"
-            android:layout_height="25dp"
-            android:text="@string/left"
-            app:layout_constraintBottom_toBottomOf="@+id/txtMedRefill"
-            app:layout_constraintStart_toEndOf="@+id/txtMedRefill"
-            app:layout_constraintTop_toBottomOf="@+id/txtMedName" />
-
         <ImageView
             android:id="@+id/imgIcon"
             android:layout_width="64dp"
@@ -67,15 +59,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txtNumStrength"
-            android:layout_width="30dp"
-            android:layout_height="28dp"
-            android:hint="@string/numofstrength"
-            app:layout_constraintBottom_toBottomOf="@+id/txtMedName"
-            app:layout_constraintStart_toEndOf="@+id/txtMedName"
-            app:layout_constraintTop_toTopOf="@+id/txtMedName"
-            app:layout_constraintVertical_bias="1.0" />
+        <View
+            android:id="@+id/view4"
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="15dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintBottom_toBottomOf="@+id/imgIcon"
+            app:layout_constraintStart_toEndOf="@+id/imgIcon"
+            app:layout_constraintTop_toTopOf="@+id/imgIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

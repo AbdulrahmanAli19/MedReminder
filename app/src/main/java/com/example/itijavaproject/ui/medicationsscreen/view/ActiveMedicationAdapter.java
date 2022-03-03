@@ -49,15 +49,15 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
             holder.imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_injection__1_));
         }
         holder.txtMedName.setText(ActiveMedicines.get(position).getName());
-        holder.txtMedStrength.setText(ActiveMedicines.get(position).getStrength());
-        holder.txtNumStrength.setText("" + ActiveMedicines.get(position).getNoOfStrength());
+        holder.txtMedStrength.setText(ActiveMedicines.get(position).getNoOfStrength()+" "+ActiveMedicines.get(position).getStrength());
+//        holder.txtNumStrength.setText("" + ActiveMedicines.get(position).getNoOfStrength());
         holder.constLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navController.navigate(MedicationsFragmentDirections.actionMedicationsFragmentToMedicationDisplayFragment(ActiveMedicines.get(position)));
             }
         });
-        holder.txtMedRefill.setText(""+ActiveMedicines.get(position).getNumOfPills() +" "+ActiveMedicines.get(position).getIconType());
+        holder.txtMedRefill.setText(""+ActiveMedicines.get(position).getNumOfPills() +" "+ActiveMedicines.get(position).getIconType()+" "+"left");
     }
 
     @Override
@@ -78,7 +78,6 @@ public class ActiveMedicationAdapter extends RecyclerView.Adapter<ActiveMedicati
             txtMedName = itemView.findViewById(R.id.txtMedName);
             txtMedStrength = itemView.findViewById(R.id.txtMedStrength);
             txtMedRefill = itemView.findViewById(R.id.txtMedRefill);
-            txtNumStrength = itemView.findViewById(R.id.txtNumStrength);
             imageView = itemView.findViewById(R.id.imgIcon);
             constLayout = itemView.findViewById(R.id.ActiveconstLayout);
         }
