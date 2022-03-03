@@ -14,11 +14,14 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+
 import com.example.itijavaproject.R;
 import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
+import com.example.itijavaproject.workers.AddRefillReminder;
 
 import java.text.SimpleDateFormat;
 
@@ -39,6 +42,7 @@ public class Window implements MaybeObserver<Medicine> {
 
     private Medicine selectedMed = null;
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("InflateParams")
     public Window(Context context, String medId) {
         this.context = context;
@@ -71,8 +75,9 @@ public class Window implements MaybeObserver<Medicine> {
             close();
         });
 
-        mView.findViewById(R.id.btnRefill).setOnClickListener(view -> {
+        mView.findViewById(R.id.btnTake).setOnClickListener(view -> {
             selectedMed.setNumOfPills(selectedMed.getNumOfPills() - 1);
+            AddRefillReminder.addRefill(context,medId);
             repository.editMedicine(selectedMed);
             close();
         });
