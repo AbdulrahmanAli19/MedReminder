@@ -21,8 +21,8 @@ import com.example.itijavaproject.ui.medicationsscreen.view.MedicationsFragmentD
 
 public class MoreFragment extends Fragment {
     Button btnRequest;
-     FragmentMoreBinding binding;
-     NavController navController;
+    FragmentMoreBinding binding;
+    NavController navController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

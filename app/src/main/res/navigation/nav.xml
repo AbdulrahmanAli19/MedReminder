@@ -126,4 +126,13 @@
         android:name="com.example.itijavaproject.ui.userscreen.view.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/moreFragment"
+        android:name="com.example.itijavaproject.ui.morescreen.view.MoreFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_moreFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+    </fragment>
 </navigation>

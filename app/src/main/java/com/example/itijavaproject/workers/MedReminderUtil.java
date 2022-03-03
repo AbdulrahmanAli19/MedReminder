@@ -24,7 +24,6 @@ public class MedReminderUtil {
 
         long delay = ((time / 1000L) - (System.currentTimeMillis() / 1000L));
 
-        Calendar calendar = Calendar.getInstance();
         Data data = new Data.Builder().putString("medId", medId)
                 .putBoolean("permission", Settings.canDrawOverlays(context))
                 .build();
