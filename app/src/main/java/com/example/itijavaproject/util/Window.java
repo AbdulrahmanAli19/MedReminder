@@ -90,8 +90,6 @@ public class Window implements MaybeObserver<Medicine> {
         mParams.gravity = Gravity.CENTER;
         mWindowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
     }
-
-
     public void open() {
         try {
 
@@ -115,8 +113,6 @@ public class Window implements MaybeObserver<Medicine> {
             Log.d(TAG, e.toString());
         }
     }
-
-
     @Override
     public void onSubscribe(Disposable d) {
 
