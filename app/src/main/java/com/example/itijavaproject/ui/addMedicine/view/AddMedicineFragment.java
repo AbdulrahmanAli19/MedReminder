@@ -75,9 +75,9 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay1);
                 myCalenderTime.set(Calendar.MINUTE, minute1);
                 listTime.add(myCalenderTime.getTimeInMillis());
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
-                    String dateTime = simpleDateFormat.format(myCalenderTime.getTimeInMillis());
-                    binding.txtTime.append(dateTime+"\n");
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
+                String dateTime = simpleDateFormat.format(myCalenderTime.getTimeInMillis());
+                binding.txtTime.append(dateTime + "\n");
             }
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
@@ -148,20 +148,21 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         datePickerDialog.show();
     }
+
     private Medicine createMedicine() {
         medicine = new Medicine();
-        medicine.setName(binding.medName.getEditableText().toString());
-        medicine.setStrength(binding.strength.getSelectedItem().toString());
+        medicine.setName(binding.medName.getEditableText().toString().trim());
+        medicine.setStrength(binding.strength.getSelectedItem().toString().trim());
         medicine.setIconType(s);
         medicine.setStartDate(startCalender.getTimeInMillis());
         medicine.setEndDate(endCalender.getTimeInMillis());
-        medicine.setDuration(binding.durationMenu.getSelectedItem().toString());
-        medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString()));
-        medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString()));
-        medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString()));
+        medicine.setDuration(binding.durationMenu.getSelectedItem().toString().trim());
+        medicine.setNumOfPills(Integer.parseInt(binding.txtAmount.getText().toString().trim()));
+        medicine.setFrequencyPerDay(Integer.parseInt(binding.txtFrequence.getText().toString().trim()));
+        medicine.setNoOfStrength(Integer.parseInt(binding.noOfStrength.getEditableText().toString().trim()));
         medicine.setTimes(listTime);
         medicine.setIsRefillReminder(binding.refillSwitch.isChecked());
-        medicine.setInstructions(binding.instructionMenu.getSelectedItem().toString());
+        medicine.setInstructions(binding.instructionMenu.getSelectedItem().toString().trim());
         medicine.setActive(true);
         binding.saveBtn.setText("SAVE");
         medicine.createId();
@@ -190,16 +191,15 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 showEndDatePicker();
             }
         });
-        if(medicine.getIsRefillReminder())
-        {
+        if (medicine.getIsRefillReminder()) {
             setRefill();
         }
         binding.timeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(listTime.size()<Integer.parseInt(binding.txtFrequence.getEditableText().toString())){
+                if (listTime.size() < Integer.parseInt(binding.txtFrequence.getEditableText().toString())) {
                     showHourPicker();
-                }else{
+                } else {
                     binding.timeBtn.setEnabled(false);
                 }
             }
@@ -233,15 +233,19 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             binding.saveBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG, "icon: "+medicine.getIconType());
+                    Log.i(TAG, "icon: " + medicine.getIconType());
                     editMedicine.setName(binding.medName.getEditableText().toString());
                     editMedicine.setStrength(binding.strength.getSelectedItem().toString());
-                    if(listTime.size()==0){
+                    if (listTime.size() == 0) {
                         editMedicine.setTimes(editMedicine.getTimes());
-                    }else{editMedicine.setTimes(listTime);}
-                    if(s==null)
-                    { editMedicine.setIconType(editMedicine.getIconType());
-                    }else{editMedicine.setIconType(s);}
+                    } else {
+                        editMedicine.setTimes(listTime);
+                    }
+                    if (s == null) {
+                        editMedicine.setIconType(editMedicine.getIconType());
+                    } else {
+                        editMedicine.setIconType(s);
+                    }
 
                     if (startDate == null) {
                         editMedicine.setStartDate(editMedicine.getStartDate());
@@ -272,6 +276,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                 db.getRef().setValue(editMedicine);
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
@@ -286,27 +291,24 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 public void onClick(View view) {
                     String userId = FirebaseAuth.getInstance().getUid();
                     if (userId == null) {
-                        if(s==null)
-                        {
+                        if (s == null) {
                             Toast.makeText(getContext(), "Please choose your icon", Toast.LENGTH_SHORT).show();
-                        }else{
-                            if(listTime.size()<Integer.parseInt(binding.txtFrequence.getEditableText().toString()))
-                            {
+                        } else {
+                            if (listTime.size() < Integer.parseInt(binding.txtFrequence.getEditableText().toString())) {
                                 Toast.makeText(getContext(), "Please enter all medicine times", Toast.LENGTH_SHORT).show();
-                            }else{presenterInterface.addMedicine(createMedicine());
+                            } else {
+                                presenterInterface.addMedicine(createMedicine());
                                 navController.popBackStack();
                             }
 
                         }
                     } else {
-                        if(s==null)
-                        {
+                        if (s == null) {
                             Toast.makeText(getContext(), "Please choose your icon", Toast.LENGTH_SHORT).show();
-                        }else{
-                            if(listTime.size()<Integer.parseInt(binding.txtFrequence.getEditableText().toString()))
-                            {
+                        } else {
+                            if (listTime.size() < Integer.parseInt(binding.txtFrequence.getEditableText().toString())) {
                                 Toast.makeText(getContext(), "Please enter all medicine times", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 presenterInterface.addMedicine(createMedicine());
                                 for (long time : createMedicine().getTimes()) {
                                     MedReminderUtil.addMedReminder(time, getContext(), createMedicine().getMed_id());
@@ -328,14 +330,16 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                                 navController.popBackStack();
                             }
 
-                        } } }
+                        }
+                    }
+                }
             });
         }
     }
 
     public void setRefill() {
         if (medicine.getNumOfPills() == 2) {
-            new WorkerUtil(getContext()).createNotification("you need refill your med","Refill reminder");
+            new WorkerUtil(getContext()).createNotification("you need refill your med", "Refill reminder");
         }
     }
 
@@ -347,9 +351,12 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     }
 
     @Override
-    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) { }
+    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+    }
+
     @Override
-    public void onTimeSet(TimePicker timePicker, int i, int i1) { }
+    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+    }
 
     @Override
     public void addMedicine(Medicine medicine) {
