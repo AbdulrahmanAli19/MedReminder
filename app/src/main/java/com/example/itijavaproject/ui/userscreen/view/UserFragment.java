@@ -12,9 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.itijavaproject.databinding.FragmentUserBinding;
 import com.example.itijavaproject.pojo.model.ListOfRequest;
@@ -31,12 +30,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.paperdb.Paper;
 
-public class UserFragment extends Fragment {
+
+public class UserFragment extends Fragment implements UserAdapter.UserFragInterface {
     private static final String TAG = "UserFragment";
     private FragmentUserBinding binding;
-    RecyclerView recyclerView;
-    private Request request = new Request();
+    NavController navController;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
     UserAdapter userAdapter;
 
@@ -53,9 +54,18 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Paper.init(getContext());
+        navController = Navigation.findNavController(view);
         binding.recTacker.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.txtAccount.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        binding.txtAccount.setText(auth.getCurrentUser().getEmail());
+        binding.txtName.setText(auth.getCurrentUser().getDisplayName());
         binding.recTacker.setLayoutManager(new LinearLayoutManager(getContext()));
+        userAdapter = new UserAdapter(this);
+
+        binding.btnSingOut.setOnClickListener(v -> {
+            auth.signOut();
+            navController.popBackStack();
+        });
         addNewTacker();
     }
 
@@ -67,11 +77,10 @@ public class UserFragment extends Fragment {
     }
 
     private void addNewTacker() {
-        ListOfRequest list = new ListOfRequest();
         List<Request> requestList = new ArrayList<>();
         databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         Query query = databaseReference.child(FirebaseAuth.getInstance().getUid()).child("recivedRequests")
-              .orderByChild("state").equalTo(true);
+                .orderByChild("state").equalTo(true);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -81,8 +90,7 @@ public class UserFragment extends Fragment {
                         Request request = snapshot1.getValue(Request.class);
                         requestList.add(request);
                     }
-                    Log.d(TAG, "onDataChange adapter: " + list.getRequestList().isEmpty());
-                    userAdapter = new UserAdapter(requestList, getContext());
+                    userAdapter.setRequest(requestList);
                     binding.recTacker.setAdapter(userAdapter);
                 } else {
                     Snackbar snack = Snackbar.make(getContext(), getView(), "not Tacker yet", Snackbar.LENGTH_LONG);
@@ -100,5 +108,12 @@ public class UserFragment extends Fragment {
             }
         });
 
+
+    }
+
+    @Override
+    public void onItemClick(int pos, Request selectedReg) {
+        Paper.book().write("selectedUser", selectedReg.getSenderUid());
+        Log.d(TAG, "onItemClick: " + Paper.book().read("selectedUser"));
     }
 }

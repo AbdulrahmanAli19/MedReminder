@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -31,8 +32,10 @@ import java.util.Locale;
 
 public class RequestFragment extends Fragment {
     private static final String TAG = "RequestFragment";
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.getInstance()
-            .getUid()).child("recivedRequests");
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
+            .getReference("users")
+            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+            .child("recivedRequests");
     private FragmentRequestBinding binding;
     RequestAdapter requestAdapter;
 
@@ -56,20 +59,29 @@ public class RequestFragment extends Fragment {
     }
 
     private void addNewRequest() {
-        ListOfRequest list = new ListOfRequest();
         List<Request> requestList = new ArrayList<>();
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
-                    Log.d(TAG, "onDataChange snap: " + snapshot.exists());
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Request request = snapshot1.getValue(Request.class);
-                        requestList.add(request);
-                    }
-                    Log.d(TAG, "onDataChange adapter: " + list.getRequestList().isEmpty());
-                    requestAdapter = new RequestAdapter(requestList, getContext());
-                    binding.recRequest.setAdapter(requestAdapter);
+                    databaseReference.orderByChild("state").equalTo(false)
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                Request request = snapshot1.getValue(Request.class);
+                                requestList.add(request);
+                                requestAdapter = new RequestAdapter(requestList, getContext());
+                                binding.recRequest.setAdapter(requestAdapter);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 } else {
                     Snackbar snack = Snackbar.make(getContext(), getView(), "not requests yet", Snackbar.LENGTH_LONG);
                     View view = snack.getView();

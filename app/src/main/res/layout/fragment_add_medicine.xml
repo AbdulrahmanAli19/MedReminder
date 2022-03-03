@@ -36,7 +36,7 @@
                     android:layout_height="match_parent">
 
                     <com.google.android.material.textfield.TextInputLayout
-
+                        app:counterMaxLength="20"
                         android:id="@+id/editTextTextPersonName"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
@@ -77,6 +77,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
 
                     <EditText
+                        android:maxLength="5"
                         android:id="@+id/noOfStrength"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -319,6 +320,7 @@
 
 
                     <EditText
+                        android:maxLength="2"
                         android:id="@+id/txtAmount"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
@@ -336,6 +338,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                     <EditText
+                        android:maxLength="1"
                         android:id="@+id/txtFrequence"
                         android:layout_width="50dp"
                         android:layout_height="50dp"

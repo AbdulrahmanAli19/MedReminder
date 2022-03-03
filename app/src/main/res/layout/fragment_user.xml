@@ -1,91 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="20dp"
-    android:layout_margin="15dp">
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context=".ui.morescreen.view.MoreFragment">
 
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp"
-        tools:context=".ui.morescreen.view.MoreFragment">
-
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:cardCornerRadius="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="124dp">
+                android:layout_height="wrap_content">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
                     android:id="@+id/profile_image"
                     android:layout_width="96dp"
                     android:layout_height="96dp"
+                    android:layout_marginStart="20sp"
                     android:src="@drawable/img_avatar"
                     app:civ_border_color="#FF000000"
-
                     app:civ_border_width="2dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.121"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.428" />
 
                 <TextView
-                    android:id="@+id/txtTackerMail"
+                    android:id="@+id/txtName"
                     android:layout_width="143dp"
-                    android:layout_height="43dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text="@string/your_profile"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="@+id/profile_image"
                     app:layout_constraintStart_toEndOf="@+id/profile_image"
                     app:layout_constraintTop_toTopOf="@+id/profile_image"
-                    app:layout_constraintVertical_bias="0.264" />
+                    app:layout_constraintVertical_bias="0.264"
+                    tools:text="@string/your_profile" />
 
                 <TextView
                     android:id="@+id/txtAccount"
                     android:layout_width="150dp"
-                    android:layout_height="42dp"
-                    android:hint="@string/account_name"
-                    android:textSize="20dp"
-                    app:layout_constraintEnd_toEndOf="@+id/txtTackerMail"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="@+id/txtName"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/txtTackerMail"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTackerMail" />
+                    app:layout_constraintStart_toStartOf="@+id/txtName"
+                    app:layout_constraintTop_toBottomOf="@+id/txtName"
+                    tools:text="@string/account_name" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView13"
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/your_tackers" />
+
+    <FrameLayout
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recTacker"
+
             android:layout_width="match_parent"
-            android:layout_height="38dp"
-            android:textSize="20dp"
-            android:layout_weight="1"
-            android:text="@string/your_tackers" />
+            android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/btnSingOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:text="Sign out"
+            android:textColor="@color/white" />
+    </FrameLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recTacker"
-                android:layout_width="match_parent"
-                android:layout_height="216dp" />
-        </LinearLayout>
-    </LinearLayout>
 
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
+
+

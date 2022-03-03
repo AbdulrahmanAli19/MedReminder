@@ -1,5 +1,6 @@
 package com.example.itijavaproject.ui.medicationDisplay.view;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -70,6 +71,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
     }
 
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -96,7 +98,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.howUse.setText(medicine.getInstructions());
         Date startDate = new Date(medicine.getStartDate());
         Date endDate = new Date(medicine.getEndDate());
-        Long duration = endDate.getTime() - startDate.getTime();
+        long duration = endDate.getTime() - startDate.getTime();
         LocalDate localDate = LocalDate.ofEpochDay(duration);
         binding.txtGetDuration.setText(medicine.getDuration() + " ,take for " + localDate.getDayOfMonth() + " days");
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
@@ -106,40 +108,27 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             binding.txtTimes.append(dateTime + " take 1 pill(s) \n");
         }
 
-        if (medicine.isActive() == true) {
+        if (medicine.isActive()) {
             binding.suspendBtn.setText("SUSPEND");
-            binding.suspendBtn.setOnClickListener(new View.OnClickListener() {
-                                                      @Override
-                                                      public void onClick(View view) {
-                                                          binding.suspendBtn.setText("ACTIVE");
-                                                          medicine.setActive(false);
-                                                          MedReminderUtil.removeMedReminder(medicine.getMed_id(),getContext());
-                                                          AddRefillReminder.removeRefillReminder(medicine.getMed_id(),getContext());
-                                                          new Thread(new Runnable() {
-                                                              @Override
-                                                              public void run() {
-                                                                  databaseAccess.medicineDao().updateMedicine(medicine);
-                                                              }
-                                                          }).start();
-                                                      }
-                                                  }
+            binding.suspendBtn.setOnClickListener(view1 -> {
+                        binding.suspendBtn.setText("ACTIVE");
+                        medicine.setActive(false);
+                        MedReminderUtil.removeMedReminder(medicine.getMed_id(), getContext());
+                        AddRefillReminder.removeRefillReminder(medicine.getMed_id(), getContext());
+                        new Thread(() -> databaseAccess.medicineDao().updateMedicine(medicine)).start();
+                    }
             );
 
         } else {
             binding.suspendBtn.setText("ACTIVE");
-            binding.suspendBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    binding.suspendBtn.setText("SUSPEND");
-                    medicine.setActive(true);
-
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            databaseAccess.medicineDao().updateMedicine(medicine);
-                        }
-                    }).start();
+            binding.suspendBtn.setOnClickListener(view12 -> {
+                for (long time : medicine.getTimes()) {
+                    MedReminderUtil.addMedReminder(time, getContext(), medicine.getMed_id());
                 }
+                AddRefillReminder.addRefill(getContext(), medicine.getMed_id());
+                binding.suspendBtn.setText("SUSPEND");
+                medicine.setActive(true);
+                new Thread(() -> databaseAccess.medicineDao().updateMedicine(medicine)).start();
             });
         }
         binding.refillBtn.setOnClickListener(new View.OnClickListener() {
