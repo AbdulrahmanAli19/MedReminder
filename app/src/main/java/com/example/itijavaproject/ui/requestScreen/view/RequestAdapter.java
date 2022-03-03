@@ -64,7 +64,7 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.ViewHold
                 databaseReference = FirebaseDatabase.getInstance().getReference("users");
                 DatabaseReference query = databaseReference.child(FirebaseAuth.getInstance().getUid())
                         .child("recivedRequests");
-                query.child(request.get(position).getSenderMail().split("\\.")[0]).child("state").setValue("true");
+                query.child(request.get(position).getSenderMail().split("\\.")[0]).child("state").setValue(true);
                 Log.d(TAG, "onClick query: ");
                 int newPosition = holder.getAdapterPosition();
                 request.remove(position);

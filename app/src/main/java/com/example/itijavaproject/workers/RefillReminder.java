@@ -31,7 +31,7 @@ public class RefillReminder extends Worker {
             if (isPermissionGranted) {
                 new WindowRefill(getApplicationContext(), medId);
             }
-            new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
+//            new WorkerUtil(getApplicationContext()).createNotification("you need refill your med","Refill reminder");
 
 
         }

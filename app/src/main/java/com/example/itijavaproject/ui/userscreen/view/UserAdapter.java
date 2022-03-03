@@ -34,7 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtTackerMail.setText(request.get(position).getSenderMail());
-        holder.imageTacker.setImageResource(R.drawable.img_avatar);
+//        holder.imageTacker.setImageResource(R.drawable.img_avatar);
 
     }
 
