@@ -101,7 +101,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         binding.txtGetDuration.setText(medicine.getDuration() + " ,take for " + localDate.getDayOfMonth() + " days");
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh-mm a");
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
             String dateTime = simpleDateFormat.format(medicine.getTimes().get(i));
             binding.txtTimes.append(dateTime + " take 1 pill(s) \n");
         }
@@ -161,7 +161,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
             public void onClick(View view) {
                 presenter.deleteMedicine(medicine);
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-                Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("name").equalTo(medicine.getName());
+                Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(medicine.getMed_id());
 
                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
