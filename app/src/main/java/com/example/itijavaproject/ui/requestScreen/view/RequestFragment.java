@@ -32,16 +32,18 @@ import java.util.Locale;
 
 public class RequestFragment extends Fragment {
     private static final String TAG = "RequestFragment";
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-            .getReference("users")
-            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-            .child("recivedRequests");
+    DatabaseReference databaseReference;
     private FragmentRequestBinding binding;
     RequestAdapter requestAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+            databaseReference = FirebaseDatabase.getInstance()
+                    .getReference("users")
+                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                    .child("recivedRequests");
     }
 
     @Override
@@ -55,7 +57,8 @@ public class RequestFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.recRequest.setLayoutManager(new LinearLayoutManager(getContext()));
-        addNewRequest();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null)
+            addNewRequest();
     }
 
     private void addNewRequest() {
@@ -66,21 +69,21 @@ public class RequestFragment extends Fragment {
                 if (snapshot.exists()) {
                     databaseReference.orderByChild("state").equalTo(false)
                             .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                                Request request = snapshot1.getValue(Request.class);
-                                requestList.add(request);
-                                requestAdapter = new RequestAdapter(requestList, getContext());
-                                binding.recRequest.setAdapter(requestAdapter);
-                            }
-                        }
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                                        Request request = snapshot1.getValue(Request.class);
+                                        requestList.add(request);
+                                        requestAdapter = new RequestAdapter(requestList, getContext());
+                                        binding.recRequest.setAdapter(requestAdapter);
+                                    }
+                                }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
-                        }
-                    });
+                                }
+                            });
 
                 } else {
                     Snackbar snack = Snackbar.make(getContext(), getView(), "not requests yet", Snackbar.LENGTH_LONG);

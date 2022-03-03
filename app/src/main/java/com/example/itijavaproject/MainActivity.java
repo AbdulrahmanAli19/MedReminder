@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements
             case R.id.medicationsFragment:
             case R.id.userFragment:
             case R.id.recRequest:
+            case R.id.requestFragment:
                 binding.toolBar.setVisibility(View.VISIBLE);
                 binding.bottomNavigation.setVisibility(View.VISIBLE);
                 binding.appBarLayout.setVisibility(View.VISIBLE);

@@ -100,7 +100,8 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         Date endDate = new Date(medicine.getEndDate());
         long duration = endDate.getTime() - startDate.getTime();
         LocalDate localDate = LocalDate.ofEpochDay(duration);
-        binding.txtGetDuration.setText(medicine.getDuration() + " ,take for " + localDate.getDayOfMonth() + " days");
+        binding.txtGetDuration.setText(medicine.getDuration() + " ,take for\n" + localDate.getDayOfMonth()
+                + " day(s)\n"+localDate.getMonthValue()+"month(s)");
         binding.noPills.append("No.of Pills: " + medicine.getNumOfPills());
         for (int i = 0; i < medicine.getTimes().size(); i++) {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");

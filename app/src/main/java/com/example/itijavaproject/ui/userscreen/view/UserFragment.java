@@ -34,12 +34,13 @@ import io.paperdb.Paper;
 
 
 public class UserFragment extends Fragment implements UserAdapter.UserFragInterface {
-    private static final String TAG = "UserFragment";
+    private static final String TAG = "UserFragment.dev";
     private FragmentUserBinding binding;
     private NavController navController;
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("users");
     private UserAdapter userAdapter;
+    private boolean isSigned;
 
     public UserFragment() {
     }
@@ -55,13 +56,23 @@ public class UserFragment extends Fragment implements UserAdapter.UserFragInterf
         Paper.init(getContext());
         navController = Navigation.findNavController(view);
         binding.recTacker.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.txtAccount.setText(auth.getCurrentUser().getEmail());
-        binding.txtName.setText(auth.getCurrentUser().getDisplayName());
+        if (auth.getCurrentUser() != null) {
+            isSigned = true;
+            binding.txtAccount.setText(auth.getCurrentUser().getEmail());
+            binding.txtName.setText(auth.getCurrentUser().getDisplayName());
+        } else {
+            binding.txtAccount.setText("no-email");
+            binding.txtName.setText("Gust");
+            Log.d(TAG, "onViewCreated: called");
+            binding.btnSingOut.setText("Sign-in");
+
+        }
         binding.recTacker.setLayoutManager(new LinearLayoutManager(getContext()));
         userAdapter = new UserAdapter(this);
 
         binding.btnSingOut.setOnClickListener(v -> {
-            auth.signOut();
+            if (auth.getCurrentUser() != null)
+                auth.signOut();
             navController.popBackStack();
         });
         addNewTacker();
@@ -76,36 +87,37 @@ public class UserFragment extends Fragment implements UserAdapter.UserFragInterf
 
     private void addNewTacker() {
         List<Request> requestList = new ArrayList<>();
-        databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
-        Query query = databaseReference.child(FirebaseAuth.getInstance().getUid()).child("recivedRequests")
-                .orderByChild("state").equalTo(true);
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Log.d(TAG, "onDataChange snap: " + snapshot.exists());
-                    for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                        Request request = snapshot1.getValue(Request.class);
-                        requestList.add(request);
+        if (auth.getCurrentUser() != null) {
+            databaseReference.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            Query query = databaseReference.child(FirebaseAuth.getInstance().getUid()).child("recivedRequests")
+                    .orderByChild("state").equalTo(true);
+            query.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        Log.d(TAG, "onDataChange snap: " + snapshot.exists());
+                        for (DataSnapshot snapshot1 : snapshot.getChildren()) {
+                            Request request = snapshot1.getValue(Request.class);
+                            requestList.add(request);
+                        }
+                        userAdapter.setRequest(requestList);
+                        binding.recTacker.setAdapter(userAdapter);
+                    } else {
+                        Snackbar snack = Snackbar.make(getContext(), getView(), "not Tacker yet", Snackbar.LENGTH_LONG);
+                        View view = snack.getView();
+                        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+                        params.gravity = Gravity.TOP;
+                        view.setLayoutParams(params);
+                        snack.show();
                     }
-                    userAdapter.setRequest(requestList);
-                    binding.recTacker.setAdapter(userAdapter);
-                } else {
-                    Snackbar snack = Snackbar.make(getContext(), getView(), "not Tacker yet", Snackbar.LENGTH_LONG);
-                    View view = snack.getView();
-                    FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
-                    params.gravity = Gravity.TOP;
-                    view.setLayoutParams(params);
-                    snack.show();
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
-
+                }
+            });
+        }
 
     }
 

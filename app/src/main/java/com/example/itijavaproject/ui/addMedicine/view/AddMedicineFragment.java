@@ -60,6 +60,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
     List<Long> listTime = new ArrayList<>();
     String s;
     Medicine editMedicine;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,13 +76,13 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                 myCalenderTime.set(Calendar.HOUR_OF_DAY, hourOfDay1);
                 myCalenderTime.set(Calendar.MINUTE, minute1);
                 listTime.add(myCalenderTime.getTimeInMillis());
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
-                    String dateTime = simpleDateFormat.format(myCalenderTime.getTimeInMillis());
-                    if (editMedicine == null)
-                    binding.txtTime.append(dateTime+"\n");
-                    else {
-                       binding.txtTime.setText(dateTime+"\n");
-                    }
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
+                String dateTime = simpleDateFormat.format(myCalenderTime.getTimeInMillis());
+                if (editMedicine == null)
+                    binding.txtTime.append(dateTime + "\n");
+                else {
+                    binding.txtTime.setText(dateTime + "\n");
+                }
             }
         };
         TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(),
@@ -225,7 +226,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
             for (int i = 0; i < editMedicine.getTimes().size(); i++) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat(" hh:mm a");
                 String dateTime = simpleDateFormat.format(editMedicine.getTimes().get(i));
-                binding.txtTime.append(dateTime+"\n");
+                binding.txtTime.append(dateTime + "\n");
             }
             binding.durationMenu.setSelection(((ArrayAdapter) binding.durationMenu.getAdapter())
                     .getPosition(editMedicine.getDuration()));
@@ -265,26 +266,30 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                     editMedicine.setIsRefillReminder(binding.refillSwitch.isChecked());
                     editMedicine.setActive(true);
                     presenterInterface.editMedicine(editMedicine);
-                    MedReminderUtil.removeMedReminder(editMedicine.getMed_id(),getContext());
-                    for (Long time:editMedicine.getTimes()) {
-                        MedReminderUtil.addMedReminder(time,getContext(),editMedicine.getMed_id());
+                    MedReminderUtil.removeMedReminder(editMedicine.getMed_id(), getContext());
+                    for (Long time : editMedicine.getTimes()) {
+                        MedReminderUtil.addMedReminder(time, getContext(), editMedicine.getMed_id());
                     }
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
-                    Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(editMedicine.getMed_id());
 
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot db : dataSnapshot.getChildren()) {
-                                db.getRef().setValue(editMedicine);
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("users");
+                        Query query = ref.child(FirebaseAuth.getInstance().getUid()).child("medicine").orderByChild("med_id").equalTo(editMedicine.getMed_id());
+
+                        query.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot db : dataSnapshot.getChildren()) {
+                                    db.getRef().setValue(editMedicine);
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                Toast.makeText(getContext(), "faild", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
                     navController.popBackStack();
                 }
             });

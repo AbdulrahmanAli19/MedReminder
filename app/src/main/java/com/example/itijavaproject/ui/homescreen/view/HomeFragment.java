@@ -189,7 +189,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener,
     public void takeMed() {
         selectedMed.setNumOfPills(selectedMed.getNumOfPills() - 1);
         presenter.updateMed(selectedMed);
-        AddRefillReminder.addRefill(getContext(), selectedMed.getMed_id());
+        AddRefillReminder.removeRefillReminder(REFILL_TAG, getContext());
+        AddRefillReminder.RefillDayReminder(12, REFILL_TAG, getContext());
         dialog.close();
     }
 

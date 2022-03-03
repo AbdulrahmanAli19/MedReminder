@@ -13,7 +13,6 @@ import com.example.itijavaproject.data.db.ConcreteLocalSource;
 import com.example.itijavaproject.pojo.model.Medicine;
 import com.example.itijavaproject.pojo.repo.Repository;
 import com.example.itijavaproject.pojo.repo.RepositoryInterface;
-import com.google.firebase.database.core.Tag;
 
 import java.util.List;
 
@@ -24,12 +23,14 @@ import io.reactivex.disposables.Disposable;
 public class RefillWork extends Worker {
     private final RepositoryInterface repository;
     private static final String TAG = "RefillWork.DEV";
+
     public RefillWork(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         repository = Repository.getInstance(ConcreteLocalSource
                 .getInstance(getApplicationContext()), getApplicationContext());
 
     }
+
     @NonNull
     @Override
     public Result doWork() {
@@ -48,9 +49,9 @@ public class RefillWork extends Worker {
                     public void onSuccess(List<Medicine> medicines) {
                         Log.d(TAG, "onSuccess: size: " + medicines.size());
                         for (Medicine medicine : medicines) {
-                            if(medicine.getNumOfPills()<5 && medicine.getIsRefillReminder())
-                            {
-                                AddRefillReminder.addRefill(getApplicationContext(),medicine.getMed_id());
+                            if (medicine.getNumOfPills() < 5 && medicine.getIsRefillReminder()) {
+                                Log.d(TAG, "onSuccess: called");
+                                AddRefillReminder.addRefill(getApplicationContext(), medicine.getMed_id());
                             }
                         }
                     }
