@@ -71,6 +71,7 @@ public class AddHealthTakerFragment extends Fragment {
                                 public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
                                     if(task.isSuccessful()) {
                                         boolean check = task.getResult().getSignInMethods().isEmpty();
+                                        ////TODO !check
                                         if (check) {
                                             databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                                                 @Override
@@ -78,7 +79,7 @@ public class AddHealthTakerFragment extends Fragment {
                                                     ListOfRequest listOfRequest = new ListOfRequest();
                                                     Request request = new Request();
                                                     request.setReceiverMail(binding.txtEmail.getText().toString());
-                                                    request.setSenderMail(auth.getCurrentUser().getEmail().trim());
+                                                    request.setSenderMail(auth.getCurrentUser().getEmail().toLowerCase(Locale.ROOT));
                                                     request.setSenderUid(FirebaseAuth.getInstance().getUid());
                                                     request.setShared(binding.boxPolicy.isChecked());
                                                     listOfRequest.getRequestList().add(request);
