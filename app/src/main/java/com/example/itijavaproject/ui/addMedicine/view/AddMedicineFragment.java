@@ -198,10 +198,14 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
         binding.timeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (listTime.size() < Integer.parseInt(binding.txtFrequence.getEditableText().toString())) {
-                    showHourPicker();
-                } else {
-                    binding.timeBtn.setEnabled(false);
+                if(!binding.txtAmount.getText().toString().trim().isEmpty()){
+                    if (listTime.size() < Integer.parseInt(binding.txtFrequence.getEditableText().toString())) {
+                        showHourPicker();
+                    } else {
+                        binding.timeBtn.setEnabled(false);
+                    }
+                }else {
+                    Toast.makeText(getContext(), "No doses added", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -254,7 +258,7 @@ public class AddMedicineFragment extends Fragment implements TimePickerDialog.On
                         editMedicine.setStartDate(startCalender.getTimeInMillis());
                     }
                     if (endDate == null) {
-                        editMedicine.setEndDate(editMedicine.getStartDate());
+                        editMedicine.setEndDate(editMedicine.getEndDate());
                     } else {
                         editMedicine.setEndDate(endCalender.getTimeInMillis());
                     }

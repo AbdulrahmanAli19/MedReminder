@@ -210,6 +210,7 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
                     Snackbar.make(getContext(), getView(), "please enter number of pills", Snackbar.LENGTH_LONG).show();
                 } else {
                     medicine.setNumOfPills(Integer.parseInt(AddEdit.getText().toString()));
+                    binding.noPills.setText("No.of Pills: " + medicine.getNumOfPills());
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -228,4 +229,5 @@ public class MedicationDisplayFragment extends Fragment implements MedicineDispl
         AlertDialog customAlertDialog = builder.create();
         customAlertDialog.show();
     }
+
 }
